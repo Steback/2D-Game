@@ -3,8 +3,10 @@ project(2D_Game)
 
 set(CMAKE_CXX_STANDARD 20)
 
+file(GLOB HEADER_FILES source/*.hpp)
+file(GLOB SOURCE_FILES source/*.cpp)
 
-add_executable(2D_Game source/main.cpp)
+add_executable(2D_Game ${SOURCE_FILES} ${HEADER_FILES})
 
 # OpenGL
 find_package(OpenGL REQUIRED)
