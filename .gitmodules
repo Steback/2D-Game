@@ -1,0 +1,11 @@
+[submodule "dependences/glfw"]
+	path = dependences/glfw
+	url = git@github.com:glfw/glfw.git
+	branch = 3.3-stable
+[submodule "dependences/glm"]
+	path = dependences/glm
+	url = git@github.com:g-truc/glm.git
+	branch = 0.9.8-align
+[submodule "dependences/fmt"]
+	path = dependences/fmt
+	url = git@github.com:fmtlib/fmt.git
