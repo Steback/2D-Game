@@ -38,4 +38,7 @@ add_subdirectory(dependences/glm)
 # {fmt}
 add_subdirectory(dependences/fmt)
 
+# stb_image
+include_directories(dependences/stb)
+
 target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt)

@@ -9,6 +9,7 @@
 #include "Constants.hpp"
 #include "Shader.hpp"
 #include "Mesh.hpp"
+#include "Texture.hpp"
 
 Game::Game() : window(nullptr) {  }
 
@@ -20,16 +21,18 @@ void Game::init() {
 
     shaders.emplace_back( std::make_unique<Shader>("shaders/model.vert", "shaders/model.frag") );
 
-
     mesh = std::make_unique<Mesh>( std::vector<Shape> {
-            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f) },
-            {glm::vec2(1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f) },
-            {glm::vec2(-1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0) },
+            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+            {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
+            {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0) },
             {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f) },
     }, std::vector<GLuint> {
             1, 3, 2,
             0, 3, 2
     } );
+
+    texture = std::make_unique<Texture>("assets/images/chopper-single.png");
+    texture->loadTexture();
 }
 
 void Game::render() {
@@ -42,8 +45,10 @@ void Game::render() {
 
     model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 0.0, 1.0));
     glUniformMatrix4fv(shaders[0]->getUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(model));
-    mesh->RenderMesh();
+    texture->useTexture();
+    mesh->renderMesh();
 
     glUseProgram(0);
 
@@ -51,7 +56,7 @@ void Game::render() {
 }
 
 void Game::destroy() {
-    mesh->ClearMesh();
+    mesh->clearMesh();
     shaders[0]->clearShader();
     window->destroy();
 }

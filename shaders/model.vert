@@ -2,13 +2,15 @@
 
 layout (location = 0) in vec2 position;
 layout (location = 1) in vec3 color;
-layout (location = 2) in vec3 textureCoords;
+layout (location = 2) in vec2 textureCoords;
 
-out vec3 vCol;
+out vec3 vColor;
+out vec2 texCoords;
 
 uniform mat4 model;
 
 void main() {
     gl_Position = model * vec4(position, 1.0, 1.0);
-    vCol = color;
+    vColor = color;
+    texCoords = textureCoords;
 }

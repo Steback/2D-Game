@@ -1,12 +1,12 @@
 #include "Mesh.hpp"
 
 Mesh::Mesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indices_) : indexCount(indices_.size()) {
-    CreateMesh(vertices_, indices_);
+    createMesh(vertices_, indices_);
 }
 
 Mesh::~Mesh() = default;;
 
-void Mesh::CreateMesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indices_) {
+void Mesh::createMesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indices_) {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
@@ -33,7 +33,7 @@ void Mesh::CreateMesh(const std::vector<Shape>& vertices_, const std::vector<GLu
     glBindVertexArray(0);
 }
 
-void Mesh::RenderMesh() const {
+void Mesh::renderMesh() const {
     glBindVertexArray(VAO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
@@ -43,7 +43,7 @@ void Mesh::RenderMesh() const {
     glBindVertexArray(0);
 }
 
-void Mesh::ClearMesh() {
+void Mesh::clearMesh() {
     if ( IBO != 0 ) {
         glDeleteBuffers(1, &IBO);
         IBO = 0;

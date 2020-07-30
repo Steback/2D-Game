@@ -18,14 +18,14 @@ class Mesh {
     public:
         Mesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indices_);
         ~Mesh();
-        void RenderMesh() const;
-        void ClearMesh();
+        void renderMesh() const;
+        void clearMesh();
 
     private:
         GLuint VAO{}, VBO{}, IBO{};
         GLsizei indexCount{};
 
-        void CreateMesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indices_);
+        void createMesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indices_);
 };
 
 #endif

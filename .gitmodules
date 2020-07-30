@@ -9,3 +9,6 @@
 [submodule "dependences/fmt"]
 	path = dependences/fmt
 	url = git@github.com:fmtlib/fmt.git
+[submodule "dependences/stb"]
+	path = dependences/stb
+	url = git@github.com:nothings/stb.git
