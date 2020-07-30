@@ -2,8 +2,11 @@
 #define GAME_HPP
 
 #include <memory>
+#include <vector>
 
 class Window;
+class Shader;
+class Mesh;
 
 class Game {
     public:
@@ -12,10 +15,12 @@ class Game {
         void init();
         void render();
         void destroy();
-        bool isrunning();
+        bool isRunning();
 
     private:
         std::unique_ptr<Window> window;
+        std::vector<std::unique_ptr<Shader> > shaders;
+        std::unique_ptr<Mesh> mesh;
 };
 
 #endif

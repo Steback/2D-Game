@@ -5,7 +5,7 @@ int main() {
 
     game.init();
 
-    while ( game.isrunning() ) {
+    while ( game.isRunning() ) {
         game.render();
     }
 

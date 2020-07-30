@@ -8,6 +8,13 @@ file(GLOB SOURCE_FILES source/*.cpp)
 
 add_executable(2D_Game ${SOURCE_FILES} ${HEADER_FILES})
 
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
+set_target_properties(
+        ${PROJECT_NAME}
+        PROPERTIES
+        OUTPUT_NAME "Editor"
+)
+
 # OpenGL
 find_package(OpenGL REQUIRED)
 

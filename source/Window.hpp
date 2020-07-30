@@ -1,6 +1,8 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
+#include "glm/glm.hpp"
+
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
@@ -13,6 +15,7 @@ class Window {
         void destroy();
         bool isRunning();
         void swapBuffer();
+        glm::vec2 windowSize() const;
 
     private:
         GLFWwindow* window;

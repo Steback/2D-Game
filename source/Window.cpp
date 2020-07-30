@@ -60,3 +60,7 @@ bool Window::isRunning() {
 void Window::swapBuffer() {
     glfwSwapBuffers(window);
 }
+
+glm::vec2 Window::windowSize() const {
+    return glm::vec2(width, height);
+}
