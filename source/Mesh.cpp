@@ -4,7 +4,7 @@ Mesh::Mesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indic
     CreateMesh(vertices_, indices_);
 }
 
-Mesh::~Mesh() { ClearMesh(); };
+Mesh::~Mesh() = default;;
 
 void Mesh::CreateMesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indices_) {
     glGenVertexArrays(1, &VAO);

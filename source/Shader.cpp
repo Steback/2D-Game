@@ -8,9 +8,7 @@ Shader::Shader(const std::string &vertexFilePath_, const std::string &fragmentFi
     compileShader(readFile(vertexFilePath_), readFile(fragmentFilePath_));
 }
 
-Shader::~Shader() {
-    clearShader();
-}
+Shader::~Shader() = default;
 
 GLuint Shader::getUniformLocation(const std::string &name_) const {
     return glGetUniformLocation(shaderID, name_.c_str());
