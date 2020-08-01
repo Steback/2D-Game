@@ -12,3 +12,6 @@
 [submodule "dependences/stb"]
 	path = dependences/stb
 	url = git@github.com:nothings/stb.git
+[submodule "dependences/entt"]
+	path = dependences/entt
+	url = git@github.com:skypjack/entt.git
