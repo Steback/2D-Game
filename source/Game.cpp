@@ -39,6 +39,8 @@ void Game::init() {
     fmt::print("{}\n", (32.0f / 128.0f));
 }
 
+int x = 0;
+
 void Game::render() {
     glfwPollEvents();
 
@@ -47,15 +49,20 @@ void Game::render() {
 
     glm::mat4 model(1.0f);
 
+    if ( x > 1 ) x = 0;
+
     model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
     model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 0.0, 1.0));
     glUniformMatrix4fv(shaders[0]->getUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniform1i(shaders[0]->getUniformLocation("spriteOffsetX"), 0);
+    glUniform1i(shaders[0]->getUniformLocation("spriteOffsetX"), x);
     glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 0);
-
     texture->useTexture();
     mesh->renderMesh();
+
+    x++;
+
+    fmt::print("{}\n", x);
 
     glUseProgram(0);
 
