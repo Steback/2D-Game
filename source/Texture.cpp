@@ -4,9 +4,7 @@
 
 #include "Texture.hpp"
 
-Texture::Texture(std::string filePath_, bool isAnimated_, int xOffset_, int yOffet_)
-    : filePath(std::move(filePath_)), isAnimated(isAnimated_), xOffset(static_cast<float>(xOffset_)), yOffset(
-        static_cast<float>(yOffet_)) {  }
+Texture::Texture(std::string filePath_) : filePath(std::move(filePath_)) {  }
 
 Texture::~Texture() = default;
 

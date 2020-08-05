@@ -32,14 +32,13 @@ void Game::init() {
             0, 3, 2
     } );
 
-    texture = std::make_unique<Texture>("assets/images/chopper-spritesheet.png", true, 2, 4);
+    texture = std::make_unique<Texture>("assets/images/chopper-spritesheet.png");
     texture->loadTexture();
-
-    fmt::print("{}\n", (32.0f / 64.0f));
-    fmt::print("{}\n", (32.0f / 128.0f));
 }
 
-int x = 0;
+float x = 0;
+
+float lastFrame = 0;
 
 void Game::render() {
     glfwPollEvents();
@@ -49,7 +48,15 @@ void Game::render() {
 
     glm::mat4 model(1.0f);
 
-    if ( x > 1 ) x = 0;
+    auto currentFrame = static_cast<float>(glfwGetTime());
+    float deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
+    deltaTime *= 10;
+
+    fmt::print("Deltatime: {}\n", deltaTime);
+
+    x += deltaTime;
 
     model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
@@ -60,7 +67,7 @@ void Game::render() {
     texture->useTexture();
     mesh->renderMesh();
 
-    x++;
+    if ( x > 1 ) x = 0;
 
     fmt::print("{}\n", x);
 
