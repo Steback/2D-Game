@@ -4,10 +4,11 @@
 #include <string>
 
 #include "glad/glad.h"
+#include "glm/glm.hpp"
 
 class Texture {
     public:
-        explicit Texture(std::string  _filePath);
+        explicit Texture(std::string filePath_, bool isAnimated_, int xOffset_, int yOffset_);
         ~Texture();
         bool loadTexture();
         void useTexture() const;
@@ -21,6 +22,8 @@ class Texture {
         int height{};
         GLuint textureID{};
         std::string filePath;
+        bool isAnimated;
+        float xOffset, yOffset;
 };
 
 #endif

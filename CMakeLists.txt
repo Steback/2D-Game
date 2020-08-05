@@ -44,4 +44,4 @@ include_directories(dependences/stb)
 # EnTT
 add_subdirectory(dependences/entt)
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt entt)
+target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt EnTT)
