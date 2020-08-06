@@ -9,6 +9,7 @@ Texture::Texture(std::string filePath_) : filePath(std::move(filePath_)) {  }
 Texture::~Texture() = default;
 
 bool Texture::loadTexture() {
+    int width, height;
     unsigned char* imageData = stbi_load(filePath.c_str(), &width, &height, nullptr, 4);
 
     if ( !imageData ) {
@@ -22,9 +23,6 @@ bool Texture::loadTexture() {
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-    float colour[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, colour);
-
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -34,6 +32,8 @@ bool Texture::loadTexture() {
     glBindTexture(GL_TEXTURE_2D, 0);
 
     stbi_image_free(imageData);
+
+    imageSize = glm::vec2(width, height);
 
     return true;
 }
@@ -47,12 +47,8 @@ GLuint Texture::getTextureID() const {
     return textureID;
 }
 
-int Texture::getWidth() const {
-    return width;
-}
-
-int Texture::getHeight() const {
-    return height;
+glm::vec2 Texture::getImageSize() const {
+    return imageSize;
 }
 
 void Texture::clearTexture() {

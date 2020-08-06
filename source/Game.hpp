@@ -18,7 +18,7 @@ class Game {
         void destroy();
         bool isRunning();
 
-    private:
+private:
         std::unique_ptr<Window> window;
         std::vector<std::unique_ptr<Shader> > shaders;
         std::unique_ptr<Mesh> mesh;

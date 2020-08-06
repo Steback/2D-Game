@@ -13,13 +13,11 @@ class Texture {
         bool loadTexture();
         void useTexture() const;
         GLuint getTextureID() const;
-        int getWidth() const;
-        int getHeight() const;
+        glm::vec2 getImageSize() const;
         void clearTexture();
 
     private:
-        int width{};
-        int height{};
+        glm::vec2 imageSize;
         GLuint textureID{};
         std::string filePath;
 };

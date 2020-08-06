@@ -52,24 +52,36 @@ void Game::render() {
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    deltaTime *= 10;
-
-    fmt::print("Deltatime: {}\n", deltaTime);
-
-    x += deltaTime;
+    x += deltaTime * 10;
 
     model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
     model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 0.0, 1.0));
     glUniformMatrix4fv(shaders[0]->getUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(model));
     glUniform1i(shaders[0]->getUniformLocation("spriteOffsetX"), x);
-    glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 0);
+
+    if ( window->getKeys()[GLFW_KEY_W] ) {
+        glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 3);
+    }
+
+    if ( window->getKeys()[GLFW_KEY_S] ) {
+        glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 0);
+    }
+
+    if ( window->getKeys()[GLFW_KEY_A] ) {
+        glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 2);
+    }
+
+    if ( window->getKeys()[GLFW_KEY_D] ) {
+        glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 1);
+    }
+
+    glUniform1f(shaders[0]->getUniformLocation("spriteWidth"), (texture->getImageSize().x / 2) / texture->getImageSize().x);
+    glUniform1f(shaders[0]->getUniformLocation("spriteHeight"), (texture->getImageSize().y / 4) / texture->getImageSize().y);
     texture->useTexture();
     mesh->renderMesh();
 
     if ( x > 1 ) x = 0;
-
-    fmt::print("{}\n", x);
 
     glUseProgram(0);
 
@@ -79,7 +91,6 @@ void Game::render() {
 void Game::destroy() {
     mesh->clearMesh();
     shaders[0]->clearShader();
-    window->destroy();
 }
 
 bool Game::isRunning() {
