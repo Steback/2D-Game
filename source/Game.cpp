@@ -22,8 +22,6 @@ std::unique_ptr<EntityManager> Game::entityManager;
 
 // Global variables
 float lastFrame = 0;
-entt::registry registry;
-entt::entity entity;
 
 Game::Game() : window(nullptr) {  }
 
@@ -50,14 +48,10 @@ void Game::init() {
 
     entityManager = std::make_unique<EntityManager>();
 
-    entity = registry.create();
-    registry.emplace<TransformComponent>(entity);
-    registry.emplace<SpriteComponent>(entity, texture, true, 2, 4);
+    auto entity = entityManager->addEntity();
 
-//    auto entity = entityManager->addEntity();
-//
-//    entityManager->registry.emplace<TransformComponent>(entity.entity);
-//    entityManager->registry.emplace<SpriteComponent>(entity.entity, texture, true, 2, 4);
+    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.4f, 0.4f), glm::vec2(1.0f, 1.0f));
+    entityManager->registry.emplace<SpriteComponent>(entity.entity, texture, true, 2, 4);
 }
 
 void Game::update() {
@@ -65,32 +59,17 @@ void Game::update() {
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    auto viewEntities = registry.view<TransformComponent, SpriteComponent>();
+    shaders[0]->useShader();
 
-    auto transformComponent = viewEntities.get<TransformComponent>(entity);
-    auto SpriteComponent = viewEntities.get<SpriteComponent>(entity);
-
-    transformComponent.update(deltaTime);
-    SpriteComponent.update(deltaTime);
-
-//    entityManager->update(deltaTime);
+    entityManager->update(deltaTime);
 }
 
 void Game::render() {
     glfwPollEvents();
 
     window->render();
-    shaders[0]->useShader();
 
-    auto viewEntities = registry.view<TransformComponent, SpriteComponent>();
-
-    auto& transformComponent = registry.get<TransformComponent>(entity);
-    auto& SpriteComponent = registry.get<SpriteComponent>(entity);
-
-    transformComponent.render();
-    SpriteComponent.render();
-
-//    entityManager->render();
+    entityManager->render();
     mesh->renderMesh();
 
     glUseProgram(0);

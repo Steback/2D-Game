@@ -29,11 +29,11 @@ void EntityManager::update(float deltaTime_) {
     auto viewEntities = registry.view<TransformComponent, SpriteComponent>();
 
     for ( auto entity : viewEntities ) {
-        auto transformComponent = registry.get<TransformComponent>(entity);
-        auto SpriteComponent = registry.get<TransformComponent>(entity);
+        auto& transformComponent = registry.get<TransformComponent>(entity);
+        auto& spriteComponent = registry.get<SpriteComponent>(entity);
 
         transformComponent.update(deltaTime_);
-        SpriteComponent.update(deltaTime_);
+        spriteComponent.update(deltaTime_);
     }
 }
 
@@ -41,11 +41,11 @@ void EntityManager::render() {
     auto viewEntities = registry.view<TransformComponent, SpriteComponent>();
 
     for ( auto entity : viewEntities ) {
-        auto transformComponent = registry.get<TransformComponent>(entity);
-        auto SpriteComponent = registry.get<TransformComponent>(entity);
+        auto& transformComponent = registry.get<TransformComponent>(entity);
+        auto& spriteComponent = registry.get<SpriteComponent>(entity);
 
         transformComponent.render();
-        SpriteComponent.render();
+        spriteComponent.render();
     }
 }
 
