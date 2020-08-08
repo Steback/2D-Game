@@ -15,10 +15,7 @@ EntityManager::~EntityManager() {
 }
 
 Entity& EntityManager::addEntity() {
-
     auto entity = registry.create();
-
-    if ( !registry.valid(entity) ) fmt::print("FACK");
 
     entities.emplace_back(new Entity(entities.size() + 1, entity));
 

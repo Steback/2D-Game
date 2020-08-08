@@ -50,11 +50,13 @@ void Game::init() {
 
     auto entity = entityManager->addEntity();
 
-    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.4f, 0.4f), glm::vec2(1.0f, 1.0f));
+    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.0f, 0.0f), glm::vec2(0.4f, 0.4f));
     entityManager->registry.emplace<SpriteComponent>(entity.entity, texture, true, 2, 4);
 }
 
 void Game::update() {
+    glfwPollEvents();
+
     auto currentFrame = static_cast<float>(glfwGetTime());
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
@@ -65,8 +67,6 @@ void Game::update() {
 }
 
 void Game::render() {
-    glfwPollEvents();
-
     window->render();
 
     entityManager->render();
