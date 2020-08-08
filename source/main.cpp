@@ -6,6 +6,7 @@ int main() {
     game.init();
 
     while ( game.isRunning() ) {
+        game.update();
         game.render();
     }
 

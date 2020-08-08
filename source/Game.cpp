@@ -11,6 +11,19 @@
 #include "Shader.hpp"
 #include "Mesh.hpp"
 #include "Texture.hpp"
+#include "EntityManager.hpp"
+#include "components/TransformComponent.hpp"
+#include "components/SpriteComponent.hpp"
+
+// static objects
+std::vector<std::unique_ptr<Shader> > Game::shaders;
+std::unique_ptr<Mesh> Game::mesh;
+std::unique_ptr<EntityManager> Game::entityManager;
+
+// Global variables
+float lastFrame = 0;
+entt::registry registry;
+entt::entity entity;
 
 Game::Game() : window(nullptr) {  }
 
@@ -32,13 +45,36 @@ void Game::init() {
             0, 3, 2
     } );
 
-    texture = std::make_unique<Texture>("assets/images/chopper-spritesheet.png");
+    texture = std::make_shared<Texture>("assets/images/chopper-spritesheet.png");
     texture->loadTexture();
+
+    entityManager = std::make_unique<EntityManager>();
+
+    entity = registry.create();
+    registry.emplace<TransformComponent>(entity);
+    registry.emplace<SpriteComponent>(entity, texture, true, 2, 4);
+
+//    auto entity = entityManager->addEntity();
+//
+//    entityManager->registry.emplace<TransformComponent>(entity.entity);
+//    entityManager->registry.emplace<SpriteComponent>(entity.entity, texture, true, 2, 4);
 }
 
-float x = 0;
+void Game::update() {
+    auto currentFrame = static_cast<float>(glfwGetTime());
+    float deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
 
-float lastFrame = 0;
+    auto viewEntities = registry.view<TransformComponent, SpriteComponent>();
+
+    auto transformComponent = viewEntities.get<TransformComponent>(entity);
+    auto SpriteComponent = viewEntities.get<SpriteComponent>(entity);
+
+    transformComponent.update(deltaTime);
+    SpriteComponent.update(deltaTime);
+
+//    entityManager->update(deltaTime);
+}
 
 void Game::render() {
     glfwPollEvents();
@@ -46,42 +82,16 @@ void Game::render() {
     window->render();
     shaders[0]->useShader();
 
-    glm::mat4 model(1.0f);
+    auto viewEntities = registry.view<TransformComponent, SpriteComponent>();
 
-    auto currentFrame = static_cast<float>(glfwGetTime());
-    float deltaTime = currentFrame - lastFrame;
-    lastFrame = currentFrame;
+    auto& transformComponent = registry.get<TransformComponent>(entity);
+    auto& SpriteComponent = registry.get<SpriteComponent>(entity);
 
-    x += deltaTime * 10;
+    transformComponent.render();
+    SpriteComponent.render();
 
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
-    model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
-    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 0.0, 1.0));
-    glUniformMatrix4fv(shaders[0]->getUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniform1i(shaders[0]->getUniformLocation("spriteOffsetX"), x);
-
-    if ( window->getKeys()[GLFW_KEY_W] ) {
-        glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 3);
-    }
-
-    if ( window->getKeys()[GLFW_KEY_S] ) {
-        glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 0);
-    }
-
-    if ( window->getKeys()[GLFW_KEY_A] ) {
-        glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 2);
-    }
-
-    if ( window->getKeys()[GLFW_KEY_D] ) {
-        glUniform1i(shaders[0]->getUniformLocation("spriteOffsetY"), 1);
-    }
-
-    glUniform1f(shaders[0]->getUniformLocation("spriteWidth"), (texture->getImageSize().x / 2) / texture->getImageSize().x);
-    glUniform1f(shaders[0]->getUniformLocation("spriteHeight"), (texture->getImageSize().y / 4) / texture->getImageSize().y);
-    texture->useTexture();
+//    entityManager->render();
     mesh->renderMesh();
-
-    if ( x > 1 ) x = 0;
 
     glUseProgram(0);
 
@@ -89,8 +99,9 @@ void Game::render() {
 }
 
 void Game::destroy() {
-    mesh->clearMesh();
     shaders[0]->clearShader();
+    mesh->clearMesh();
+    window->destroy();
 }
 
 bool Game::isRunning() {

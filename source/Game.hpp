@@ -8,21 +8,25 @@ class Window;
 class Shader;
 class Mesh;
 class Texture;
+class EntityManager;
 
 class Game {
     public:
         Game();
         ~Game();
         void init();
+        void update();
         void render();
         void destroy();
         bool isRunning();
 
+        static std::vector<std::unique_ptr<Shader> > shaders;
+        static std::unique_ptr<Mesh> mesh;
+        static std::unique_ptr<EntityManager> entityManager;
+
 private:
         std::unique_ptr<Window> window;
-        std::vector<std::unique_ptr<Shader> > shaders;
-        std::unique_ptr<Mesh> mesh;
-        std::unique_ptr<Texture> texture;
+        std::shared_ptr<Texture> texture;
 };
 
 #endif

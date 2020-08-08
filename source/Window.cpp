@@ -5,8 +5,7 @@
 Window::Window() : window(nullptr), width(0), height(0) {  }
 
 Window::~Window() {
-    glfwDestroyWindow(window);
-    glfwTerminate();
+
 }
 
 void Window::init(int width_, int height_) {
@@ -72,8 +71,6 @@ bool* Window::getKeys() {
 }
 
 void Window::keyboardCallback(GLFWwindow *window_, int key_, int scanCode_, int action_, int mods_) {
-    auto x = glfwGetWindowUserPointer(window_);
-
     auto* w = reinterpret_cast<Window *>(glfwGetWindowUserPointer(window_));
 
     if ( key_ >= 0 && key_ < 1024 ) {
@@ -83,4 +80,9 @@ void Window::keyboardCallback(GLFWwindow *window_, int key_, int scanCode_, int 
             w->keys[key_] = false;
         }
     }
+}
+
+void Window::destroy() {
+    glfwDestroyWindow(window);
+    glfwTerminate();
 }
