@@ -21,8 +21,8 @@ class TransformComponent {
 
         void update(float deltaTime_) {
             model = glm::mat4(1.0f);
-            model = glm::translate(model, glm::vec3(position, -1.0f));
-            model = glm::scale(model, glm::vec3(size, 1.0f));
+            model = glm::scale(model, glm::vec3(size.x * 0.5f, size.y * 0.5f, 1.0f));
+            model = glm::translate(model, glm::vec3(position, 0.0f));
             model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 0.0, 1.0));
         }
 

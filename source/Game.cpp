@@ -1,8 +1,8 @@
 #include <vector>
 
 #include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "glm/gtx/string_cast.hpp"
 #include "fmt/core.h"
 
 #include "Game.hpp"
@@ -12,6 +12,7 @@
 #include "Mesh.hpp"
 #include "Texture.hpp"
 #include "EntityManager.hpp"
+#include "Camera.hpp"
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
 
@@ -19,6 +20,7 @@
 std::vector<std::unique_ptr<Shader> > Game::shaders;
 std::unique_ptr<Mesh> Game::mesh;
 std::unique_ptr<EntityManager> Game::entityManager;
+std::unique_ptr<Camera> Game::camera;
 
 // Global variables
 float lastFrame = 0;
@@ -50,8 +52,10 @@ void Game::init() {
 
     auto entity = entityManager->addEntity();
 
-    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.0f, 0.0f), glm::vec2(0.4f, 0.4f));
+    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.0f, 0.0f), glm::vec2(32.0f, 32.0f));
     entityManager->registry.emplace<SpriteComponent>(entity.entity, texture, true, 2, 4);
+
+    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 100.0f));
 }
 
 void Game::update() {
@@ -62,6 +66,12 @@ void Game::update() {
     lastFrame = currentFrame;
 
     shaders[0]->useShader();
+
+    auto view = camera->viewMatrix(glm::vec3(0.0f, 0.0f, 0.0f));
+    auto projection = camera->projectionMatrix(window->windowSize());
+
+    glUniformMatrix4fv(shaders[0]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(shaders[0]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     entityManager->update(deltaTime);
 }

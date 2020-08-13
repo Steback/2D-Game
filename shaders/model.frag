@@ -11,7 +11,7 @@ uniform int spriteOffsetX;
 uniform int spriteOffsetY;
 
 uniform float spriteWidth;
-uniform float spriteHeight ;
+uniform float spriteHeight;
 
 void main() {
     vec2 texCoord = texCoords + vec2(spriteOffsetX * spriteWidth, spriteOffsetY * spriteHeight);
