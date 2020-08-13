@@ -9,7 +9,7 @@ class Camera {
         explicit Camera(glm::vec3 position_);
         ~Camera();
         glm::mat4 viewMatrix(glm::vec3 center_);
-        glm::mat4 projectionMatrix(glm::vec2 windowSize_) const;
+        glm::mat4 projectionMatrix(float fov_, glm::vec2 windowSize_) const;
 
     private:
         glm::vec3 position;

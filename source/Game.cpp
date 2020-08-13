@@ -68,7 +68,7 @@ void Game::update() {
     shaders[0]->useShader();
 
     auto view = camera->viewMatrix(glm::vec3(0.0f, 0.0f, 0.0f));
-    auto projection = camera->projectionMatrix(window->windowSize());
+    auto projection = camera->projectionMatrix(90.0f, window->windowSize());
 
     glUniformMatrix4fv(shaders[0]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(shaders[0]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));

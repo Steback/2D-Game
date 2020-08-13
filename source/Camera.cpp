@@ -10,6 +10,6 @@ glm::mat4 Camera::viewMatrix(glm::vec3 center_) {
     return glm::lookAt(position, center_, glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
-glm::mat4 Camera::projectionMatrix(glm::vec2 windowSize_) const {
-    return glm::perspective(90.0f, windowSize_.x / windowSize_.y, nearPlane, farPlane);
+glm::mat4 Camera::projectionMatrix(float fov_, glm::vec2 windowSize_) const {
+    return glm::perspective(fov_, windowSize_.x / windowSize_.y, nearPlane, farPlane);
 }
