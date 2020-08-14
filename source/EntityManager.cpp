@@ -24,7 +24,7 @@ Entity& EntityManager::addEntity() {
 }
 
 void EntityManager::update(float deltaTime_) {
-    auto viewEntities = registry.view<TransformComponent, SpriteComponent>();
+    auto viewEntities = registry.view<TransformComponent, SpriteComponent, KeyboardControlComponent>();
 
     for ( auto entity : viewEntities ) {
         auto& transformComponent = registry.get<TransformComponent>(entity);
