@@ -18,7 +18,7 @@
 
 // static objects
 std::unique_ptr<Window> Game::window;
-std::vector<std::unique_ptr<Shader> > Game::shaders;
+std::map<std::string, std::unique_ptr<Shader> > Game::shaders;
 std::unique_ptr<Mesh> Game::mesh;
 std::unique_ptr<EntityManager> Game::entityManager;
 std::unique_ptr<Camera> Game::camera;
@@ -34,7 +34,7 @@ void Game::init() {
     window = std::make_unique<Window>();
     window->init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    shaders.emplace_back( std::make_unique<Shader>("shaders/model.vert", "shaders/model.frag") );
+    shaders.emplace("model", std::make_unique<Shader>("shaders/model.vert", "shaders/model.frag"));
 
     mesh = std::make_unique<Mesh>( std::vector<Shape> {
             {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.5f, 0.0f) },
@@ -67,13 +67,13 @@ void Game::update() {
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    shaders[0]->useShader();
+    shaders["model"]->useShader();
 
     auto view = camera->viewMatrix(glm::vec3(0.0f, 0.0f, 0.0f));
     auto projection = camera->projectionMatrix(90.0f, window->windowSize());
 
-    glUniformMatrix4fv(shaders[0]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(shaders[0]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(shaders["model"]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     entityManager->update(deltaTime);
 }
@@ -90,7 +90,10 @@ void Game::render() {
 }
 
 void Game::destroy() {
-    shaders[0]->clearShader();
+    for ( auto& shader : shaders ) {
+        shader.second->clearShader();
+    }
+
     mesh->clearMesh();
     window->destroy();
 }

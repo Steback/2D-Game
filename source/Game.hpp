@@ -2,7 +2,7 @@
 #define GAME_HPP
 
 #include <memory>
-#include <vector>
+#include <map>
 
 class Window;
 class Shader;
@@ -22,7 +22,7 @@ class Game {
         bool isRunning();
 
         static std::unique_ptr<Window> window;
-        static std::vector<std::unique_ptr<Shader> > shaders;
+        static std::map<std::string, std::unique_ptr<Shader> > shaders;
         static std::unique_ptr<Mesh> mesh;
         static std::unique_ptr<EntityManager> entityManager;
         static std::unique_ptr<Camera> camera;

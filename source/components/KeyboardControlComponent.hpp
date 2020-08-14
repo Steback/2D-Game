@@ -21,22 +21,22 @@ class KeyboardControlComponent {
 
             if ( keys[GLFW_KEY_W] ) {
                 transformComponent.position.y += (transformComponent.velocity * deltaTime_);
-                glUniform1i(Game::shaders[0]->getUniformLocation("spriteOffsetY"), 3);
+                glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetY"), 3);
             }
 
             if ( keys[GLFW_KEY_S] ) {
                 transformComponent.position.y -= (transformComponent.velocity * deltaTime_);
-                glUniform1i(Game::shaders[0]->getUniformLocation("spriteOffsetY"), 0);
+                glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetY"), 0);
             }
 
             if ( keys[GLFW_KEY_A] ) {
                 transformComponent.position.x -= (transformComponent.velocity * deltaTime_);
-                glUniform1i(Game::shaders[0]->getUniformLocation("spriteOffsetY"), 2);
+                glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetY"), 2);
             }
 
             if ( keys[GLFW_KEY_D] ) {
                 transformComponent.position.x += (transformComponent.velocity * deltaTime_);
-                glUniform1i(Game::shaders[0]->getUniformLocation("spriteOffsetY"), 1);
+                glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetY"), 1);
             }
         }
 };

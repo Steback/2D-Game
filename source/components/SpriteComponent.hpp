@@ -25,10 +25,10 @@ class SpriteComponent {
         void update(float deltaTime_) {
             animatedFrame += deltaTime_ * 10;
 
-            glUniform1i(Game::shaders[0]->getUniformLocation("spriteOffsetX"), animatedFrame);
-            glUniform1f(Game::shaders[0]->getUniformLocation("spriteWidth"),
+            glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetX"), animatedFrame);
+            glUniform1f(Game::shaders["model"]->getUniformLocation("spriteWidth"),
                         (texture->getImageSize().x / spriteOffsetX) / texture->getImageSize().x);
-            glUniform1f(Game::shaders[0]->getUniformLocation("spriteHeight"),
+            glUniform1f(Game::shaders["model"]->getUniformLocation("spriteHeight"),
                         (texture->getImageSize().y / spriteOffsetY) / texture->getImageSize().y);
 
             if ( animatedFrame > 1 ) animatedFrame = 0;

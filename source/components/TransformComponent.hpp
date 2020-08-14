@@ -28,7 +28,7 @@ class TransformComponent {
         }
 
         void render() {
-            glUniformMatrix4fv(Game::shaders[0]->getUniformLocation("model"), 1, GL_FALSE,
+            glUniformMatrix4fv(Game::shaders["model"]->getUniformLocation("model"), 1, GL_FALSE,
                                glm::value_ptr(model));
         }
 
