@@ -12,6 +12,7 @@
 #include "Texture.hpp"
 #include "EntityManager.hpp"
 #include "Camera.hpp"
+#include "AssetsManager.hpp"
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
@@ -22,6 +23,7 @@ std::map<std::string, std::unique_ptr<Shader> > Game::shaders;
 std::unique_ptr<Mesh> Game::mesh;
 std::unique_ptr<EntityManager> Game::entityManager;
 std::unique_ptr<Camera> Game::camera;
+std::unique_ptr<AssetsManager> Game::assetsManager;
 
 // Global variables
 float lastFrame = 0;
@@ -46,16 +48,16 @@ void Game::init() {
             0, 3, 2
     } );
 
-    texture = std::make_shared<Texture>("assets/images/chopper-spritesheet.png");
-    texture->loadTexture();
+    assetsManager = std::make_unique<AssetsManager>();
+    assetsManager->addTexture("chopper-spritesheet", "assets/images/chopper-spritesheet.png");
+    assetsManager->loadTexture();
 
     entityManager = std::make_unique<EntityManager>();
 
     auto entity = entityManager->addEntity();
-
     entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.0f, 0.0f), glm::vec2(32.0f, 32.0f), 5.0f);
     entityManager->registry.emplace<KeyboardControlComponent>(entity.entity, entity);
-    entityManager->registry.emplace<SpriteComponent>(entity.entity, texture, true, 2, 4);
+    entityManager->registry.emplace<SpriteComponent>(entity.entity, assetsManager->getTexture("chopper-spritesheet"), true, 2, 4);
 
     camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 100.0f));
 }
@@ -96,8 +98,4 @@ void Game::destroy() {
 
     mesh->clearMesh();
     window->destroy();
-}
-
-bool Game::isRunning() {
-    return window->isRunning();
 }

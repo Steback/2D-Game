@@ -10,6 +10,7 @@ class Mesh;
 class Texture;
 class EntityManager;
 class Camera;
+class AssetsManager;
 
 class Game {
     public:
@@ -19,16 +20,16 @@ class Game {
         void update();
         void render();
         void destroy();
-        bool isRunning();
 
         static std::unique_ptr<Window> window;
         static std::map<std::string, std::unique_ptr<Shader> > shaders;
         static std::unique_ptr<Mesh> mesh;
         static std::unique_ptr<EntityManager> entityManager;
         static std::unique_ptr<Camera> camera;
+        static std::unique_ptr<AssetsManager> assetsManager;
 
     private:
-        std::shared_ptr<Texture> texture;
+
 };
 
 #endif
