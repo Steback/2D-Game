@@ -16,10 +16,10 @@ class Game {
     public:
         Game();
         ~Game();
-        void init();
-        void update();
-        void render();
-        void destroy();
+        static void init();
+        static void update();
+        static void render();
+        static void destroy();
 
         static std::unique_ptr<Window> window;
         static std::map<std::string, std::unique_ptr<Shader> > shaders;
