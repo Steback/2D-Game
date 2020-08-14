@@ -16,7 +16,7 @@ class KeyboardControlComponent {
         ~KeyboardControlComponent() = default;
 
         void update(float deltaTime_) const {
-            auto keys = Game::window->getKeys()
+            auto keys = Game::window->getKeys();
             auto& transformComponent = Game::entityManager->registry.get<TransformComponent>(entity.entity);
 
             if ( keys[GLFW_KEY_W] ) {

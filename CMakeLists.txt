@@ -12,7 +12,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
 set_target_properties(
         ${PROJECT_NAME}
         PROPERTIES
-        OUTPUT_NAME "Editor"
+        OUTPUT_NAME "2D-Game"
 )
 
 # OpenGL
