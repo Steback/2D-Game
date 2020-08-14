@@ -2,7 +2,6 @@
 
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
-#include "glm/gtx/string_cast.hpp"
 #include "fmt/core.h"
 
 #include "Game.hpp"
@@ -15,8 +14,10 @@
 #include "Camera.hpp"
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
+#include "components/KeyboardControlComponent.hpp"
 
 // static objects
+std::unique_ptr<Window> Game::window;
 std::vector<std::unique_ptr<Shader> > Game::shaders;
 std::unique_ptr<Mesh> Game::mesh;
 std::unique_ptr<EntityManager> Game::entityManager;
@@ -25,7 +26,7 @@ std::unique_ptr<Camera> Game::camera;
 // Global variables
 float lastFrame = 0;
 
-Game::Game() : window(nullptr) {  }
+Game::Game() = default;
 
 Game::~Game() = default;
 
@@ -52,7 +53,8 @@ void Game::init() {
 
     auto entity = entityManager->addEntity();
 
-    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.0f, 0.0f), glm::vec2(32.0f, 32.0f));
+    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.0f, 0.0f), glm::vec2(32.0f, 32.0f), 5.0f);
+    entityManager->registry.emplace<KeyboardControlComponent>(entity.entity, entity);
     entityManager->registry.emplace<SpriteComponent>(entity.entity, texture, true, 2, 4);
 
     camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 100.0f));

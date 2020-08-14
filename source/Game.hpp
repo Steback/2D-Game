@@ -21,13 +21,13 @@ class Game {
         void destroy();
         bool isRunning();
 
+        static std::unique_ptr<Window> window;
         static std::vector<std::unique_ptr<Shader> > shaders;
         static std::unique_ptr<Mesh> mesh;
         static std::unique_ptr<EntityManager> entityManager;
         static std::unique_ptr<Camera> camera;
 
-private:
-        std::unique_ptr<Window> window;
+    private:
         std::shared_ptr<Texture> texture;
 };
 

@@ -3,6 +3,7 @@
 #include "EntityManager.hpp"
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
+#include "components/KeyboardControlComponent.hpp"
 
 EntityManager::EntityManager() = default;
 
@@ -27,9 +28,11 @@ void EntityManager::update(float deltaTime_) {
 
     for ( auto entity : viewEntities ) {
         auto& transformComponent = registry.get<TransformComponent>(entity);
+        auto& keyBoardComponent = registry.get<KeyboardControlComponent>(entity);
         auto& spriteComponent = registry.get<SpriteComponent>(entity);
 
-        transformComponent.update(deltaTime_);
+        transformComponent.update();
+        keyBoardComponent.update(deltaTime_);
         spriteComponent.update(deltaTime_);
     }
 }

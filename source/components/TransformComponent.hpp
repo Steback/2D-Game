@@ -4,6 +4,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "fmt/core.h"
 
 #include "../Game.hpp"
 #include "../Shader.hpp"
@@ -11,15 +12,16 @@
 class TransformComponent {
     public:
         glm::mat4 model;
-         glm::vec2 size;
-         glm::vec2 position;
+        glm::vec2 size;
+        glm::vec2 position;
+        float velocity;
 
-        TransformComponent(glm::vec2 position_, glm::vec2 size_)
-            : size(size_), position(position_) {  }
+        TransformComponent(glm::vec2 position_, glm::vec2 size_, float velocity_)
+            : size(size_), position(position_), velocity(velocity_){  }
 
         ~TransformComponent() = default;
 
-        void update(float deltaTime_) {
+        void update() {
             model = glm::mat4(1.0f);
             model = glm::scale(model, glm::vec3(size.x * 0.5f, size.y * 0.5f, 1.0f));
             model = glm::translate(model, glm::vec3(position, 0.0f));
