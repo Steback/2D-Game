@@ -18,25 +18,26 @@ class KeyboardControlComponent {
         void update(float deltaTime_) const {
             auto keys = Game::window->getKeys();
             auto& transformComponent = Game::entityManager->registry.get<TransformComponent>(entity.entity);
+            auto& spriteComponent = Game::entityManager->registry.get<SpriteComponent>(entity.entity);
 
             if ( keys[GLFW_KEY_W] ) {
                 transformComponent.position.y += (transformComponent.velocity * deltaTime_);
-                glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetY"), 3);
+                spriteComponent.indexFrame = 3;
             }
 
             if ( keys[GLFW_KEY_S] ) {
                 transformComponent.position.y -= (transformComponent.velocity * deltaTime_);
-                glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetY"), 0);
+                spriteComponent.indexFrame = 0;
             }
 
             if ( keys[GLFW_KEY_A] ) {
                 transformComponent.position.x -= (transformComponent.velocity * deltaTime_);
-                glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetY"), 2);
+                spriteComponent.indexFrame = 2;
             }
 
             if ( keys[GLFW_KEY_D] ) {
                 transformComponent.position.x += (transformComponent.velocity * deltaTime_);
-                glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetY"), 1);
+                spriteComponent.indexFrame = 1;
             }
         }
 };

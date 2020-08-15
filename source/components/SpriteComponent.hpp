@@ -10,15 +10,14 @@
 class SpriteComponent {
     public:
         std::shared_ptr<Texture> texture{};
-        bool isAnimated{};
         int indexFrame = 0;
         float spriteOffsetX{};
         float spriteOffsetY{};
         float animatedFrame = 0;
 
-        explicit SpriteComponent(std::shared_ptr<Texture> texture_, bool isAnimated_ = false, int spriteOffsetX_ = 1, int spriteOffsetY_ = 1)
-            : texture(std::move(texture_)), isAnimated(isAnimated_),
-            spriteOffsetX(static_cast<float>(spriteOffsetX_)), spriteOffsetY(static_cast<float>(spriteOffsetY_)) {  }
+        explicit SpriteComponent(std::shared_ptr<Texture> texture_, int spriteOffsetX_ = 1, int spriteOffsetY_ = 1)
+            : texture(std::move(texture_)), spriteOffsetX(static_cast<float>(spriteOffsetX_)),
+            spriteOffsetY(static_cast<float>(spriteOffsetY_)) {  }
 
         ~SpriteComponent() = default;
 
@@ -26,6 +25,7 @@ class SpriteComponent {
             animatedFrame += deltaTime_ * 10;
 
             glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetX"), animatedFrame);
+            glUniform1i(Game::shaders["model"]->getUniformLocation("spriteOffsetY"), indexFrame);
             glUniform1f(Game::shaders["model"]->getUniformLocation("spriteWidth"),
                         (texture->getImageSize().x / spriteOffsetX) / texture->getImageSize().x);
             glUniform1f(Game::shaders["model"]->getUniformLocation("spriteHeight"),

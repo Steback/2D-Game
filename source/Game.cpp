@@ -17,7 +17,7 @@
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
-#include "components/MeshComponent.hpp"
+#include "components/TileComponent.hpp"
 
 // static objects
 std::unique_ptr<Window> Game::window;
@@ -25,6 +25,7 @@ std::map<std::string, std::unique_ptr<Shader> > Game::shaders;
 std::unique_ptr<EntityManager> Game::entityManager;
 std::unique_ptr<Camera> Game::camera;
 std::unique_ptr<AssetsManager> Game::assetsManager;
+std::map<std::string, std::unique_ptr<Mesh> > Game::mesh;
 
 // Global variables
 float lastFrame = 0;
@@ -38,6 +39,7 @@ void Game::init() {
     window->init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     shaders.emplace("model", std::make_unique<Shader>("shaders/model.vert", "shaders/model.frag"));
+    shaders.emplace("tile", std::make_unique<Shader>("shaders/tile.vert", "shaders/tile.frag"));
 
     assetsManager = std::make_unique<AssetsManager>();
     assetsManager->addTexture("chopper-spritesheet", "assets/images/chopper-spritesheet.png");
@@ -56,9 +58,9 @@ void Game::init() {
 
     entityManager->registry.emplace<SpriteComponent>(entity.entity,
                                                      assetsManager->getTexture("chopper-spritesheet"),
-                                                     true, 2, 4);
+                                                     2, 4);
 
-    entityManager->registry.emplace<MeshComponent>(entity.entity, std::vector<Vertex>{
+    mesh.emplace("entity", std::make_unique<Mesh>(std::vector<Vertex>{
             {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 2, 0.0f) },
             {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f / 4) },
             {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 2, 1.0f / 4) },
@@ -66,9 +68,22 @@ void Game::init() {
     }, std::vector<GLuint> {
             1, 3, 2,
             0, 3, 2
-    } );
+    }));
 
     camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 10.0f));
+
+//    auto tile = entityManager->addEntity();
+//    entityManager->registry.emplace<TileComponent>(tile.entity, glm::vec2(0.0f, 0.0f), 32 * 0.1f, "jungle");
+//
+//    mesh.emplace("tile", std::make_unique<Mesh>(std::vector<Vertex>{
+//            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 10, 0.0f) },
+//            {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f / 3) },
+//            {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 10, 1.0f / 3) },
+//            {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+//    }, std::vector<GLuint> {
+//            1, 3, 2,
+//            0, 3, 2
+//    }));
 
     Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 32.0f * 0.1f, "jungle");
 }
@@ -79,14 +94,6 @@ void Game::update() {
     auto currentFrame = static_cast<float>(glfwGetTime());
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
-
-    shaders["model"]->useShader();
-
-    auto view = camera->viewMatrix(glm::vec3(0.0f, 0.0f, 0.0f));
-    auto projection = camera->projectionMatrix(90.0f, window->windowSize());
-
-    glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(shaders["model"]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     entityManager->update(deltaTime);
 }
@@ -102,6 +109,10 @@ void Game::render() {
 }
 
 void Game::destroy() {
+    for ( auto& m : mesh ) {
+        m.second->clearMesh();
+    }
+
     for ( auto& shader : shaders ) {
         shader.second->clearShader();
     }
