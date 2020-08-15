@@ -1,12 +1,12 @@
 #include "Mesh.hpp"
 
-Mesh::Mesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indices_) : indexCount(indices_.size()) {
+Mesh::Mesh(const std::vector<Vertex>& vertices_, const std::vector<GLuint>& indices_) : indexCount(indices_.size()) {
     createMesh(vertices_, indices_);
 }
 
 Mesh::~Mesh() = default;
 
-void Mesh::createMesh(const std::vector<Shape>& vertices_, const std::vector<GLuint>& indices_) {
+void Mesh::createMesh(const std::vector<Vertex>& vertices_, const std::vector<GLuint>& indices_) {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 

@@ -16,11 +16,11 @@
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
+#include "components/MeshComponent.hpp"
 
 // static objects
 std::unique_ptr<Window> Game::window;
 std::map<std::string, std::unique_ptr<Shader> > Game::shaders;
-std::unique_ptr<Mesh> Game::mesh;
 std::unique_ptr<EntityManager> Game::entityManager;
 std::unique_ptr<Camera> Game::camera;
 std::unique_ptr<AssetsManager> Game::assetsManager;
@@ -38,16 +38,6 @@ void Game::init() {
 
     shaders.emplace("model", std::make_unique<Shader>("shaders/model.vert", "shaders/model.frag"));
 
-    mesh = std::make_unique<Mesh>( std::vector<Shape> {
-            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.5f, 0.0f) },
-            {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.25f) },
-            {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.5f, 0.25f) },
-            {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
-    }, std::vector<GLuint> {
-            1, 3, 2,
-            0, 3, 2
-    } );
-
     assetsManager = std::make_unique<AssetsManager>();
     assetsManager->addTexture("chopper-spritesheet", "assets/images/chopper-spritesheet.png");
     assetsManager->addTexture("jungle", "assets/tilemaps/jungle.png");
@@ -56,9 +46,25 @@ void Game::init() {
     entityManager = std::make_unique<EntityManager>();
 
     auto entity = entityManager->addEntity();
-    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.0f, 0.0f), glm::vec2(32.0f, 32.0f), 5.0f);
+
+    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.0f, 0.0f),
+                                                        glm::vec2(32.0f, 32.0f), 5.0f);
+
     entityManager->registry.emplace<KeyboardControlComponent>(entity.entity, entity);
-    entityManager->registry.emplace<SpriteComponent>(entity.entity, assetsManager->getTexture("chopper-spritesheet"), true, 2, 4);
+
+    entityManager->registry.emplace<SpriteComponent>(entity.entity,
+                                                     assetsManager->getTexture("chopper-spritesheet"),
+                                                     true, 2, 4);
+
+    entityManager->registry.emplace<MeshComponent>(entity.entity, std::vector<Vertex>{
+            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 2, 0.0f) },
+            {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f / 4) },
+            {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 2, 1.0f / 4) },
+            {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+    }, std::vector<GLuint> {
+            1, 3, 2,
+            0, 3, 2
+    } );
 
     camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 100.0f));
 }
@@ -85,7 +91,6 @@ void Game::render() {
     window->render();
 
     entityManager->render();
-    mesh->renderMesh();
 
     glUseProgram(0);
 
@@ -97,6 +102,5 @@ void Game::destroy() {
         shader.second->clearShader();
     }
 
-    mesh->clearMesh();
     window->destroy();
 }

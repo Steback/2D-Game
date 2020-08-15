@@ -5,7 +5,7 @@
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
 #include "components/TileComponent.hpp"
-#include "components/MeshComponent.h"
+#include "components/MeshComponent.hpp"
 
 EntityManager::EntityManager() = default;
 
@@ -26,7 +26,7 @@ Entity& EntityManager::addEntity() {
 }
 
 void EntityManager::update(float deltaTime_) {
-    auto viewEntities = registry.view<TransformComponent, SpriteComponent, KeyboardControlComponent>();
+    auto viewEntities = registry.view<TransformComponent, SpriteComponent, KeyboardControlComponent, MeshComponent>();
 
     for ( auto entity : viewEntities ) {
         auto& transformComponent = registry.get<TransformComponent>(entity);
@@ -45,9 +45,11 @@ void EntityManager::render() {
     for ( auto entity : viewEntities ) {
         auto& transformComponent = registry.get<TransformComponent>(entity);
         auto& spriteComponent = registry.get<SpriteComponent>(entity);
+        auto& meshComponent = registry.get<MeshComponent>(entity);
 
         transformComponent.render();
         spriteComponent.render();
+        meshComponent.render();
     }
 }
 
