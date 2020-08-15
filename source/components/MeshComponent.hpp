@@ -5,19 +5,17 @@
 
 class MeshComponent {
     public:
-        Mesh* mesh;
+        Mesh mesh;
 
-        MeshComponent(const std::vector<Vertex>& vertices_, const std::vector<GLuint>& indices_) {
-            mesh = new Mesh(vertices_, indices_);
-        }
+        MeshComponent(const std::vector<Vertex>& vertices_, const std::vector<GLuint>& indices_)
+            : mesh(vertices_, indices_){  }
 
         ~MeshComponent() {
-            mesh->clearMesh();
-            delete mesh;
+            mesh.clearMesh();
         }
 
         void render() const {
-            mesh->renderMesh();
+            mesh.renderMesh();
         }
 
 };

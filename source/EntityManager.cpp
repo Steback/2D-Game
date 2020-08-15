@@ -26,7 +26,15 @@ Entity& EntityManager::addEntity() {
 }
 
 void EntityManager::update(float deltaTime_) {
-    auto viewEntities = registry.view<TransformComponent, SpriteComponent, KeyboardControlComponent, MeshComponent>();
+    auto viewTiles = registry.view<TileComponent>();
+
+    for ( auto tile : viewTiles ) {
+        auto& tileComponent = registry.get<TileComponent>(tile);
+
+        tileComponent.update();
+    }
+
+    auto viewEntities = registry.view<TransformComponent, SpriteComponent, KeyboardControlComponent>();
 
     for ( auto entity : viewEntities ) {
         auto& transformComponent = registry.get<TransformComponent>(entity);
@@ -40,6 +48,16 @@ void EntityManager::update(float deltaTime_) {
 }
 
 void EntityManager::render() {
+    auto viewTiles = registry.view<TileComponent, MeshComponent>();
+
+    for ( auto tile : viewTiles ) {
+        auto& tileComponent = registry.get<TileComponent>(tile);
+        auto& meshComponent = registry.get<MeshComponent>(tile);
+
+        tileComponent.render();
+        meshComponent.render();
+    }
+
     auto viewEntities = registry.view<TransformComponent, SpriteComponent>();
 
     for ( auto entity : viewEntities ) {

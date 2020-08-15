@@ -16,10 +16,10 @@ class TileComponent {
     public:
         glm::mat4 model;
         glm::vec2 position;
-        unsigned int size;
+    float size;
         std::shared_ptr<Texture> texture;
 
-        TileComponent(glm::vec2 position_, unsigned int size_, const std::string& textureID_)
+        TileComponent(glm::vec2 position_, float size_, const std::string& textureID_)
             : position(position_), size(size_), texture(Game::assetsManager->getTexture(textureID_)) {  }
 
         ~TileComponent() = default;

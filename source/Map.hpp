@@ -9,8 +9,8 @@ class Map {
     public:
         Map();
         ~Map();
-        static void loadMap(const std::string& filePath_, glm::vec2 mapSize_, unsigned tileSize_, const std::string &textureID_);
-        static void addTile(glm::vec2 position_, unsigned int size_, const std::string& textureID_);
+        static void loadMap(const std::string& filePath_, glm::vec2 mapSize_, float tileSize_, const std::string &textureID_);
+        static void addTile(glm::vec2 position_, float size_, const std::string& textureID_, glm::vec2 uv_);
 
     private:
 

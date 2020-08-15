@@ -4,4 +4,7 @@
 const int WINDOW_WIDTH = 1200;
 const int WINDOW_HEIGHT = 720;
 
+const int NUM_TILES_MAP_X = 10;
+const int NUM_TILES_MAP_Y = 3;
+
 #endif
