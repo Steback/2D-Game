@@ -23,7 +23,6 @@ class Game {
 
         static std::unique_ptr<Window> window;
         static std::map<std::string, std::unique_ptr<Shader> > shaders;
-        static std::unique_ptr<Mesh> mesh;
         static std::unique_ptr<EntityManager> entityManager;
         static std::unique_ptr<Camera> camera;
         static std::unique_ptr<AssetsManager> assetsManager;

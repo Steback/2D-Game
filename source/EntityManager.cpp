@@ -5,6 +5,7 @@
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
 #include "components/TileComponent.hpp"
+#include "components/MeshComponent.h"
 
 EntityManager::EntityManager() = default;
 
