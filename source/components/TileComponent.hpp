@@ -29,6 +29,7 @@ class TileComponent {
             model = glm::mat4(1.0f);
             model = glm::scale(model, glm::vec3(size, size, 0.0f));
             model = glm::translate(model, glm::vec3(position, 0.0f));
+            model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 0.0, 1.0));
 
             glUniform1i(Game::shaders["tile"]->getUniformLocation("isAnimated"), false);
         }
