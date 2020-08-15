@@ -50,6 +50,7 @@ void Game::init() {
 
     assetsManager = std::make_unique<AssetsManager>();
     assetsManager->addTexture("chopper-spritesheet", "assets/images/chopper-spritesheet.png");
+    assetsManager->addTexture("jungle", "assets/tilemaps/jungle.png");
     assetsManager->loadTexture();
 
     entityManager = std::make_unique<EntityManager>();

@@ -4,6 +4,7 @@
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
+#include "components/TileComponent.hpp"
 
 EntityManager::EntityManager() = default;
 
