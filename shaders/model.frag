@@ -15,6 +15,9 @@ uniform float spriteHeight;
 
 void main() {
     vec2 texCoord = texCoords + vec2(spriteOffsetX * spriteWidth, spriteOffsetY * spriteHeight);
+    vec4 texColor = texture(Texture, texCoord) * vec4(vColor, 1.0);
 
-    color = texture(Texture, texCoord) * vec4(vColor, 1.0);
+    if ( texColor.a < 0.1 ) discard;
+
+    color = texColor;
 }

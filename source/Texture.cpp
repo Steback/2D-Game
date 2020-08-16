@@ -10,7 +10,8 @@ Texture::~Texture() = default;
 
 bool Texture::loadTexture() {
     int width, height;
-    unsigned char* imageData = stbi_load(filePath.c_str(), &width, &height, nullptr, 4);
+    int comp;
+    unsigned char* imageData = stbi_load(filePath.c_str(), &width, &height, &comp, 4);
 
     if ( !imageData ) {
         fmt::print("Fail load image: {}", filePath);
