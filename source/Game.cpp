@@ -75,17 +75,17 @@ void Game::init() {
     auto tile = entityManager->addEntity();
     entityManager->registry.emplace<TileComponent>(tile.entity, glm::vec2(0.0f, 0.0f), 32 * 0.1f, "jungle");
 
-    mesh.emplace("tile", std::make_unique<Mesh>(std::vector<Vertex>{
-            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 10, 0.0f) },
-            {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f / 3) },
-            {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 10, 1.0f / 3) },
-            {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
-    }, std::vector<GLuint> {
-            1, 3, 2,
-            0, 3, 2
-    }));
+//    mesh.emplace("tile", std::make_unique<Mesh>(std::vector<Vertex>{
+//            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 10, 0.0f) },
+//            {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f / 3) },
+//            {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 10, 1.0f / 3) },
+//            {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+//    }, std::vector<GLuint> {
+//            1, 3, 2,
+//            0, 3, 2
+//    }));
 
-//    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 32.0f * 0.1f, "jungle");
+    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 32.0f * 0.1f, "jungle");
 }
 
 void Game::update() {
@@ -95,12 +95,29 @@ void Game::update() {
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
+    auto view = camera->viewMatrix(glm::vec3(0.0f, 0.0f, 0.0f));
+    auto projection = camera->projectionMatrix(90.0f, Game::window->windowSize());
+
+    shaders["tile"]->useShader();
+    glUniformMatrix4fv(shaders["tile"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(shaders["tile"]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+    entityManager->updateMap();
+
+    shaders["model"]->useShader();
+    glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(shaders["model"]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
     entityManager->update(deltaTime);
 }
 
 void Game::render() {
     window->render();
 
+    shaders["tile"]->useShader();
+    entityManager->renderMap();
+
+    shaders["model"]->useShader();
     entityManager->render();
 
     glUseProgram(0);

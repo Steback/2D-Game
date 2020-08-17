@@ -18,7 +18,9 @@ class EntityManager {
         ~EntityManager();
         Entity& addEntity();
         void update(float deltaTime_);
+        void updateMap();
         void render();
+        void renderMap();
         Entity& getEntity(unsigned int id_);
 
         entt::registry registry;
