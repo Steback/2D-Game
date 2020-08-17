@@ -2,14 +2,16 @@
 #include "Window.hpp"
 
 int main() {
-    Game::init();
+    Game game;
+
+    game.init();
 
     while ( Game::window->isRunning() ) {
-        Game::update();
-        Game::render();
+        game.update();
+        game.render();
     }
 
-    Game::destroy();
+    game.destroy();
 
     return 0;
 }
