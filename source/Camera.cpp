@@ -13,3 +13,7 @@ glm::mat4 Camera::viewMatrix(glm::vec3 center_) {
 glm::mat4 Camera::projectionMatrix(float fov_, glm::vec2 windowSize_) const {
     return glm::perspective(fov_, windowSize_.x / windowSize_.y, nearPlane, farPlane);
 }
+
+void Camera::setCamPosition(glm::vec2 position_) {
+    position = glm::vec3(position_, 10.0f);
+}

@@ -6,9 +6,10 @@
 #include "entt/entt.hpp"
 
 struct Entity {
-    unsigned int id;
-    entt::entity entity;
+    unsigned int id{};
+    entt::entity entity{};
 
+    Entity() = default;
     Entity(unsigned int id_, entt::entity entity_) : id(id_), entity(entity_) {  }
 };
 

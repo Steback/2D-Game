@@ -4,6 +4,8 @@
 #include <memory>
 #include <map>
 
+#include "EntityManager.hpp"
+
 class Window;
 class Shader;
 class Mesh;
@@ -17,7 +19,7 @@ class Game {
         Game();
         ~Game();
         void init();
-        void update();
+        void update() const;
         void render();
         void destroy();
 
@@ -29,7 +31,7 @@ class Game {
         static std::map<std::string, std::unique_ptr<Mesh> > mesh;
 
     private:
-
+        Entity player{};
 };
 
 #endif

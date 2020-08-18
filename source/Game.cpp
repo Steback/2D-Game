@@ -10,7 +10,6 @@
 #include "Shader.hpp"
 #include "Mesh.hpp"
 #include "Texture.hpp"
-#include "EntityManager.hpp"
 #include "Camera.hpp"
 #include "AssetsManager.hpp"
 #include "Map.hpp"
@@ -30,7 +29,7 @@ std::map<std::string, std::unique_ptr<Mesh> > Game::mesh;
 // Global variables
 float lastFrame = 0;
 
-Game::Game() = default;
+Game::Game()  = default;
 
 Game::~Game() = default;
 
@@ -48,15 +47,15 @@ void Game::init() {
 
     entityManager = std::make_unique<EntityManager>();
 
-    auto entity = entityManager->addEntity();
+    player = entityManager->addEntity();
 
-    entityManager->registry.emplace<TransformComponent>(entity.entity, glm::vec2(0.0f, 0.0f),
+    entityManager->registry.emplace<TransformComponent>(player.entity, glm::vec2(0.0f, 0.0f),
                                                         glm::vec2(32.0f * 0.5f * 0.1f, 32.0f * 0.5f * 0.1f),
                                                         5.0f);
 
-    entityManager->registry.emplace<KeyboardControlComponent>(entity.entity, entity);
+    entityManager->registry.emplace<KeyboardControlComponent>(player.entity, player);
 
-    entityManager->registry.emplace<SpriteComponent>(entity.entity,
+    entityManager->registry.emplace<SpriteComponent>(player.entity,
                                                      assetsManager->getTexture("chopper-spritesheet"),
                                                      2, 4);
 
@@ -82,20 +81,21 @@ void Game::init() {
 
     camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 10.0f));
 
-//    auto tile = entityManager->addEntity();
-//    entityManager->registry.emplace<TileComponent>(tile.entity, glm::vec2(0.0f, 0.0f), 32 * 0.1f, "jungle");
-
     Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 32.0f * 0.1f, "jungle");
 }
 
-void Game::update() {
+void Game::update() const {
     glfwPollEvents();
 
     auto currentFrame = static_cast<float>(glfwGetTime());
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-    auto view = camera->viewMatrix(glm::vec3(0.0f, 0.0f, 0.0f));
+    auto& transformComponent = entityManager->registry.get<TransformComponent>(player.entity);
+
+    camera->setCamPosition(transformComponent.position);
+
+    auto view = camera->viewMatrix(glm::vec3(transformComponent.position, 0.0f));
     auto projection = camera->projectionMatrix(90.0f, Game::window->windowSize());
 
     shaders["tile"]->useShader();
