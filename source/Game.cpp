@@ -50,7 +50,7 @@ void Game::init() {
     player = entityManager->addEntity();
 
     entityManager->registry.emplace<TransformComponent>(player.entity, glm::vec2(0.0f, 0.0f),
-                                                        glm::vec2(32.0f * 0.5f * 0.1f, 32.0f * 0.5f * 0.1f),
+                                                        glm::vec2(2.0f, 32.0f * 0.5f * 0.1f),
                                                         5.0f);
 
     entityManager->registry.emplace<KeyboardControlComponent>(player.entity, player);
@@ -81,7 +81,7 @@ void Game::init() {
 
     camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 10.0f));
 
-    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 32.0f * 0.1f, "jungle");
+    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 4.0f, "jungle");
 }
 
 void Game::update() const {

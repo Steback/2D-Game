@@ -1,5 +1,7 @@
 #include <fstream>
 
+#include "fmt/core.h"
+
 #include "Map.hpp"
 #include "Game.hpp"
 #include "EntityManager.hpp"
@@ -14,10 +16,10 @@ void Map::loadMap(const std::string& filePath_, glm::vec2 mapSize_, float tileSi
     mapFile.open(filePath_);
 
     glm::vec2 tilePosition;
-    tilePosition.y = (mapSize_.y / 2) * static_cast<float>(tileSize_);
+    tilePosition.y = (mapSize_.y / 2) * tileSize_ * 2;
 
     for ( int y = 0; y < static_cast<int>(mapSize_.y); y++ ) {
-        tilePosition.x = -(mapSize_.x / 2) * static_cast<float>(tileSize_);
+        tilePosition.x = -(mapSize_.x / 2) * tileSize_;
 
         for ( int x = 0; x < static_cast<int>(mapSize_.x); x++ ) {
             char ch;
@@ -29,18 +31,18 @@ void Map::loadMap(const std::string& filePath_, glm::vec2 mapSize_, float tileSi
             mapFile.get(ch);
             uv.x = static_cast<float>(atoi(&ch));
 
-            Map::addTile(tilePosition, tileSize_, textureID_);
+            Map::addTile(tilePosition, tileSize_, textureID_, uv);
 
-            tilePosition.x += static_cast<float>(tileSize_);
+            tilePosition.x += (tileSize_ * 2);
 
             mapFile.ignore();
         }
 
-        tilePosition.y -= static_cast<float>(tileSize_);
+        tilePosition.y -= (tileSize_ * 2);
     }
 }
 
-void Map::addTile(glm::vec2 position_,float size_, const std::string &textureID_) {
+void Map::addTile(glm::vec2 position_,float size_, const std::string &textureID_, glm::vec2 uv_) {
     auto tile = Game::entityManager->addEntity();
-    Game::entityManager->registry.emplace<TileComponent>(tile.entity, position_, size_, textureID_);
+    Game::entityManager->registry.emplace<TileComponent>(tile.entity, position_, size_, textureID_, uv_);
 }

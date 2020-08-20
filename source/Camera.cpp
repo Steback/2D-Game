@@ -15,5 +15,5 @@ glm::mat4 Camera::projectionMatrix(float fov_, glm::vec2 windowSize_) const {
 }
 
 void Camera::setCamPosition(glm::vec2 position_) {
-    position = glm::vec3(position_, 10.0f);
+    position = glm::vec3(position_, position.z);
 }
