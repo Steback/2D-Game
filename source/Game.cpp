@@ -79,7 +79,7 @@ void Game::init() {
             0, 3, 2
     }));
 
-    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 10.0f));
+    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 15.0f));
 
     Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 4.0f, "jungle");
 }

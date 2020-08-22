@@ -5,6 +5,8 @@
 
 #include "entt/entt.hpp"
 
+class TileComponent;
+
 struct Entity {
     unsigned int id{};
     entt::entity entity{};
@@ -18,6 +20,7 @@ class EntityManager {
         EntityManager();
         ~EntityManager();
         Entity& addEntity();
+        Entity& addTile();
         void update(float deltaTime_);
         void updateMap();
         void render();
@@ -27,7 +30,8 @@ class EntityManager {
         entt::registry registry;
 
     private:
-        std::vector<Entity* > entities;
+        std::vector<std::unique_ptr<Entity> > entities;
+        std::vector<std::unique_ptr<Entity> > tiles;
 };
 
 #endif

@@ -11,13 +11,7 @@
 
 EntityManager::EntityManager() = default;
 
-EntityManager::~EntityManager() {
-    for ( auto& entity : entities ) {
-        delete entity;
-    }
-
-    registry.clear();
-}
+EntityManager::~EntityManager() = default;
 
 Entity& EntityManager::addEntity() {
     auto entity = registry.create();
@@ -27,50 +21,39 @@ Entity& EntityManager::addEntity() {
     return *entities[entities.size() - 1];
 }
 
+Entity& EntityManager::addTile() {
+    auto tile = registry.create();
+
+    tiles.emplace_back(new Entity(tiles.size() + 1, tile));
+
+    return *tiles[tiles.size() - 1];
+}
+
 void EntityManager::update(float deltaTime_) {
-    auto viewEntities = registry.view<TransformComponent, SpriteComponent, KeyboardControlComponent>();
-
-    for ( auto entity : viewEntities ) {
-        auto& transformComponent = registry.get<TransformComponent>(entity);
-        auto& keyBoardComponent = registry.get<KeyboardControlComponent>(entity);
-        auto& spriteComponent = registry.get<SpriteComponent>(entity);
-
-        transformComponent.update();
-        keyBoardComponent.update(deltaTime_);
-        spriteComponent.update(deltaTime_);
+    for ( auto& entity : entities ) {
+        registry.get<TransformComponent>(entity->entity).update();
+        registry.get<KeyboardControlComponent>(entity->entity).update(deltaTime_);
+        registry.get<SpriteComponent>(entity->entity).update(deltaTime_);
     }
 }
 
 void EntityManager::updateMap() {
-    auto viewTiles = registry.view<TileComponent>();
-
-    for ( auto tile : viewTiles ) {
-        auto& tileComponent = registry.get<TileComponent>(tile);
-
-        tileComponent.update();
+    for ( auto& tile : tiles ) {
+        registry.get<TileComponent>(tile->entity).update();
     }
 }
 
 void EntityManager::render() {
-    auto viewEntities = registry.view<TransformComponent, SpriteComponent>();
-
-    for ( auto entity : viewEntities ) {
-        auto& transformComponent = registry.get<TransformComponent>(entity);
-        auto& spriteComponent = registry.get<SpriteComponent>(entity);
-
-        transformComponent.render();
-        spriteComponent.render();
+    for ( auto& entity : entities ) {
+        registry.get<TransformComponent>(entity->entity).render();
+        registry.get<SpriteComponent>(entity->entity).render();
         Game::mesh["entity"]->renderMesh();
     }
 }
 
 void EntityManager::renderMap() {
-    auto viewTiles = registry.view<TileComponent>();
-
-    for ( auto tile : viewTiles ) {
-        auto& tileComponent = registry.get<TileComponent>(tile);
-
-        tileComponent.render();
+    for ( auto& tile : tiles ) {
+        registry.get<TileComponent>(tile->entity).render();
         Game::mesh["tile"]->renderMesh();
     }
 }
