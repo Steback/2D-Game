@@ -28,7 +28,6 @@ class Game {
         static std::unique_ptr<EntityManager> entityManager;
         static std::unique_ptr<Camera> camera;
         static std::unique_ptr<AssetsManager> assetsManager;
-        static std::map<std::string, std::unique_ptr<Mesh> > mesh;
 
     private:
         Entity player{};

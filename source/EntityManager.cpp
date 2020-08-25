@@ -48,7 +48,7 @@ void EntityManager::render() {
     for ( auto& entity : entities ) {
         registry.get<TransformComponent>(entity->entity).render();
         registry.get<SpriteComponent>(entity->entity).render();
-        Game::mesh["entity"]->renderMesh();
+        registry.get<MeshComponent>(entity->entity).render();
     }
 }
 

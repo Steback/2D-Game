@@ -15,13 +15,6 @@ void Map::loadMap(const std::string& filePath_, glm::vec2 mapSize_, float tileSi
     std::fstream mapFile;
     mapFile.open(filePath_);
 
-    std::vector<glm::vec2> uvs = {
-            {1, 2},
-            {2, 2},
-            {0, 0},
-            {9, 1}
-    };
-
     glm::vec2 tilePosition;
     tilePosition.y = (mapSize_.y / 2) * (tileSize_ * 2);
 
