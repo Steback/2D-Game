@@ -28,17 +28,9 @@ class TileComponent {
 
         void update() {
             model = glm::mat4(1.0f);
-//            model = glm::scale(model, glm::vec3(size, size, 0.0f));
             model = glm::translate(model, glm::vec3(position, 0.0f));
             model = glm::scale(model, glm::vec3(size, size, 0.0f));
             model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 0.0, 1.0));
-
-            glUniform1i(Game::shaders["tile"]->getUniformLocation("spriteOffsetX"), uv.x);
-            glUniform1i(Game::shaders["tile"]->getUniformLocation("spriteOffsetY"), uv.y);
-            glUniform1f(Game::shaders["tile"]->getUniformLocation("spriteWidth"),
-                        (texture->getImageSize().x / NUM_TILES_MAP_X) / texture->getImageSize().x);
-            glUniform1f(Game::shaders["tile"]->getUniformLocation("spriteHeight"),
-                        (texture->getImageSize().y / NUM_TILES_MAP_Y) / texture->getImageSize().y);
         }
 
         void render() {

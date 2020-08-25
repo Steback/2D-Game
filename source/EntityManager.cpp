@@ -8,6 +8,7 @@
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
 #include "components/TileComponent.hpp"
+#include "components/MeshComponent.hpp"
 
 EntityManager::EntityManager() = default;
 
@@ -54,10 +55,14 @@ void EntityManager::render() {
 void EntityManager::renderMap() {
     for ( auto& tile : tiles ) {
         registry.get<TileComponent>(tile->entity).render();
-        Game::mesh["tile"]->renderMesh();
+        registry.get<MeshComponent>(tile->entity).render();
     }
 }
 
 Entity& EntityManager::getEntity(unsigned int id_) {
     return *entities[id_ - 1];
+}
+
+Entity& EntityManager::getTile(unsigned int id_) {
+    return *tiles[id_ - 1];
 }

@@ -16,7 +16,6 @@
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
-#include "components/TileComponent.hpp"
 
 // static objects
 std::unique_ptr<Window> Game::window;

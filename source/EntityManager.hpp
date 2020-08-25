@@ -26,6 +26,7 @@ class EntityManager {
         void render();
         void renderMap();
         Entity& getEntity(unsigned int id_);
+        Entity& getTile(unsigned int id_);
 
         entt::registry registry;
 
