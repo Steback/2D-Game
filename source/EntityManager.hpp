@@ -29,6 +29,7 @@ class EntityManager {
         Entity& getTile(unsigned int id_);
 
         entt::registry registry;
+        Entity player;
 
     private:
         std::vector<std::unique_ptr<Entity> > entities;

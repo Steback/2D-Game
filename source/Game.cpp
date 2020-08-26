@@ -35,17 +35,30 @@ void Game::init() {
     window = std::make_unique<Window>();
     window->init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+    // Init Shaders
     shaders.emplace("model", std::make_unique<Shader>("shaders/model.vert", "shaders/model.frag"));
     shaders.emplace("tile", std::make_unique<Shader>("shaders/tile.vert", "shaders/tile.frag"));
+    shaders.emplace("modelStatic", std::make_unique<Shader>("shaders/modelStatic.vert", "shaders/modelStatic.frag"));
 
+    // Init EntityManager
+    entityManager = std::make_unique<EntityManager>();
+
+    // Init Camera
+    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 15.0f));
+
+    // Load textures
     assetsManager = std::make_unique<AssetsManager>();
     assetsManager->addTexture("chopper-spritesheet", "assets/images/chopper-spritesheet.png");
     assetsManager->addTexture("jungle", "assets/tilemaps/jungle.png");
+    assetsManager->addTexture("tank-big-down", "assets/images/tank-big-down.png");
     assetsManager->loadTexture();
 
-    entityManager = std::make_unique<EntityManager>();
+    // Load Map
+    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 4.0f, "jungle");
 
+    // Load player entity
     player = entityManager->addEntity();
+    entityManager->player = player;
 
     entityManager->registry.emplace<TransformComponent>(player.entity, glm::vec2(0.0f, 0.0f),
                                                         glm::vec2(2.0f, 32.0f * 0.5f * 0.1f),
@@ -55,7 +68,7 @@ void Game::init() {
 
     entityManager->registry.emplace<SpriteComponent>(player.entity,
                                                      assetsManager->getTexture("chopper-spritesheet"),
-                                                     2, 4);
+                                                     true, 2, 4);
 
     entityManager->registry.emplace<MeshComponent>(player.entity, std::vector<Vertex>{
             {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 2, 0.0f) },
@@ -67,9 +80,25 @@ void Game::init() {
             0, 3, 2
     });
 
-    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 15.0f));
+    // Load enemy entity
+    auto enemy = entityManager->addEntity();
+    entityManager->registry.emplace<TransformComponent>(enemy.entity, glm::vec2(2.0f, 2.0f),
+                                                        glm::vec2(2.0f, 32.0f * 0.5f * 0.1f),
+                                                        5.0f);
 
-    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 4.0f, "jungle");
+    entityManager->registry.emplace<SpriteComponent>(enemy.entity,
+                                                     assetsManager->getTexture("tank-big-down"));
+
+    entityManager->registry.emplace<MeshComponent>(enemy.entity, std::vector<Vertex>{
+            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 2, 0.0f) },
+            {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f / 4) },
+            {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 2, 1.0f / 4) },
+            {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+    }, std::vector<GLuint> {
+            1, 3, 2,
+            0, 3, 2
+    });
+
 }
 
 void Game::update() const {
@@ -95,6 +124,10 @@ void Game::update() const {
     shaders["model"]->useShader();
     glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(shaders["model"]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+    shaders["modelStatic"]->useShader();
+    glUniformMatrix4fv(shaders["modelStatic"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(shaders["modelStatic"]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     entityManager->update(deltaTime);
 }
