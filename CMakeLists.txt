@@ -44,4 +44,7 @@ include_directories(dependences/stb)
 # EnTT
 add_subdirectory(dependences/entt)
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt EnTT)
+# Box2D
+add_subdirectory(dependences/box2d/src)
+
+target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt EnTT box2d)
