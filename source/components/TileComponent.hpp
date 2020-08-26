@@ -19,10 +19,9 @@ class TileComponent {
         glm::vec2 position;
         float size;
         std::shared_ptr<Texture> texture;
-        glm::vec2 uv;
 
-        TileComponent(glm::vec2 position_, float size_, const std::string& textureID_, glm::vec2 uv_)
-            : position(position_), size(size_), texture(Game::assetsManager->getTexture(textureID_)), uv(uv_) {  }
+        TileComponent(glm::vec2 position_, float size_, const std::string& textureID_)
+            : position(position_), size(size_), texture(Game::assetsManager->getTexture(textureID_)) {  }
 
         ~TileComponent() = default;
 

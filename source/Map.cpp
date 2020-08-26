@@ -45,7 +45,7 @@ void Map::loadMap(const std::string& filePath_, glm::vec2 mapSize_, float tileSi
 
 void Map::addTile(glm::vec2 position_,float size_, const std::string &textureID_, const glm::vec2& uv_) {
     auto tile = Game::entityManager->addTile();
-    auto& tileComponent = Game::entityManager->registry.emplace<TileComponent>(tile.entity, position_, size_, textureID_, uv_);
+    auto& tileComponent = Game::entityManager->registry.emplace<TileComponent>(tile.entity, position_, size_, textureID_);
 
     auto spriteWidth = (tileComponent.texture->getImageSize().x / NUM_TILES_MAP_X) / tileComponent.texture->getImageSize().x;
     auto spriteHeight = (tileComponent.texture->getImageSize().y / NUM_TILES_MAP_Y) / tileComponent.texture->getImageSize().y;
