@@ -12,7 +12,6 @@ class Window {
         ~Window();
         void init(int width_, int height_);
         void render();
-        void destroy();
         bool isRunning();
         void swapBuffer();
         glm::vec2 windowSize() const;

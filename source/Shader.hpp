@@ -11,7 +11,6 @@ class Shader {
         ~Shader();
         GLuint getUniformLocation(const std::string& name_) const;
         void useShader() const;
-        void clearShader() const;
 
     private:
         GLuint shaderID;

@@ -44,7 +44,7 @@ void Game::init() {
     entityManager = std::make_unique<EntityManager>();
 
     // Init Camera
-    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 15.0f));
+    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 200.0f));
 
     // Load textures
     assetsManager = std::make_unique<AssetsManager>();
@@ -54,15 +54,15 @@ void Game::init() {
     assetsManager->loadTexture();
 
     // Load Map
-    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 4.0f, "jungle");
+    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 64.0f, "jungle");
 
     // Load player entity
     player = entityManager->addEntity();
     entityManager->player = player;
 
     entityManager->registry.emplace<TransformComponent>(player.entity, glm::vec2(0.0f, 0.0f),
-                                                        glm::vec2(2.0f, 32.0f * 0.5f * 0.1f),
-                                                        5.0f);
+                                                        glm::vec2(32.0f, 32.0f),
+                                                        100.0f);
 
     entityManager->registry.emplace<KeyboardControlComponent>(player.entity, player);
 
@@ -83,8 +83,8 @@ void Game::init() {
     // Load enemy entity
     auto enemy = entityManager->addEntity();
     entityManager->registry.emplace<TransformComponent>(enemy.entity, glm::vec2(2.0f, 2.0f),
-                                                        glm::vec2(2.0f, 32.0f * 0.5f * 0.1f),
-                                                        5.0f);
+                                                        glm::vec2(32.0f, 32.0f),
+                                                        10.0f);
 
     entityManager->registry.emplace<SpriteComponent>(enemy.entity,
                                                      assetsManager->getTexture("tank-big-down"));
@@ -144,12 +144,4 @@ void Game::render() {
     glUseProgram(0);
 
     window->swapBuffer();
-}
-
-void Game::destroy() {
-    for ( auto& shader : shaders ) {
-        shader.second->clearShader();
-    }
-
-    window->destroy();
 }

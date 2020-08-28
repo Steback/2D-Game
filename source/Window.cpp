@@ -5,7 +5,8 @@
 Window::Window() : window(nullptr), width(0), height(0) {  }
 
 Window::~Window() {
-
+    glfwDestroyWindow(window);
+    glfwTerminate();
 }
 
 void Window::init(int width_, int height_) {
@@ -80,9 +81,4 @@ void Window::keyboardCallback(GLFWwindow *window_, int key_, int scanCode_, int 
             w->keys[key_] = false;
         }
     }
-}
-
-void Window::destroy() {
-    glfwDestroyWindow(window);
-    glfwTerminate();
 }

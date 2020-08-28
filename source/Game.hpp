@@ -5,6 +5,7 @@
 #include <map>
 
 #include "EntityManager.hpp"
+#include "box2d/b2_world.h"
 
 class Window;
 class Shader;
@@ -21,7 +22,6 @@ class Game {
         void init();
         void update() const;
         void render();
-        void destroy();
 
         static std::unique_ptr<Window> window;
         static std::map<std::string, std::unique_ptr<Shader> > shaders;

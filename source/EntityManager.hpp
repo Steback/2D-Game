@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "entt/entt.hpp"
+#include "entt.hpp"
 
 class TileComponent;
 

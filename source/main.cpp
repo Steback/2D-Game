@@ -11,7 +11,5 @@ int main() {
         game.render();
     }
 
-    game.destroy();
-
     return 0;
 }

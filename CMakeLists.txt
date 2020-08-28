@@ -36,15 +36,16 @@ add_subdirectory(dependences/glfw)
 add_subdirectory(dependences/glm)
 
 # {fmt}
-add_subdirectory(dependences/fmt)
+include_directories(dependences/fmt/include)
+add_library(fmt dependences/fmt/src/os.cc dependences/fmt/src/format.cc)
 
 # stb_image
 include_directories(dependences/stb)
 
 # EnTT
-add_subdirectory(dependences/entt)
+include_directories(dependences/entt)
 
 # Box2D
 add_subdirectory(dependences/box2d/src)
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt EnTT box2d)
+target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt box2d)

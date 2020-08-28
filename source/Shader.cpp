@@ -8,7 +8,9 @@ Shader::Shader(const std::string &vertexFilePath_, const std::string &fragmentFi
     compileShader(readFile(vertexFilePath_), readFile(fragmentFilePath_));
 }
 
-Shader::~Shader() = default;
+Shader::~Shader() {
+    if ( shaderID != 0 ) glDeleteProgram(shaderID);
+}
 
 GLuint Shader::getUniformLocation(const std::string &name_) const {
     return glGetUniformLocation(shaderID, name_.c_str());
@@ -16,10 +18,6 @@ GLuint Shader::getUniformLocation(const std::string &name_) const {
 
 void Shader::useShader() const {
     glUseProgram(shaderID);
-}
-
-void Shader::clearShader() const {
-    if ( shaderID != 0 ) glDeleteProgram(shaderID);
 }
 
 void Shader::compileShader(const std::string &vertexCode_, const std::string &fragmentCode_) {

@@ -10,9 +10,7 @@ class MeshComponent {
         MeshComponent(const std::vector<Vertex>& vertices_, const std::vector<GLuint>& indices_)
             : mesh(vertices_, indices_) {  }
 
-        ~MeshComponent() {
-            mesh.clearMesh();
-        }
+        ~MeshComponent() = default;
 
         void render() const {
             mesh.renderMesh();
