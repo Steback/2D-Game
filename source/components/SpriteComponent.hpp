@@ -11,14 +11,15 @@
 class SpriteComponent {
     public:
         std::shared_ptr<Texture> texture{};
-        int indexFrame = 0;
+        int indexFrame{};
         float spriteOffsetX{};
         float spriteOffsetY{};
-        float animatedFrame = 0;
+        float animatedFrame{};
         bool isAnimated;
         float spriteWidth;
         float spriteHeight;
         unsigned int ownerID;
+        float deltaTime{};
 
         explicit SpriteComponent(unsigned int ownerID_, std::shared_ptr<Texture> texture_, bool isAnimated_ = false, int spriteOffsetX_ = 1, int spriteOffsetY_ = 1)
             : ownerID(ownerID_), texture(std::move(texture_)), isAnimated(isAnimated_), spriteOffsetX(static_cast<float>(spriteOffsetX_)),
@@ -31,7 +32,9 @@ class SpriteComponent {
 
         void update(float deltaTime_) {
             if ( isAnimated ) {
-                animatedFrame += deltaTime_ * 10;
+                deltaTime += deltaTime_ * 10;
+
+                if ( deltaTime > 0.5f ) animatedFrame = 1;
 
                 glm::vec2 texCoords = glm::vec2(spriteWidth * animatedFrame, spriteHeight * static_cast<float>(indexFrame));
 
@@ -45,7 +48,10 @@ class SpriteComponent {
                 auto& meshComponent = Game::entityManager->registry.get<MeshComponent>(Game::entityManager->getEntity(ownerID).entity);
                 meshComponent.mesh.setTextureCoords(textureCoords);
 
-                if ( animatedFrame > 1 ) animatedFrame = 0;
+                if ( deltaTime > 1 ) {
+                    animatedFrame = 0;
+                    deltaTime = 0;
+                }
             }
         }
 
