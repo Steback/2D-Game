@@ -32,11 +32,7 @@ Entity& EntityManager::addTile() {
 
 void EntityManager::update(float deltaTime_) {
     for ( auto& entity : entities ) {
-        if ( entity->id == player.id ) {
-            Game::shaders["model"]->useShader();
-        } else {
-            Game::shaders["modelStatic"]->useShader();
-        }
+        Game::shaders["model"]->useShader();
 
         registry.get<TransformComponent>(entity->entity).update();
 
@@ -56,11 +52,7 @@ void EntityManager::updateMap() {
 
 void EntityManager::render() {
     for ( auto& entity : entities ) {
-        if ( entity->id == player.id ) {
-            Game::shaders["model"]->useShader();
-        } else {
-            Game::shaders["modelStatic"]->useShader();
-        }
+        Game::shaders["model"]->useShader();
 
         registry.get<TransformComponent>(entity->entity).render();
         registry.get<SpriteComponent>(entity->entity).render();

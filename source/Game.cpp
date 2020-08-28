@@ -37,8 +37,6 @@ void Game::init() {
 
     // Init Shaders
     shaders.emplace("model", std::make_unique<Shader>("shaders/model.vert", "shaders/model.frag"));
-    shaders.emplace("tile", std::make_unique<Shader>("shaders/tile.vert", "shaders/tile.frag"));
-    shaders.emplace("modelStatic", std::make_unique<Shader>("shaders/modelStatic.vert", "shaders/modelStatic.frag"));
 
     // Init EntityManager
     entityManager = std::make_unique<EntityManager>();
@@ -67,7 +65,7 @@ void Game::init() {
     entityManager->registry.emplace<KeyboardControlComponent>(player.entity, player);
 
     entityManager->registry.emplace<SpriteComponent>(player.entity,
-                                                     assetsManager->getTexture("chopper-spritesheet"),
+                                                     player.id, assetsManager->getTexture("chopper-spritesheet"),
                                                      true, 2, 4);
 
     entityManager->registry.emplace<MeshComponent>(player.entity, std::vector<Vertex>{
@@ -86,7 +84,7 @@ void Game::init() {
                                                         glm::vec2(32.0f, 32.0f),
                                                         10.0f);
 
-    entityManager->registry.emplace<SpriteComponent>(enemy.entity,
+    entityManager->registry.emplace<SpriteComponent>(enemy.entity, enemy.id,
                                                      assetsManager->getTexture("tank-big-down"));
 
     entityManager->registry.emplace<MeshComponent>(enemy.entity, std::vector<Vertex>{
@@ -115,30 +113,20 @@ void Game::update() const {
     auto view = camera->viewMatrix(glm::vec3(transformComponent.position, 0.0f));
     auto projection = camera->projectionMatrix(90.0f, Game::window->windowSize());
 
-    shaders["tile"]->useShader();
-    glUniformMatrix4fv(shaders["tile"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(shaders["tile"]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
-
-    entityManager->updateMap();
-
     shaders["model"]->useShader();
     glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(shaders["model"]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-    shaders["modelStatic"]->useShader();
-    glUniformMatrix4fv(shaders["modelStatic"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(shaders["modelStatic"]->getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection));
-
+    entityManager->updateMap();
     entityManager->update(deltaTime);
 }
 
 void Game::render() {
     window->render();
 
-    shaders["tile"]->useShader();
-    entityManager->renderMap();
-
     shaders["model"]->useShader();
+
+    entityManager->renderMap();
     entityManager->render();
 
     glUseProgram(0);
