@@ -1,10 +1,8 @@
 #include "Mesh.hpp"
 
-#include <utility>
-
-Mesh::Mesh(std::vector<Vertex>  vertices_, std::vector<GLuint>  indices_)
-    : vertices(std::move(vertices_)), indices(std::move(indices_)) {
-    createMesh(vertices, indices);
+Mesh::Mesh(const std::vector<Vertex>&  vertices_, const std::vector<GLuint>&  indices_)
+    :  indexCount(indices_.size()) {
+    createMesh(vertices_, indices_);
 }
 
 Mesh::~Mesh() {
@@ -24,6 +22,27 @@ Mesh::~Mesh() {
 }
 
 void Mesh::createMesh(const std::vector<Vertex>& vertices_, const std::vector<GLuint>& indices_) {
+    std::vector<glm::vec2> verticesPositions {
+            vertices_[0].position,
+            vertices_[1].position,
+            vertices_[2].position,
+            vertices_[3].position
+    };
+
+    std::vector<glm::vec3> verticesColor {
+            vertices_[0].color,
+            vertices_[1].color,
+            vertices_[2].color,
+            vertices_[3].color
+    };
+
+    std::vector<glm::vec2> verticesTextCoords{
+            vertices_[0].texCoord,
+            vertices_[1].texCoord,
+            vertices_[2].texCoord,
+            vertices_[3].texCoord
+    };
+
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
@@ -34,22 +53,22 @@ void Mesh::createMesh(const std::vector<Vertex>& vertices_, const std::vector<GL
     glGenBuffers(3, VBO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_[0].position) * vertices_.size(), &vertices_[0].position, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesPositions[0]) * vertices_.size(), &verticesPositions[0], GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(verticesPositions[0]), nullptr);
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_[0].color) * vertices_.size(), &vertices_[0].color, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesColor[0]) * vertices_.size(), &verticesColor[0], GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(verticesColor[0]), nullptr);
     glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_[0].texCoord) * vertices_.size(), &vertices_[0].texCoord, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesTextCoords[0]) * vertices_.size(), &verticesTextCoords[0], GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(verticesTextCoords[0]), nullptr);
     glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     glBindVertexArray(0);
 }
@@ -58,16 +77,18 @@ void Mesh::renderMesh() const {
     glBindVertexArray(VAO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices[0].position) * vertices.size(), &vertices[0].position);
+    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices[0].color) * vertices.size(), &vertices[0].position);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices[0].texCoord) * vertices.size(), &vertices[0].position);
+void Mesh::setTextureCoords(std::vector<glm::vec2> textureCoords_) {
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(textureCoords_[0]) * textureCoords_.size(), &textureCoords_[0]);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);

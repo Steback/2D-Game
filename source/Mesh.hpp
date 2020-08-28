@@ -16,14 +16,15 @@ struct Vertex {
 
 class Mesh {
     public:
-        Mesh(std::vector<Vertex>  vertices_, std::vector<GLuint>  indices_);
+        Mesh(const std::vector<Vertex>&  vertices_, const std::vector<GLuint>&  indices_);
         ~Mesh();
         void renderMesh() const;
+        void setTextureCoords(std::vector<glm::vec2> textureCoords_);
 
     private:
         GLuint VAO{}, VBO[3]{}, IBO{};
-        std::vector<Vertex> vertices;
-        std::vector<GLuint> indices;
+        GLuint indexCount;
+
         void createMesh(const std::vector<Vertex>& vertices_, const std::vector<GLuint>& indices_);
 };
 
