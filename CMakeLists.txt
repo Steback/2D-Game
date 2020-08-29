@@ -33,8 +33,7 @@ add_subdirectory(dependences/glfw)
 add_subdirectory(dependences/glm)
 
 # {fmt}
-include_directories(dependences/fmt/include)
-add_library(fmt dependences/fmt/src/os.cc dependences/fmt/src/format.cc)
+add_subdirectory(dependences/fmt)
 
 # stb_image
 include_directories(dependences/stb)
