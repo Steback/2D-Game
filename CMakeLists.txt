@@ -19,12 +19,10 @@ set_target_properties(
 find_package(OpenGL REQUIRED)
 
 # glad
-set(GLAD_DIR dependences/glad)
+add_library(glad dependences/glad/src/glad.c)
 
-add_library(glad ${GLAD_DIR}/src/glad.c)
-
-target_include_directories(glad PRIVATE ${GLAD_DIR}/include)
-target_include_directories(${PROJECT_NAME} PRIVATE ${GLAD_DIR}/include)
+target_include_directories(glad PRIVATE dependences/glad/include)
+target_include_directories(${PROJECT_NAME} PRIVATE dependences/glad/include)
 
 # glfw
 add_subdirectory(dependences/glfw)
