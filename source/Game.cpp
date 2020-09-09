@@ -16,6 +16,7 @@
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
 #include "components/MeshComponent.hpp"
+#include "components/CollisionComponent.hpp"
 
 // static objects
 std::unique_ptr<Window> Game::window;
@@ -23,13 +24,17 @@ std::map<std::string, std::unique_ptr<Shader> > Game::shaders;
 std::unique_ptr<EntityManager> Game::entityManager;
 std::unique_ptr<Camera> Game::camera;
 std::unique_ptr<AssetsManager> Game::assetsManager;
+std::unique_ptr<b2World> Game::world;
 
 // Global variables
 float lastFrame = 0;
 
-Game::Game()  = default;
+Game::Game() = default;
 
-Game::~Game() = default;
+
+Game::~Game() {
+    delete listener;
+}
 
 void Game::init() {
     window = std::make_unique<Window>();
@@ -42,7 +47,7 @@ void Game::init() {
     entityManager = std::make_unique<EntityManager>();
 
     // Init Camera
-    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 200.0f));
+    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 100.0f));
 
     // Load textures
     assetsManager = std::make_unique<AssetsManager>();
@@ -52,21 +57,29 @@ void Game::init() {
     assetsManager->loadTexture();
 
     // Load Map
-    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 64.0f, "jungle");
+    Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 32.0f, "jungle");
+
+    b2Vec2 gravity;
+    gravity.Set(0.0f, -10.0f);
+    world = std::make_unique<b2World>(gravity);
 
     // Load player entity
     player = entityManager->addEntity();
     entityManager->player = player;
 
-    entityManager->registry.emplace<TransformComponent>(player.entity, glm::vec2(0.0f, 0.0f),
-                                                        glm::vec2(32.0f, 32.0f),
-                                                        100.0f);
+    auto playerTC = entityManager->registry.emplace<TransformComponent>(player.entity, glm::vec2(0.0f, 0.0f),
+                                                        glm::vec2(16.0f, 16.0f),
+                                                        50.0f);
 
     entityManager->registry.emplace<KeyboardControlComponent>(player.entity, player);
 
     entityManager->registry.emplace<SpriteComponent>(player.entity,
                                                      player.id, assetsManager->getTexture("chopper-spritesheet"),
                                                      true, 2, 4);
+
+    entityManager->registry.emplace<CollisionComponent>(player.entity, PLAYER_LAYER,
+                                                        b2Vec2{playerTC.size.x, playerTC.size.y},
+                                                        b2Vec2{playerTC.position.x, playerTC.position.y});
 
     entityManager->registry.emplace<MeshComponent>(player.entity, std::vector<Vertex>{
             {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 2, 0.0f) },
@@ -80,12 +93,16 @@ void Game::init() {
 
     // Load enemy entity
     auto enemy = entityManager->addEntity();
-    entityManager->registry.emplace<TransformComponent>(enemy.entity, glm::vec2(2.0f, 2.0f),
-                                                        glm::vec2(32.0f, 32.0f),
+    auto enemyTC = entityManager->registry.emplace<TransformComponent>(enemy.entity, glm::vec2(50.0f, 30.0f),
+                                                        glm::vec2(16.0f, 16.0f),
                                                         10.0f);
 
     entityManager->registry.emplace<SpriteComponent>(enemy.entity, enemy.id,
                                                      assetsManager->getTexture("tank-big-down"));
+
+    entityManager->registry.emplace<CollisionComponent>(enemy.entity, ENEMY_LAYER,
+                                                        b2Vec2{enemyTC.size.x, enemyTC.size.y},
+                                                        b2Vec2{enemyTC.position.x, enemyTC.position.y});
 
     entityManager->registry.emplace<MeshComponent>(enemy.entity, std::vector<Vertex>{
             {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f) },
@@ -97,6 +114,8 @@ void Game::init() {
             0, 3, 2
     });
 
+    listener = new b2ContactListener;
+    world->SetContactListener(listener);
 }
 
 void Game::update() const {

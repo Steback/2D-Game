@@ -9,6 +9,7 @@
 #include "components/KeyboardControlComponent.hpp"
 #include "components/TileComponent.hpp"
 #include "components/MeshComponent.hpp"
+#include "components/CollisionComponent.hpp"
 
 EntityManager::EntityManager() = default;
 
@@ -34,11 +35,14 @@ void EntityManager::update(float deltaTime_) {
     for ( auto& entity : entities ) {
         Game::shaders["model"]->useShader();
 
-        registry.get<TransformComponent>(entity->entity).update();
+        auto& tc = registry.get<TransformComponent>(entity->entity);
+        tc.update();
 
         if ( entity->id == player.id ) {
             registry.get<KeyboardControlComponent>(entity->entity).update(deltaTime_);
         }
+
+        registry.get<CollisionComponent>(entity->entity).update(b2Vec2{tc.position.x, tc.position.y});
 
         registry.get<SpriteComponent>(entity->entity).update(deltaTime_);
     }

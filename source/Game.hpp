@@ -4,8 +4,9 @@
 #include <memory>
 #include <map>
 
-#include "EntityManager.hpp"
 #include "box2d/b2_world.h"
+
+#include "EntityManager.hpp"
 
 class Window;
 class Shader;
@@ -28,6 +29,8 @@ class Game {
         static std::unique_ptr<EntityManager> entityManager;
         static std::unique_ptr<Camera> camera;
         static std::unique_ptr<AssetsManager> assetsManager;
+        static std::unique_ptr<b2World> world;
+        static b2ContactListener* listener;
 
     private:
         Entity player{};
