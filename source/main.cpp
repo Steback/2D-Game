@@ -11,5 +11,7 @@ int main() {
         game.render();
     }
 
+    game.clear();
+
     return 0;
 }

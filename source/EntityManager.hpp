@@ -25,6 +25,7 @@ class EntityManager {
         void updateMap();
         void render();
         void renderMap();
+        void clearBodys();
         Entity& getEntity(unsigned int id_);
         Entity& getTile(unsigned int id_);
 

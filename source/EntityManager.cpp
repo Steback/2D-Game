@@ -4,6 +4,8 @@
 #include "Mesh.hpp"
 #include "Camera.hpp"
 #include "Window.hpp"
+#include "ContactListener.hpp"
+#include "Game.hpp"
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
@@ -77,4 +79,13 @@ Entity& EntityManager::getEntity(unsigned int id_) {
 
 Entity& EntityManager::getTile(unsigned int id_) {
     return *tiles[id_ - 1];
+}
+
+void EntityManager::clearBodys() {
+    auto view = registry.view<CollisionComponent>();
+
+    for ( auto& entity : view ) {
+        auto& collisionC = registry.get<CollisionComponent>(entity);
+        Game::contactListener->DestroyBody(collisionC.body);
+    }
 }

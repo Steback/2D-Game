@@ -15,6 +15,7 @@ class Texture;
 class EntityManager;
 class Camera;
 class AssetsManager;
+class ContactListener;
 
 class Game {
     public:
@@ -23,14 +24,14 @@ class Game {
         void init();
         void update() const;
         void render();
+        void clear();
 
         static std::unique_ptr<Window> window;
         static std::map<std::string, std::unique_ptr<Shader> > shaders;
         static std::unique_ptr<EntityManager> entityManager;
         static std::unique_ptr<Camera> camera;
         static std::unique_ptr<AssetsManager> assetsManager;
-        static std::unique_ptr<b2World> world;
-        static b2ContactListener* listener;
+        static std::unique_ptr<ContactListener> contactListener;
 
     private:
         Entity player{};

@@ -12,6 +12,7 @@
 #include "Camera.hpp"
 #include "AssetsManager.hpp"
 #include "Map.hpp"
+#include "ContactListener.hpp"
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
@@ -24,17 +25,14 @@ std::map<std::string, std::unique_ptr<Shader> > Game::shaders;
 std::unique_ptr<EntityManager> Game::entityManager;
 std::unique_ptr<Camera> Game::camera;
 std::unique_ptr<AssetsManager> Game::assetsManager;
-std::unique_ptr<b2World> Game::world;
+std::unique_ptr<ContactListener> Game::contactListener;
 
 // Global variables
 float lastFrame = 0;
 
 Game::Game() = default;
 
-
-Game::~Game() {
-    delete listener;
-}
+Game::~Game() = default;
 
 void Game::init() {
     window = std::make_unique<Window>();
@@ -56,12 +54,11 @@ void Game::init() {
     assetsManager->addTexture("tank-big-down", "assets/images/tank-big-down.png");
     assetsManager->loadTexture();
 
+    // Init contact listener
+    contactListener = std::make_unique<ContactListener>();
+
     // Load Map
     Map::loadMap("levels/level-1.map", glm::vec2(25, 20), 32.0f, "jungle");
-
-    b2Vec2 gravity;
-    gravity.Set(0.0f, -10.0f);
-    world = std::make_unique<b2World>(gravity);
 
     // Load player entity
     player = entityManager->addEntity();
@@ -77,9 +74,10 @@ void Game::init() {
                                                      player.id, assetsManager->getTexture("chopper-spritesheet"),
                                                      true, 2, 4);
 
-    entityManager->registry.emplace<CollisionComponent>(player.entity, PLAYER_LAYER,
+    entityManager->registry.emplace<CollisionComponent>(player.entity,
                                                         b2Vec2{playerTC.size.x, playerTC.size.y},
-                                                        b2Vec2{playerTC.position.x, playerTC.position.y});
+                                                        b2Vec2{playerTC.position.x, playerTC.position.y},
+                                                        PLAYER);
 
     entityManager->registry.emplace<MeshComponent>(player.entity, std::vector<Vertex>{
             {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f / 2, 0.0f) },
@@ -100,9 +98,10 @@ void Game::init() {
     entityManager->registry.emplace<SpriteComponent>(enemy.entity, enemy.id,
                                                      assetsManager->getTexture("tank-big-down"));
 
-    entityManager->registry.emplace<CollisionComponent>(enemy.entity, ENEMY_LAYER,
+    entityManager->registry.emplace<CollisionComponent>(enemy.entity,
                                                         b2Vec2{enemyTC.size.x, enemyTC.size.y},
-                                                        b2Vec2{enemyTC.position.x, enemyTC.position.y});
+                                                        b2Vec2{enemyTC.position.x, enemyTC.position.y},
+                                                        ENEMY);
 
     entityManager->registry.emplace<MeshComponent>(enemy.entity, std::vector<Vertex>{
             {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f) },
@@ -113,9 +112,6 @@ void Game::init() {
             1, 3, 2,
             0, 3, 2
     });
-
-    listener = new b2ContactListener;
-    world->SetContactListener(listener);
 }
 
 void Game::update() const {
@@ -151,4 +147,8 @@ void Game::render() {
     glUseProgram(0);
 
     window->swapBuffer();
+}
+
+void Game::clear() {
+    entityManager->clearBodys();
 }
