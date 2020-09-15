@@ -3,7 +3,7 @@
 #include "ContactListener.hpp"
 
 ContactListener::ContactListener() {
-    world = std::make_unique<b2World>(b2Vec2_zero);
+    world = std::make_unique<b2World>(b2Vec2(0.0f, -10.0f));
     world->SetContactListener(this);
 }
 
@@ -32,7 +32,7 @@ void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold
     b2WorldManifold worldManifold;
     contact->GetWorldManifold(&worldManifold);
 
-    for (int32 i = 0; i < manifold->pointCount && m_pointCount < 10 ; ++i)
+    for (int32 i = 0; i < manifold->pointCount && m_pointCount < k_maxContactPoints; ++i)
     {
         ContactPoint* cp = m_points + m_pointCount;
         cp->fixtureA = fixtureA;
@@ -57,4 +57,8 @@ b2Body *ContactListener::CreateBody(const b2BodyDef *def) {
 
 void ContactListener::DestroyBody(b2Body *body) {
     world->DestroyBody(body);
+}
+
+void ContactListener::Step(float timeStep_, int32 velocityIterations_, int32 positionIterations_) {
+    world->Step(timeStep_, velocityIterations_, positionIterations_);
 }

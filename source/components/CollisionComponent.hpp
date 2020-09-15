@@ -11,27 +11,23 @@
 
 class CollisionComponent {
     public:
-        b2PolygonShape polygon;
         b2Body* body;
-        b2BodyDef bodyDef;
-        b2FixtureDef boxShapeDef;
 
         CollisionComponent(b2Vec2 size_, b2Vec2 position_, EntityType type_) {
-            polygon.SetAsBox(size_.x / 2, size_.y / 2);
-
-            bodyDef.type = ( type_ == PLAYER ? b2_dynamicBody : b2_staticBody );
-            bodyDef.position = position_;
+            b2BodyDef bodyDef;
+            bodyDef.type = b2_dynamicBody;
+            bodyDef.position.Set(position_.x, position_.y);
             bodyDef.angle = 0.0f;
 
             body = Game::contactListener->CreateBody(&bodyDef);
 
+            b2PolygonShape polygon;
+            polygon.SetAsBox(size_.x / 2, size_.y / 2);
+
+            b2FixtureDef boxShapeDef;
             boxShapeDef.shape = &polygon;
             boxShapeDef.density = 1.0f;
             boxShapeDef.restitution = 0.1f;
-
-            boxShapeDef.filter.categoryBits = ( type_ == PLAYER ? PLAYER_CATEGORY : ENEMY_CATEGORY );
-            boxShapeDef.filter.maskBits = ( type_ == PLAYER ? PLAYER_MASK : ENEMY_MASK );
-            boxShapeDef.filter.groupIndex = COLLIDE;
 
             body->CreateFixture(&boxShapeDef);
         }
@@ -39,7 +35,9 @@ class CollisionComponent {
         ~CollisionComponent() = default;
 
         void update(b2Vec2 position_) {
-            body->SetTransform(position_, 0.0f);
+            body->SetTransform(position_, body->GetAngle());
+
+//            fmt::print("{}, {}\n", body->GetPosition().x, body->GetPosition().y);
         }
 };
 

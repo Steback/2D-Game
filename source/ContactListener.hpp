@@ -6,6 +6,8 @@
 #include "box2d/box2d.h"
 #include "box2d/b2_contact.h"
 
+const int32 k_maxContactPoints = 2048;
+
 struct ContactPoint {
     b2Fixture* fixtureA;
     b2Fixture* fixtureB;
@@ -26,10 +28,11 @@ class ContactListener : public b2ContactListener {
         void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
         b2Body* CreateBody(const b2BodyDef* def);
         void DestroyBody(b2Body* body);
+        void Step(float timeStep, int32 velocityIterations, int32 positionIterations);
 
     private:
         std::unique_ptr<b2World> world;
-        ContactPoint m_points[10];
+        ContactPoint m_points[k_maxContactPoints];
         int32 m_pointCount;
 };
 

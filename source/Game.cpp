@@ -121,6 +121,9 @@ void Game::update() const {
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
+    float timeStep = 1.0f / 60.0f;
+    contactListener->Step(deltaTime, 0, 0);
+
     auto& transformComponent = entityManager->registry.get<TransformComponent>(player.entity);
 
     camera->setCamPosition(transformComponent.position);
