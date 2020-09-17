@@ -82,3 +82,9 @@ void Window::keyboardCallback(GLFWwindow *window_, int key_, int scanCode_, int 
         }
     }
 }
+
+void Window::windowShouldClose(bool close_) {
+    if ( close_ ) {
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+    }
+}

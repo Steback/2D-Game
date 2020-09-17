@@ -16,6 +16,7 @@ class Window {
         void swapBuffer();
         glm::vec2 windowSize() const;
         bool* getKeys();
+        void windowShouldClose(bool close_);
 
     private:
         GLFWwindow* window;

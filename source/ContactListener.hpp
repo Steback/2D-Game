@@ -19,9 +19,11 @@ class ContactListener : public b2ContactListener {
         b2Body* CreateBody(const b2BodyDef *def);
         void DestroyBody(b2Body* body);
         void Step(float timeStep, int32 velocityIterations, int32 positionIterations);
+        [[nodiscard]] bool GameOver() const;
 
     private:
         std::unique_ptr<b2World> world;
+        bool gameOver{};
 };
 
 #endif

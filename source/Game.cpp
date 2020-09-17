@@ -117,6 +117,8 @@ void Game::init() {
 void Game::update() const {
     glfwPollEvents();
 
+    window->windowShouldClose(contactListener->GameOver());
+
     auto currentFrame = static_cast<float>(glfwGetTime());
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;

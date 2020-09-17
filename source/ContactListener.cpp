@@ -17,12 +17,6 @@ void ContactListener::EndContact(b2Contact *contact) {
 }
 
 void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
-//    b2WorldManifold worldManifold;
-//    contact->GetWorldManifold(&worldManifold);
-//
-//    b2PointState state1[2], state2[2];
-//    b2GetPointStates(state1, state2, oldManifold, contact->GetManifold());
-
     auto* bodyA = contact->GetFixtureA()->GetBody();
     auto* bodyB = contact->GetFixtureB()->GetBody();
 
@@ -30,7 +24,7 @@ void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold
     auto entityTypeB = *static_cast<EntityType*>(bodyB->GetUserData());
 
     if ( entityTypeA == PLAYER && entityTypeB == ENEMY ) {
-        fmt::print("GAME OVER!\n");
+        gameOver = true;
     }
 }
 
@@ -48,4 +42,8 @@ void ContactListener::DestroyBody(b2Body *body) {
 
 void ContactListener::Step(float timeStep_, int32 velocityIterations_, int32 positionIterations_) {
     world->Step(timeStep_, velocityIterations_, positionIterations_);
+}
+
+bool ContactListener::GameOver() const {
+    return gameOver;
 }
