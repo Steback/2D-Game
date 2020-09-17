@@ -8,12 +8,14 @@
 #include "../Constants.hpp"
 #include "../Game.hpp"
 #include "../ContactListener.hpp"
+#include "../EntityManager.hpp"
 
 class CollisionComponent {
     public:
         b2Body* body;
+        b2PolygonShape polygon;
 
-        CollisionComponent(b2Vec2 size_, b2Vec2 position_, EntityType type_) {
+        CollisionComponent(b2Vec2 size_, b2Vec2 position_, unsigned int entityID_) {
             b2BodyDef bodyDef;
             bodyDef.type = b2_dynamicBody;
             bodyDef.position.Set(position_.x, position_.y);
@@ -21,7 +23,6 @@ class CollisionComponent {
 
             body = Game::contactListener->CreateBody(&bodyDef);
 
-            b2PolygonShape polygon;
             polygon.SetAsBox(size_.x / 2, size_.y / 2);
 
             b2FixtureDef boxShapeDef;
@@ -29,15 +30,17 @@ class CollisionComponent {
             boxShapeDef.density = 1.0f;
             boxShapeDef.restitution = 0.1f;
 
+            body->SetUserData(static_cast<void*>(&Game::entityManager->getEntity(entityID_).type));
+
             body->CreateFixture(&boxShapeDef);
         }
 
         ~CollisionComponent() = default;
 
-        void update(b2Vec2 position_) {
+        void update(b2Vec2 position_) const {
             body->SetTransform(position_, body->GetAngle());
 
-//            fmt::print("{}, {}\n", body->GetPosition().x, body->GetPosition().y);
+//            fmt::print("{}\n", *static_cast<EntityType*>(userData));
         }
 };
 

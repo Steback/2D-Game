@@ -17,10 +17,10 @@ EntityManager::EntityManager() = default;
 
 EntityManager::~EntityManager() = default;
 
-Entity& EntityManager::addEntity() {
+Entity& EntityManager::addEntity(EntityType type_) {
     auto entity = registry.create();
 
-    entities.emplace_back(new Entity(entities.size() + 1, entity));
+    entities.emplace_back(new Entity(entities.size() + 1, entity, type_));
 
     return *entities[entities.size() - 1];
 }
@@ -28,7 +28,7 @@ Entity& EntityManager::addEntity() {
 Entity& EntityManager::addTile() {
     auto tile = registry.create();
 
-    tiles.emplace_back(new Entity(tiles.size() + 1, tile));
+    tiles.emplace_back(new Entity(tiles.size() + 1, tile, TILE));
 
     return *tiles[tiles.size() - 1];
 }
@@ -40,7 +40,7 @@ void EntityManager::update(float deltaTime_) {
         auto& tc = registry.get<TransformComponent>(entity->entity);
         tc.update();
 
-        if ( entity->id == player.id ) {
+        if ( entity->type == PLAYER ) {
             registry.get<KeyboardControlComponent>(entity->entity).update(deltaTime_);
         }
 

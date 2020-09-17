@@ -1,5 +1,6 @@
 #include "fmt/core.h"
 
+#include "EntityManager.hpp"
 #include "ContactListener.hpp"
 
 ContactListener::ContactListener() {
@@ -16,34 +17,20 @@ void ContactListener::EndContact(b2Contact *contact) {
 }
 
 void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
-    const b2Manifold* manifold = contact->GetManifold();
+//    b2WorldManifold worldManifold;
+//    contact->GetWorldManifold(&worldManifold);
+//
+//    b2PointState state1[2], state2[2];
+//    b2GetPointStates(state1, state2, oldManifold, contact->GetManifold());
 
-    if (manifold->pointCount == 0)
-    {
-        return;
-    }
+    auto* bodyA = contact->GetFixtureA()->GetBody();
+    auto* bodyB = contact->GetFixtureB()->GetBody();
 
-    b2Fixture* fixtureA = contact->GetFixtureA();
-    b2Fixture* fixtureB = contact->GetFixtureB();
+    auto entityTypeA = *static_cast<EntityType*>(bodyA->GetUserData());
+    auto entityTypeB = *static_cast<EntityType*>(bodyB->GetUserData());
 
-    b2PointState state1[b2_maxManifoldPoints], state2[b2_maxManifoldPoints];
-    b2GetPointStates(state1, state2, oldManifold, manifold);
-
-    b2WorldManifold worldManifold;
-    contact->GetWorldManifold(&worldManifold);
-
-    for (int32 i = 0; i < manifold->pointCount && m_pointCount < k_maxContactPoints; ++i)
-    {
-        ContactPoint* cp = m_points + m_pointCount;
-        cp->fixtureA = fixtureA;
-        cp->fixtureB = fixtureB;
-        cp->position = worldManifold.points[i];
-        cp->normal = worldManifold.normal;
-        cp->state = state2[i];
-        cp->normalImpulse = manifold->points[i].normalImpulse;
-        cp->tangentImpulse = manifold->points[i].tangentImpulse;
-        cp->separation = worldManifold.separations[i];
-        ++m_pointCount;
+    if ( entityTypeA == PLAYER && entityTypeB == ENEMY ) {
+        fmt::print("GAME OVER!\n");
     }
 }
 
