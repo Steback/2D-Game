@@ -3,6 +3,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "fmt/core.h"
+#include "tinyxml2.h"
 
 #include "Game.hpp"
 #include "Window.hpp"
@@ -49,9 +50,23 @@ void Game::init() {
 
     // Load textures
     assetsManager = std::make_unique<AssetsManager>();
-    assetsManager->addTexture("chopper-spritesheet", "assets/images/chopper-spritesheet.png");
-    assetsManager->addTexture("jungle", "assets/tilemaps/jungle.png");
-    assetsManager->addTexture("tank-big-down", "assets/images/tank-big-down.png");
+
+    tinyxml2::XMLDocument assets;
+
+    // Load tile assets
+    if ( assets.LoadFile("assets/images.xml") != tinyxml2::XML_SUCCESS ) {
+        fmt::print(stderr, "Error loading XML file\n");
+    }
+
+    tinyxml2::XMLNode* asset = assets.RootElement()->FirstChild();
+
+    while ( asset != nullptr ) {
+        assetsManager->addTexture( asset->FirstChildElement("name")->FirstChild()->Value(),
+                                   asset->FirstChildElement("path")->FirstChild()->Value() );
+
+        asset = asset->NextSibling();
+    }
+
     assetsManager->loadTexture();
 
     // Init contact listener

@@ -1,0 +1,14 @@
+<Sprites>
+    <Sprite>
+        <name>jungle</name>
+        <path>assets/tilemaps/jungle.png</path>
+    </Sprite>
+    <Sprite>
+        <name>chopper-spritesheet</name>
+        <path>assets/images/chopper-spritesheet.png</path>
+    </Sprite>
+    <Sprite>
+        <name>tank-big-down</name>
+        <path>assets/images/tank-big-down.png</path>
+    </Sprite>
+</Sprites>

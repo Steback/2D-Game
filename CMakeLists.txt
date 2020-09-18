@@ -42,4 +42,8 @@ include_directories(dependences/entt)
 # Box2D
 add_subdirectory(dependences/box2d/src)
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt box2d)
+# Tinyxml2
+add_subdirectory(dependences/tinyxml2)
+include_directories(dependences/tinyxml2)
+
+target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt box2d tinyxml2)
