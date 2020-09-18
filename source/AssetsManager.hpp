@@ -12,8 +12,9 @@ class AssetsManager {
         AssetsManager();
         ~AssetsManager();
         void addTexture(const std::string& textureID_, const std::string& filePath_);
-        void loadTexture();
+        void loadTextures();
         std::shared_ptr<Texture> getTexture(const std::string& textureID_);
+        void loadSprites(const std::string& filePath_);
 
     private:
         std::map<std::string, std::shared_ptr<Texture> > textures;

@@ -1,3 +1,6 @@
+#include "tinyxml2.h"
+#include "fmt/core.h"
+
 #include "AssetsManager.hpp"
 #include "Texture.hpp"
 
@@ -9,7 +12,7 @@ void AssetsManager::addTexture(const std::string &textureID_, const std::string 
     textures.emplace(textureID_, std::make_shared<Texture>(filePath_));
 }
 
-void AssetsManager::loadTexture() {
+void AssetsManager::loadTextures() {
     for ( auto& texture : textures ) {
         texture.second->loadTexture();
     }
@@ -17,4 +20,21 @@ void AssetsManager::loadTexture() {
 
 std::shared_ptr<Texture> AssetsManager::getTexture(const std::string &textureID_) {
     return textures[textureID_];
+}
+
+void AssetsManager::loadSprites(const std::string &filePath_) {
+    tinyxml2::XMLDocument assets;
+
+    if ( assets.LoadFile(filePath_.c_str()) != tinyxml2::XML_SUCCESS ) {
+        fmt::print(stderr, "Error loading XML file\n");
+    }
+
+    tinyxml2::XMLNode* sprite = assets.RootElement()->FirstChild();
+
+    while ( sprite != nullptr ) {
+        addTexture( sprite->FirstChildElement("name")->FirstChild()->Value(),
+                                   sprite->FirstChildElement("path")->FirstChild()->Value() );
+
+        sprite = sprite->NextSibling();
+    }
 }
