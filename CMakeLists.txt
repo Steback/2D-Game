@@ -46,4 +46,11 @@ add_subdirectory(dependences/box2d/src)
 add_subdirectory(dependences/tinyxml2)
 include_directories(dependences/tinyxml2)
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt box2d tinyxml2)
+# Lua
+add_subdirectory(dependences/lua)
+include_directories(dependences/lua)
+
+# sol2
+include_directories(dependences/sol2)
+
+target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt box2d tinyxml2 lua)
