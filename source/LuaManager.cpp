@@ -34,8 +34,6 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
         stringSize--;
     }
 
-    fmt::print("{}\n", levelName);
-
     lua.script_file(filePath_);
 
     sol::table levelData = lua[levelName];

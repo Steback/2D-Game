@@ -42,7 +42,7 @@ void Game::init() {
     entityManager = std::make_unique<EntityManager>();
 
     // Init Camera
-    camera = std::make_unique<Camera>(glm::vec3(0.0f, 0.0f, 100.0f));
+    camera = std::make_unique<Camera>(4, -1.0f, 1.0f);
 
     // Load textures
     assetsManager = std::make_unique<AssetsManager>();
@@ -69,10 +69,10 @@ void Game::update() const {
 
     auto& transformComponent = entityManager->registry.get<TransformComponent>(player.entity);
 
-    camera->setCamPosition(transformComponent.position);
+    fmt::print("{}, {}\n", transformComponent.position.x, transformComponent.position.y);
 
-    auto view = camera->viewMatrix(glm::vec3(transformComponent.position, 0.0f));
-    auto projection = camera->projectionMatrix(90.0f, Game::window->windowSize());
+    auto view = camera->viewMatrix(glm::vec2(transformComponent.position));
+    auto projection = camera->projectionMatrix(Game::window->windowSize());
 
     shaders["model"]->useShader();
     glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));

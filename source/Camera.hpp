@@ -6,15 +6,15 @@
 
 class Camera {
     public:
-        explicit Camera(glm::vec3 position_);
+        Camera(float scale_, float nearPlane_, float farPlane_);
         ~Camera();
-        glm::mat4 viewMatrix(glm::vec3 center_);
-        glm::mat4 projectionMatrix(float fov_, glm::vec2 windowSize_) const;
-        void setCamPosition(glm::vec2 position_);
+        glm::mat4 viewMatrix(glm::vec2 position_);
+        glm::mat4 projectionMatrix(glm::vec2 windowSize_) const;
 
     private:
-        glm::vec3 position;
-        glm::vec2 up;
+        glm::vec2 position;
+        glm::mat4 view;
+        float scale;
         float nearPlane;
         float farPlane;
 };
