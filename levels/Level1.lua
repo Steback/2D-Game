@@ -5,7 +5,7 @@ Level1 = {
         tileSize = 32,
         size = {
             width = 25,
-            heigth = 20
+            height = 20
         }
     },
 

@@ -41,8 +41,8 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
     // LOADS MAP FORM LUA CONFIG FILE
     sol::table levelMap = levelData["map"];
 
-    Map::loadMap(levelMap["file"],
-                 glm::vec2(levelMap["size"]["width"], levelMap["size"]["heigth"]),
+    Game::map->loadMap(levelMap["file"],
+                 glm::vec2(levelMap["size"]["width"], levelMap["size"]["height"]),
                  levelMap["tileSize"],
                  levelMap["textureID"]);
 

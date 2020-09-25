@@ -14,6 +14,7 @@
 #include "AssetsManager.hpp"
 #include "ContactListener.hpp"
 #include "LuaManager.hpp"
+#include "Map.hpp"
 #include "components/TransformComponent.hpp"
 
 // static objects
@@ -23,6 +24,7 @@ std::unique_ptr<EntityManager> Game::entityManager;
 std::unique_ptr<Camera> Game::camera;
 std::unique_ptr<AssetsManager> Game::assetsManager;
 std::unique_ptr<ContactListener> Game::contactListener;
+std::unique_ptr<Map> Game::map;
 
 // Global variables
 float lastFrame = 0;
@@ -42,7 +44,7 @@ void Game::init() {
     entityManager = std::make_unique<EntityManager>();
 
     // Init Camera
-    camera = std::make_unique<Camera>(4, -1.0f, 1.0f);
+    camera = std::make_unique<Camera>(0.25f, -1.0f, 1.0f);
 
     // Load textures
     assetsManager = std::make_unique<AssetsManager>();
@@ -51,6 +53,9 @@ void Game::init() {
 
     // Init contact listener
     contactListener = std::make_unique<ContactListener>();
+
+    // Init map
+    map = std::make_unique<Map>();
 
     // Load player entity
     LuaManager::loadFile("levels/Level1.lua", player);
@@ -69,7 +74,7 @@ void Game::update() const {
 
     auto& transformComponent = entityManager->registry.get<TransformComponent>(player.entity);
 
-    fmt::print("{}, {}\n", transformComponent.position.x, transformComponent.position.y);
+//    fmt::print("{}, {}\n", transformComponent.position.x, transformComponent.position.y);
 
     auto view = camera->viewMatrix(glm::vec2(transformComponent.position));
     auto projection = camera->projectionMatrix(Game::window->windowSize());

@@ -10,7 +10,8 @@ const int NUM_TILES_MAP_Y = 3;
 enum EntityType {
     PLAYER = 0,
     ENEMY = 1,
-    TILE = 2
+    TILE = 2,
+    MAP = 3
 };
 
 #endif

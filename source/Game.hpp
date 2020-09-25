@@ -16,6 +16,7 @@ class EntityManager;
 class Camera;
 class AssetsManager;
 class ContactListener;
+class Map;
 
 class Game {
     public:
@@ -32,6 +33,7 @@ class Game {
         static std::unique_ptr<Camera> camera;
         static std::unique_ptr<AssetsManager> assetsManager;
         static std::unique_ptr<ContactListener> contactListener;
+        static std::unique_ptr<Map> map;
 
     private:
         Entity player{};

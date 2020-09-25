@@ -26,6 +26,10 @@ void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold
     if ( entityTypeA == PLAYER && entityTypeB == ENEMY ) {
         gameOver = true;
     }
+
+    if ( entityTypeB == PLAYER && entityTypeA == MAP ) {
+        fmt::print("OUT OF MAP!\n");
+    }
 }
 
 void ContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse) {
