@@ -7,6 +7,7 @@
 #include "box2d/box2d.h"
 #include "box2d/b2_shape.h"
 
+#include "EntityManager.hpp"
 #include "Constants.hpp"
 
 class Map {
@@ -14,10 +15,13 @@ class Map {
         Map();
         ~Map();
         void loadMap(const std::string& filePath_, glm::vec2 mapSize_, float tileSize_, const std::string &textureID_);
+        [[nodiscard]] float getTopBorder() const;
+        [[nodiscard]] float getLeftBorder() const;
+        [[nodiscard]] float getRightBorder() const;
+        [[nodiscard]] float getBottomBorder() const;
 
     private:
-        b2Body* body;
-        EntityType type;
+        float topBorder{}, leftBorder{}, rightBorder{}, bottomBorder{};
 
         static void addTile(glm::vec2 position_, float size_, const std::string& textureID_, const glm::vec2& uv_);
 };

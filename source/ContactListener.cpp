@@ -20,15 +20,11 @@ void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold
     auto* bodyA = contact->GetFixtureA()->GetBody();
     auto* bodyB = contact->GetFixtureB()->GetBody();
 
-    auto entityTypeA = *static_cast<EntityType*>(bodyA->GetUserData());
-    auto entityTypeB = *static_cast<EntityType*>(bodyB->GetUserData());
+    auto entityA = *static_cast<Entity*>(bodyA->GetUserData());
+    auto entityB = *static_cast<Entity*>(bodyB->GetUserData());
 
-    if ( entityTypeA == PLAYER && entityTypeB == ENEMY ) {
+    if ( entityA.type == PLAYER && entityB.type == ENEMY ) {
         gameOver = true;
-    }
-
-    if ( entityTypeB == PLAYER && entityTypeA == MAP ) {
-        fmt::print("OUT OF MAP!\n");
     }
 }
 

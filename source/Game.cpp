@@ -74,8 +74,6 @@ void Game::update() const {
 
     auto& transformComponent = entityManager->registry.get<TransformComponent>(player.entity);
 
-//    fmt::print("{}, {}\n", transformComponent.position.x, transformComponent.position.y);
-
     auto view = camera->viewMatrix(glm::vec2(transformComponent.position));
     auto projection = camera->projectionMatrix(Game::window->windowSize());
 

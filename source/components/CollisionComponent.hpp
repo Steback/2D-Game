@@ -30,7 +30,7 @@ class CollisionComponent {
             boxShapeDef.density = 1.0f;
             boxShapeDef.restitution = 0.1f;
 
-            body->SetUserData(static_cast<void*>(&Game::entityManager->getEntity(entityID_).type));
+            body->SetUserData(static_cast<void*>(&Game::entityManager->getEntity(entityID_)));
 
             body->CreateFixture(&boxShapeDef);
         }
@@ -39,8 +39,6 @@ class CollisionComponent {
 
         void update(b2Vec2 position_) const {
             body->SetTransform(position_, body->GetAngle());
-
-//            fmt::print("{}\n", *static_cast<EntityType*>(userData));
         }
 };
 

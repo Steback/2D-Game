@@ -6,6 +6,7 @@
 #include "../Game.hpp"
 #include "../Window.hpp"
 #include "../EntityManager.hpp"
+#include "../Map.hpp"
 
 class KeyboardControlComponent {
     public:
@@ -21,22 +22,42 @@ class KeyboardControlComponent {
             auto& spriteComponent = Game::entityManager->registry.get<SpriteComponent>(entity.entity);
 
             if ( keys[GLFW_KEY_W] ) {
-                transformComponent.position.y += (transformComponent.velocity * deltaTime_);
+                if ( transformComponent.position.y >= Game::map->getTopBorder() - (transformComponent.size.y / 2) ) {
+                    transformComponent.position.y = Game::map->getTopBorder() - (transformComponent.size.y / 2);
+                } else {
+                    transformComponent.position.y += (transformComponent.velocity * deltaTime_);
+                }
+
                 spriteComponent.indexFrame = 3;
             }
 
             if ( keys[GLFW_KEY_S] ) {
-                transformComponent.position.y -= (transformComponent.velocity * deltaTime_);
+                if ( transformComponent.position.y <= Game::map->getBottomBorder() + (transformComponent.size.y / 2) ) {
+                    transformComponent.position.y = Game::map->getBottomBorder() + (transformComponent.size.y / 2);
+                } else {
+                    transformComponent.position.y -= (transformComponent.velocity * deltaTime_);
+                }
+
                 spriteComponent.indexFrame = 0;
             }
 
             if ( keys[GLFW_KEY_A] ) {
-                transformComponent.position.x -= (transformComponent.velocity * deltaTime_);
+                if ( transformComponent.position.x <= Game::map->getLeftBorder() + (transformComponent.size.x / 2) ) {
+                    transformComponent.position.x = Game::map->getLeftBorder() + (transformComponent.size.x / 2);
+                } else {
+                    transformComponent.position.x -= (transformComponent.velocity * deltaTime_);
+                }
+
                 spriteComponent.indexFrame = 2;
             }
 
             if ( keys[GLFW_KEY_D] ) {
-                transformComponent.position.x += (transformComponent.velocity * deltaTime_);
+                if ( transformComponent.position.x >= Game::map->getRightBorder() - (transformComponent.size.x / 2) ) {
+                    transformComponent.position.x = Game::map->getRightBorder() - (transformComponent.size.x / 2);
+                } else {
+                    transformComponent.position.x += (transformComponent.velocity * deltaTime_);
+                }
+
                 spriteComponent.indexFrame = 1;
             }
         }
