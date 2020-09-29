@@ -72,9 +72,9 @@ void Game::update() const {
 
     contactListener->Step(deltaTime, 0, 0);
 
-    auto& transformComponent = entityManager->registry.get<TransformComponent>(player.entity);
+    auto& playerPosition = entityManager->registry.get<TransformComponent>(player.entity).position;
 
-    auto view = camera->viewMatrix(glm::vec2(transformComponent.position));
+    auto view = camera->viewMatrix(playerPosition);
     auto projection = camera->projectionMatrix(Game::window->windowSize());
 
     shaders["model"]->useShader();

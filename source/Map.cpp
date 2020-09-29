@@ -27,19 +27,14 @@ void Map::loadMap(const std::string& filePath_, glm::vec2 mapSize_, float tileSi
             if ( y == 0 && x == 0 ) {
                 topBorder = tilePosition.y + tileSize_;
                 leftBorder = tilePosition.x - tileSize_;
-
-                fmt::print("Top border: {}\n", topBorder);
-                fmt::print("Left border: {}\n", leftBorder);
             }
 
             if ( y == 0 && x == static_cast<int>(mapSize_.x) - 1 ) {
                 rightBorder = tilePosition.x + tileSize_;
-                fmt::print("Right border: {}\n", rightBorder);
             }
 
             if ( y == static_cast<int>(mapSize_.y) - 1 && x == 0 ) {
                 bottomBorder = tilePosition.y - tileSize_;
-                fmt::print("Bottom border: {}\n", bottomBorder);
             }
 
             // SET SPRITE TILE
