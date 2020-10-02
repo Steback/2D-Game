@@ -6,6 +6,7 @@
 #include "../Texture.hpp"
 #include "../Game.hpp"
 #include "../Shader.hpp"
+#include "../AssetsManager.hpp"
 #include "MeshComponent.hpp"
 
 class SpriteComponent {
@@ -21,8 +22,10 @@ class SpriteComponent {
         unsigned int ownerID;
         float deltaTime{};
 
-        explicit SpriteComponent(unsigned int ownerID_, std::shared_ptr<Texture> texture_, bool isAnimated_ = false, int spriteOffsetX_ = 1, int spriteOffsetY_ = 1)
-            : ownerID(ownerID_), texture(std::move(texture_)), isAnimated(isAnimated_), spriteOffsetX(static_cast<float>(spriteOffsetX_)),
+        explicit SpriteComponent(unsigned int ownerID_, const std::string& textureID_, bool isAnimated_ = false,
+                                 int spriteOffsetX_ = 1, int spriteOffsetY_ = 1)
+                                 : ownerID(ownerID_), texture(Game::assetsManager->getTexture(textureID_)),
+                                 isAnimated(isAnimated_), spriteOffsetX(static_cast<float>(spriteOffsetX_)),
             spriteOffsetY(static_cast<float>(spriteOffsetY_)) {
             spriteWidth = (texture->getImageSize().x / spriteOffsetX) / texture->getImageSize().x;
             spriteHeight = (texture->getImageSize().y / spriteOffsetY) / texture->getImageSize().y;

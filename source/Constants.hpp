@@ -14,6 +14,7 @@ enum EntityType {
     PLAYER = 0,
     ENEMY = 1,
     TILE = 2,
+    PROJECTILE = 3,
 };
 
 #endif

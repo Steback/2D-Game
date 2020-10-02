@@ -1,9 +1,4 @@
-#include <vector>
-
-#include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
-#include "fmt/core.h"
-#include "tinyxml2.h"
 
 #include "Game.hpp"
 #include "Window.hpp"

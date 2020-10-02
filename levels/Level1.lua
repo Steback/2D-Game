@@ -52,6 +52,17 @@ Level1 = {
                 },
                 sprite = {
                     textureID = "tank-big-down"
+                },
+                projectileEmitter = {
+                    textureID = "bullet-enemy",
+                    speed = 150,
+                    range = 300,
+                    angle = 180,
+                    size = {
+                        width = 4,
+                        height = 4
+                    },
+                    shouldLoop = true
                 }
             }
         }

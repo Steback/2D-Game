@@ -105,7 +105,7 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
 
                 Game::entityManager->registry.emplace<SpriteComponent>(ent.entity,
                                                                  ent.id,
-                                                                 Game::assetsManager->getTexture(spriteComponent["textureID"]),
+                                                                 spriteComponent["textureID"],
                                                                  isAnimated,
                                                                  spriteOffset.x,
                                                                  spriteOffset.y);
@@ -138,6 +138,45 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
                     1, 3, 2,
                     0, 3, 2
             });
+
+            // Add ProjectileEmitterComponent Component
+            sol::optional<sol::table> existsProjectileEmitterComponent = entity["components"]["projectileEmitter"];
+
+            if ( existsProjectileEmitterComponent != sol::nullopt ) {
+                sol::table projectileComponent = entity["components"]["projectileEmitter"];
+                auto projectile = Game::entityManager->addEntity(PROJECTILE);
+
+                glm::vec2 projectileSize = glm::vec2(static_cast<float>(projectileComponent["size"]["width"]),
+                                                 static_cast<float>(projectileComponent["size"]["height"]));
+
+                Game::entityManager->registry.emplace<TransformComponent>(projectile.entity,
+                                                                          entityPos,
+                                                                          projectileSize,
+                                                                          static_cast<float>(projectileComponent["speed"]));
+
+                Game::entityManager->registry.emplace<SpriteComponent>(projectile.entity,
+                                                                       projectile.id,
+                                                                       projectileComponent["textureID"]);
+
+                Game::entityManager->registry.emplace<CollisionComponent>(projectile.entity,
+                                                                          b2Vec2(entityPos.x, entityPos.y),
+                                                                          b2Vec2(projectileSize.x, projectileSize.y),
+                                                                          projectile.id);
+
+                Game::entityManager->registry.emplace<MeshComponent>(projectile.entity, std::vector<Vertex>{
+                        {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                                glm::vec2(1.0f, 0.0f) },
+                        {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                                glm::vec2(0.0f, 1.0f) },
+                        {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                                glm::vec2(1.0f, 1.0f) },
+                        {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                                glm::vec2(0.0f, 0.0f) },
+                }, std::vector<GLuint> {
+                        1, 3, 2,
+                        0, 3, 2
+                });
+            }
 
             entityIndex++;
         }
