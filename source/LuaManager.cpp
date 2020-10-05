@@ -12,6 +12,7 @@
 #include "components/KeyboardControlComponent.hpp"
 #include "components/MeshComponent.hpp"
 #include "components/CollisionComponent.hpp"
+#include "components/ProjectileEmitterComponent.hpp"
 
 LuaManager::LuaManager() = default;
 
@@ -157,6 +158,14 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
                 Game::entityManager->registry.emplace<SpriteComponent>(projectile.entity,
                                                                        projectile.id,
                                                                        projectileComponent["textureID"]);
+
+                Game::entityManager->registry.emplace<ProjectileEmitterComponent>(projectile.entity,
+                                                                                  ent,
+                                                                                  projectile,
+                                                                                  projectileComponent["speed"],
+                                                                                  projectileComponent["angle"],
+                                                                                  projectileComponent["range"],
+                                                                                  projectileComponent["shouldLoop"]);
 
                 Game::entityManager->registry.emplace<CollisionComponent>(projectile.entity,
                                                                           b2Vec2(entityPos.x, entityPos.y),

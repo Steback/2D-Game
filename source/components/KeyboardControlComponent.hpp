@@ -25,7 +25,7 @@ class KeyboardControlComponent {
                 if ( transformComponent.position.y >= Game::map->getTopBorder() - (transformComponent.size.y / 2) ) {
                     transformComponent.position.y = Game::map->getTopBorder() - (transformComponent.size.y / 2);
                 } else {
-                    transformComponent.position.y += (transformComponent.velocity * deltaTime_);
+                    transformComponent.position.y += (transformComponent.velocity.y * deltaTime_);
                 }
 
                 spriteComponent.indexFrame = 3;
@@ -35,7 +35,7 @@ class KeyboardControlComponent {
                 if ( transformComponent.position.y <= Game::map->getBottomBorder() + (transformComponent.size.y / 2) ) {
                     transformComponent.position.y = Game::map->getBottomBorder() + (transformComponent.size.y / 2);
                 } else {
-                    transformComponent.position.y -= (transformComponent.velocity * deltaTime_);
+                    transformComponent.position.y -= (transformComponent.velocity.y * deltaTime_);
                 }
 
                 spriteComponent.indexFrame = 0;
@@ -45,7 +45,7 @@ class KeyboardControlComponent {
                 if ( transformComponent.position.x <= Game::map->getLeftBorder() + (transformComponent.size.x / 2) ) {
                     transformComponent.position.x = Game::map->getLeftBorder() + (transformComponent.size.x / 2);
                 } else {
-                    transformComponent.position.x -= (transformComponent.velocity * deltaTime_);
+                    transformComponent.position.x -= (transformComponent.velocity.x * deltaTime_);
                 }
 
                 spriteComponent.indexFrame = 2;
@@ -55,7 +55,7 @@ class KeyboardControlComponent {
                 if ( transformComponent.position.x >= Game::map->getRightBorder() - (transformComponent.size.x / 2) ) {
                     transformComponent.position.x = Game::map->getRightBorder() - (transformComponent.size.x / 2);
                 } else {
-                    transformComponent.position.x += (transformComponent.velocity * deltaTime_);
+                    transformComponent.position.x += (transformComponent.velocity.x * deltaTime_);
                 }
 
                 spriteComponent.indexFrame = 1;

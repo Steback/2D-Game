@@ -12,6 +12,7 @@
 #include "components/TileComponent.hpp"
 #include "components/MeshComponent.hpp"
 #include "components/CollisionComponent.hpp"
+#include "components/ProjectileEmitterComponent.hpp"
 
 EntityManager::EntityManager() = default;
 
@@ -42,6 +43,10 @@ void EntityManager::update(float deltaTime_) {
 
         if ( entity->type == PLAYER ) {
             registry.get<KeyboardControlComponent>(entity->entity).update(deltaTime_);
+        }
+
+        if ( entity->type == PROJECTILE ) {
+            registry.get<ProjectileEmitterComponent>(entity->entity).update(deltaTime_);
         }
 
         registry.get<CollisionComponent>(entity->entity).update(b2Vec2{tc.position.x, tc.position.y});

@@ -14,10 +14,10 @@ class TransformComponent {
         glm::mat4 model;
         glm::vec2 size;
         glm::vec2 position;
-        float velocity;
+        glm::vec2 velocity;
 
         TransformComponent(glm::vec2 position_, glm::vec2 size_, float velocity_)
-            : size(size_), position(position_), velocity(velocity_){  }
+            : size(size_), position(position_), velocity(velocity_, velocity_){  }
 
         ~TransformComponent() = default;
 
