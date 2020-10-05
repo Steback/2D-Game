@@ -22,7 +22,8 @@ class ProjectileEmitterComponent {
                                 : owner(owner_), projectile(projectile_), speed(speed),
                                   angleRad(glm::radians(angleDeg)), range(range), shouldLoop(shouldLoop) {
         origin = Game::entityManager->registry.get<TransformComponent>(owner.entity).position;
-        Game::entityManager->registry.get<TransformComponent>(projectile.entity).velocity = glm::vec2(glm::cos(angleRad) * speed, glm::sin(angleRad) * speed);
+        Game::entityManager->registry.get<TransformComponent>(projectile.entity).velocity =
+                glm::vec2(glm::cos(angleRad) * speed, glm::sin(angleRad) * speed);
     }
 
     ~ProjectileEmitterComponent() = default;

@@ -168,8 +168,8 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
                                                                                   projectileComponent["shouldLoop"]);
 
                 Game::entityManager->registry.emplace<CollisionComponent>(projectile.entity,
-                                                                          b2Vec2(entityPos.x, entityPos.y),
                                                                           b2Vec2(projectileSize.x, projectileSize.y),
+                                                                          b2Vec2(entityPos.x, entityPos.y),
                                                                           projectile.id);
 
                 Game::entityManager->registry.emplace<MeshComponent>(projectile.entity, std::vector<Vertex>{

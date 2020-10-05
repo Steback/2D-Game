@@ -26,6 +26,10 @@ void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold
     if ( entityA.type == PLAYER && entityB.type == ENEMY ) {
         gameOver = true;
     }
+
+    if ( entityA.type == PLAYER && entityB.type == PROJECTILE ) {
+        gameOver = true;
+    }
 }
 
 void ContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse) {
