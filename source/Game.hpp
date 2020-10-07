@@ -17,6 +17,7 @@ class Camera;
 class AssetsManager;
 class ContactListener;
 class Map;
+class ParticleEmitter;
 
 class Game {
     public:
@@ -37,6 +38,8 @@ class Game {
 
     private:
         Entity player{};
+
+        std::unique_ptr<ParticleEmitter> particleEmitter;
 };
 
 #endif

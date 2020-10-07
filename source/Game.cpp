@@ -10,6 +10,7 @@
 #include "ContactListener.hpp"
 #include "LuaManager.hpp"
 #include "Map.hpp"
+#include "ParticleEmitter.hpp"
 #include "components/TransformComponent.hpp"
 
 // static objects
@@ -34,6 +35,7 @@ void Game::init() {
 
     // Init Shaders
     shaders.emplace("model", std::make_unique<Shader>("shaders/model.vert", "shaders/model.frag"));
+    shaders.emplace("particle", std::make_unique<Shader>("shaders/particle.vert", "shaders/particle.frag"));
 
     // Init EntityManager
     entityManager = std::make_unique<EntityManager>();
@@ -54,6 +56,8 @@ void Game::init() {
 
     // Load player entity
     LuaManager::loadFile("levels/Level1.lua", player);
+
+    particleEmitter = std::make_unique<ParticleEmitter>(*shaders["particle"], assetsManager->getTexture("smoke_01"), 500);
 }
 
 void Game::update() const {
@@ -67,10 +71,12 @@ void Game::update() const {
 
     contactListener->Step(deltaTime, 0, 0);
 
-    auto& playerPosition = entityManager->registry.get<TransformComponent>(player.entity).position;
+    auto& playerTC = entityManager->registry.get<TransformComponent>(player.entity);
 
-    auto view = camera->viewMatrix(playerPosition);
+    auto view = camera->viewMatrix(playerTC.position);
     auto projection = camera->projectionMatrix(Game::window->windowSize());
+
+    fmt::print("Player position: {}, {}\n", playerTC.position.x, playerTC.position.y);
 
     shaders["model"]->useShader();
     glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
@@ -78,6 +84,9 @@ void Game::update() const {
 
     entityManager->updateMap();
     entityManager->update(deltaTime);
+
+    particleEmitter->Update(deltaTime, player, 2,
+                            glm::vec2(playerTC.size.x / 2.0f, playerTC.size.y / 2.0f));
 }
 
 void Game::render() {
@@ -86,6 +95,9 @@ void Game::render() {
     shaders["model"]->useShader();
 
     entityManager->renderMap();
+
+    particleEmitter->Draw(camera->projectionMatrix(Game::window->windowSize()));
+
     entityManager->render();
 
     glUseProgram(0);

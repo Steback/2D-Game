@@ -15,4 +15,8 @@
         <name>bullet-enemy</name>
         <path>assets/images/bullet-enemy.png</path>
     </Sprite>
+    <Sprite>
+        <name>smoke_01</name>
+        <path>assets/images/smoke_01.png</path>
+    </Sprite>
 </Sprites>

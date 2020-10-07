@@ -36,7 +36,7 @@ void Mesh::createMesh(const std::vector<Vertex>& vertices_, const std::vector<GL
             vertices_[3].color
     };
 
-    std::vector<glm::vec2> verticesTextCoords{
+    std::vector<glm::vec2> verticesTextCords{
             vertices_[0].texCoord,
             vertices_[1].texCoord,
             vertices_[2].texCoord,
@@ -63,8 +63,8 @@ void Mesh::createMesh(const std::vector<Vertex>& vertices_, const std::vector<GL
     glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesTextCoords[0]) * vertices_.size(), &verticesTextCoords[0], GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(verticesTextCoords[0]), nullptr);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesTextCords[0]) * vertices_.size(), &verticesTextCords[0], GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(verticesTextCords[0]), nullptr);
     glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
