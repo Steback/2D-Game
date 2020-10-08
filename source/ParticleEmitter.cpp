@@ -16,28 +16,25 @@ ParticleEmitter::ParticleEmitter(Shader &shader, std::shared_ptr<Texture> textur
 void ParticleEmitter::Update(float dt_, Entity entity_, unsigned int newParticles_, glm::vec2 offset_) {
     for ( unsigned int i = 0; i < newParticles_; i++ ) {
         int unusedParticle = static_cast<int>(firstUnusedParticle());
-        respawnParticle(this->particles[unusedParticle], entity_, offset_);
+        respawnParticle(particles[unusedParticle], entity_, offset_);
     }
 
-    for ( unsigned int i = 0; i < this->amount; i++ ) {
-        Particle &p = this->particles[i];
-        p.life -= dt_;
+    for ( auto& particle : particles ) {
+        particle.life -= dt_;
 
-        if ( p.life > 0.0f ) {
-            p.position -= p.velocity * dt_;
-            p.color.a -= dt_ * 2.5f;
+        if ( particle.life > 0.0f ) {
+            particle.position -= particle.velocity * dt_;
+            particle.color.a -= dt_ * 2.5f;
         }
     }
 }
 
-void ParticleEmitter::Draw(glm::mat4 projection_) {
+void ParticleEmitter::Draw() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     shader.useShader();
 
     for ( Particle particle : particles ) {
         if ( particle.life > 0.0f ) {
-            glUniformMatrix4fv(shader.getUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection_));
-
             glUniform2f(shader.getUniformLocation("offset"), particle.position.x, particle.position.y);
 
             glUniform4f(shader.getUniformLocation("color"), particle.color.x, particle.color.y,
@@ -90,7 +87,7 @@ void ParticleEmitter::init() {
 
     glBindVertexArray(0);
 
-    for ( unsigned int i = 0; i < this->amount; ++i ) particles.emplace_back(Particle());
+    for ( unsigned int i = 0; i < this->amount; i++ ) particles.emplace_back(Particle());
 }
 
 unsigned int lastUsedParticle = 0;
@@ -126,6 +123,8 @@ void ParticleEmitter::respawnParticle(Particle &particle_, Entity entity_, glm::
     particle_.life = 1.0f;
     particle_.velocity = tc.velocity * 0.1f;
 
+    fmt::print("random: {}\n", random);
     fmt::print("Particle position: {}, {}\n", particle_.position.x, particle_.position.y);
+    fmt::print("Offset: {}, {}\n", offset_.x, offset_.y);
 
 }

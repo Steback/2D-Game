@@ -24,7 +24,7 @@ class ParticleEmitter {
     public:
         ParticleEmitter(Shader &shader, std::shared_ptr<Texture> texture, unsigned int amount);
         void Update(float dt_, Entity entity_, unsigned int newParticles_, glm::vec2 offset_ = glm::vec2(0.0f, 0.0f));
-        void Draw(glm::mat4 projection_);
+        void Draw();
 
     private:
         Shader& shader;
