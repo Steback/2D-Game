@@ -62,7 +62,18 @@ Level1 = {
                         width = 4,
                         height = 4
                     },
-                    shouldLoop = true
+                    shouldLoop = true,
+                    particle = {
+                        colorBegin = { r = 254 / 255.0, g = 109 / 255.0, b = 41 / 255.0, a = 1.0 },
+                        colorEnd = { r = 254 / 255.0, g = 212 / 255.0, b = 123 / 255.0, a = 1.0 },
+                        sizeBegin = 0.5,
+                        sizeVariation = 0.3,
+                        sizeEnd = 0.0,
+                        lifeTime = 1.0,
+                        velocity = { x = 0.0, y = 0.0 },
+                        velocityVariation = { x = 3.0, y = 1.0 },
+                        position = { x = 0.0, y = 0.0 },
+                    }
                 }
             }
         }

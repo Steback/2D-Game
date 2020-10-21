@@ -187,16 +187,19 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
                         0, 3, 2
                 });
 
+                auto pp = entity["components"]["projectileEmitter"]["particle"];
                 ParticleProps particle;
-                particle.colorBegin = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
-                particle.colorEnd = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
-                particle.sizeBegin = 0.5f;
-                particle.sizeVariation = 0.3f;
-                particle.sizeEnd = 0.0f;
-                particle.lifeTime = 1.0f;
-                particle.velocity = { 0.0f, 0.0f };
-                particle.velocityVariation = { 3.0f, 1.0f };
-                particle.position = { 0.0f, 0.0f };
+                particle.colorBegin = { pp["colorBegin"]["r"], pp["colorBegin"]["g"],
+                                        pp["colorBegin"]["b"], pp["colorBegin"]["a"] };
+                particle.colorEnd = { pp["colorEnd"]["r"], pp["colorEnd"]["g"],
+                                      pp["colorEnd"]["b"], pp["colorEnd"]["a"] };
+                particle.sizeBegin = pp["sizeBegin"];
+                particle.sizeVariation = pp["sizeVariation"];
+                particle.sizeEnd = pp["sizeEnd"];
+                particle.lifeTime = pp["lifeTime"];
+                particle.velocity = { pp["velocity"]["x"], pp["velocity"]["y"] };
+                particle.velocityVariation = { pp["velocityVariation"]["x"], pp["velocityVariation"]["y"] };
+                particle.position = { pp["position"]["x"], pp["position"]["y"] };
                 particle.scale =  0.00000001f;
 
                 Game::entityManager->registry.emplace<ParticleComponent>(projectile.entity, projectile, particle);
