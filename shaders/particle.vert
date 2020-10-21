@@ -1,18 +1,11 @@
-#version 330 core
-layout (location = 0) in vec2 position;
-layout (location = 1) in vec2 textureCords;
+#version 450 core
 
-out vec2 TexCoords;
-out vec4 ParticleColor;
+layout (location = 0) in vec2 a_Position;
 
-uniform mat4 projection;
-uniform mat4 view;
-uniform vec2 offset;
-uniform vec4 color;
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_projection;
 
 void main() {
-    float scale = 10.0f;
-    TexCoords = textureCords;
-    ParticleColor = color;
-    gl_Position = projection * view * vec4((position * scale) + offset, 0.0, 1.0);
+    gl_Position = u_projection * u_view * u_model * vec4(a_Position, 0.0, 1.0);
 }

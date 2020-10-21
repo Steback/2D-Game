@@ -13,6 +13,7 @@
 #include "components/MeshComponent.hpp"
 #include "components/CollisionComponent.hpp"
 #include "components/ProjectileEmitterComponent.hpp"
+#include "components/ParticlesComponent.hpp"
 
 EntityManager::EntityManager() = default;
 
@@ -52,6 +53,10 @@ void EntityManager::update(float deltaTime_) {
         registry.get<CollisionComponent>(entity->entity).update(b2Vec2{tc.position.x, tc.position.y});
 
         registry.get<SpriteComponent>(entity->entity).update(deltaTime_);
+
+        if ( entity->type == PROJECTILE ) {
+            registry.get<ParticleComponent>(entity->entity).update(deltaTime_);
+        }
     }
 }
 
@@ -61,13 +66,17 @@ void EntityManager::updateMap() {
     }
 }
 
-void EntityManager::render() {
+void EntityManager::render(const glm::mat4& proj, const glm::mat4& view) {
     for ( auto& entity : entities ) {
         Game::shaders["model"]->useShader();
 
         registry.get<TransformComponent>(entity->entity).render();
         registry.get<SpriteComponent>(entity->entity).render();
         registry.get<MeshComponent>(entity->entity).render();
+
+        if ( entity->type == PROJECTILE ) {
+            registry.get<ParticleComponent>(entity->entity).render(proj, view);
+        }
     }
 }
 

@@ -10,7 +10,6 @@
 #include "ContactListener.hpp"
 #include "LuaManager.hpp"
 #include "Map.hpp"
-#include "ParticleEmitter.hpp"
 #include "components/TransformComponent.hpp"
 
 // static objects
@@ -57,20 +56,20 @@ void Game::init() {
     // Load player entity
     LuaManager::loadFile("levels/Level1.lua", player);
 
-    particleEmitter = std::make_unique<ParticleEmitter>(*shaders["particle"], assetsManager->getTexture("smoke_01"), 100);
+    particleEmitter = std::make_unique<ParticleSystem>();
 
-    auto projection = camera->projectionMatrix(Game::window->windowSize());
+    m_proj = camera->projectionMatrix(Game::window->windowSize());
 
     shaders["model"]->useShader();
     glUniformMatrix4fv(shaders["model"]->getUniformLocation("projection"), 1, GL_FALSE,
-                       glm::value_ptr(projection));
+                       glm::value_ptr(m_proj));
 
     shaders["particle"]->useShader();
     glUniformMatrix4fv(shaders["particle"]->getUniformLocation("projection"), 1, GL_FALSE,
-                       glm::value_ptr(projection));
+                       glm::value_ptr(m_proj));
 }
 
-void Game::update() const {
+void Game::update() {
     glfwPollEvents();
 
     window->windowShouldClose(contactListener->GameOver());
@@ -83,34 +82,24 @@ void Game::update() const {
 
     auto& playerTC = entityManager->registry.get<TransformComponent>(player.entity);
 
-    auto view = camera->viewMatrix(playerTC.position);
-
-    fmt::print("Player position: {}, {}\n", playerTC.position.x, playerTC.position.y);
+    m_view = camera->viewMatrix(playerTC.position);
 
     shaders["particle"]->useShader();
-    glUniformMatrix4fv(shaders["particle"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(shaders["particle"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(m_view));
 
     shaders["model"]->useShader();
-    glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(m_view));
 
     entityManager->updateMap();
     entityManager->update(deltaTime);
-
-    particleEmitter->Update(deltaTime, player, 2,
-                            glm::vec2(playerTC.size.x / 2.0f, playerTC.size.y / 2.0f));
 }
 
-int i = 0;
 void Game::render() {
     window->render();
 
     shaders["model"]->useShader();
-
     entityManager->renderMap();
-
-    particleEmitter->Draw();
-
-    entityManager->render();
+    entityManager->render(m_proj, m_view);
 
     glUseProgram(0);
 

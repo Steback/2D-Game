@@ -5,8 +5,10 @@
 #include <map>
 
 #include "box2d/b2_world.h"
+#include "glm/glm.hpp"
 
 #include "EntityManager.hpp"
+#include "ParticleSystem.hpp"
 
 class Window;
 class Shader;
@@ -17,14 +19,13 @@ class Camera;
 class AssetsManager;
 class ContactListener;
 class Map;
-class ParticleEmitter;
 
 class Game {
     public:
         Game();
         ~Game();
         void init();
-        void update() const;
+        void update();
         void render();
         void clear();
 
@@ -38,8 +39,11 @@ class Game {
 
     private:
         Entity player{};
+        glm::mat4 m_view;
+        glm::mat4 m_proj;
+        ParticleProps m_Particle;
 
-        std::unique_ptr<ParticleEmitter> particleEmitter;
+        std::unique_ptr<ParticleSystem> particleEmitter;
 };
 
 #endif

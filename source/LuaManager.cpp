@@ -13,6 +13,7 @@
 #include "components/MeshComponent.hpp"
 #include "components/CollisionComponent.hpp"
 #include "components/ProjectileEmitterComponent.hpp"
+#include "components/ParticlesComponent.hpp"
 
 LuaManager::LuaManager() = default;
 
@@ -185,6 +186,20 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
                         1, 3, 2,
                         0, 3, 2
                 });
+
+                ParticleProps particle;
+                particle.colorBegin = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
+                particle.colorEnd = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
+                particle.sizeBegin = 0.5f;
+                particle.sizeVariation = 0.3f;
+                particle.sizeEnd = 0.0f;
+                particle.lifeTime = 1.0f;
+                particle.velocity = { 0.0f, 0.0f };
+                particle.velocityVariation = { 3.0f, 1.0f };
+                particle.position = { 0.0f, 0.0f };
+                particle.scale =  0.00000001f;
+
+                Game::entityManager->registry.emplace<ParticleComponent>(projectile.entity, projectile, particle);
             }
 
             entityIndex++;

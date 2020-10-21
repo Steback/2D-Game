@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "entt.hpp"
+#include "glm/glm.hpp"
 
 #include "Constants.hpp"
 
@@ -27,7 +28,7 @@ class EntityManager {
         Entity& addTile();
         void update(float deltaTime_);
         void updateMap();
-        void render();
+        void render(const glm::mat4& proj, const glm::mat4& view);
         void renderMap();
         void clearBodys();
         Entity& getEntity(unsigned int id_);
