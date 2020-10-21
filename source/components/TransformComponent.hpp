@@ -11,13 +11,8 @@
 
 class TransformComponent {
     public:
-        glm::mat4 model;
-        glm::vec2 size;
-        glm::vec2 position;
-        glm::vec2 velocity;
-
-        TransformComponent(glm::vec2 position_, glm::vec2 size_, float velocity_)
-            : size(size_), position(position_), velocity(velocity_, velocity_){  }
+        TransformComponent(glm::vec2 position_, glm::vec2 size_, float velocity_, float angle_)
+            : size(size_), position(position_), velocity(velocity_, velocity_), angle(glm::radians(angle_)) {  }
 
         ~TransformComponent() = default;
 
@@ -26,6 +21,7 @@ class TransformComponent {
             model = glm::translate(model, glm::vec3(position, 0.0f));
             model = glm::scale(model, glm::vec3(size.x, size.y, 0.0f));
             model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 0.0, 1.0));
+            model = glm::rotate(model, angle, glm::vec3(0.0, 0.0, 1.0));
         }
 
         void render() {
@@ -33,6 +29,12 @@ class TransformComponent {
                                glm::value_ptr(model));
         }
 
+    public:
+        glm::mat4 model;
+        glm::vec2 size;
+        glm::vec2 position;
+        glm::vec2 velocity;
+        float angle;
 };
 
 #endif

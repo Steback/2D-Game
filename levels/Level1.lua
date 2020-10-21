@@ -23,7 +23,8 @@ Level1 = {
                         width = 16,
                         height = 16
                     },
-                    velocity = 50
+                    velocity = 50,
+                    angle = 0.0
                 },
                 sprite = {
                     textureID = "chopper-spritesheet",
@@ -48,7 +49,8 @@ Level1 = {
                         width = 16,
                         height = 16
                     },
-                    velocity = 10
+                    velocity = 10.0,
+                    angle = 0.0
                 },
                 sprite = {
                     textureID = "tank-big-down"
@@ -57,7 +59,7 @@ Level1 = {
                     textureID = "bullet-enemy",
                     speed = 150,
                     range = 300,
-                    angle = 270,
+                    angle = 270 + 0,
                     size = {
                         width = 4,
                         height = 4

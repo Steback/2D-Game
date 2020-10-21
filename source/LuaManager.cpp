@@ -81,7 +81,8 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
                 Game::entityManager->registry.emplace<TransformComponent>(ent.entity,
                                                                           entityPos,
                                                                           entitySize,
-                                                                          transformComponent["velocity"]);
+                                                                          transformComponent["velocity"],
+                                                                          transformComponent["angle"]);
 
             }
 
@@ -154,7 +155,8 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
                 Game::entityManager->registry.emplace<TransformComponent>(projectile.entity,
                                                                           entityPos,
                                                                           projectileSize,
-                                                                          static_cast<float>(projectileComponent["speed"]));
+                                                                          projectileComponent["speed"],
+                                                                          0.0f);
 
                 Game::entityManager->registry.emplace<SpriteComponent>(projectile.entity,
                                                                        projectile.id,
