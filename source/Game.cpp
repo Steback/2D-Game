@@ -40,7 +40,7 @@ void Game::init() {
     entityManager = std::make_unique<EntityManager>();
 
     // Init Camera
-    camera = std::make_unique<Camera>(0.25f, -1.0f, 1.0f);
+    camera = std::make_unique<Camera>(1.0f, -1.0f, 1.0f);
 
     // Load textures
     assetsManager = std::make_unique<AssetsManager>();

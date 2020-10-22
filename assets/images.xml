@@ -16,7 +16,15 @@
         <path>assets/images/bullet-enemy.png</path>
     </Sprite>
     <Sprite>
-        <name>smoke_01</name>
-        <path>assets/images/smoke_01.png</path>
+        <name>heliport</name>
+        <path>assets/images/heliport.png</path>
+    </Sprite>
+    <Sprite>
+        <name>start</name>
+        <path>assets/images/start.png</path>
+    </Sprite>
+    <Sprite>
+        <name>truck-right</name>
+        <path>assets/images/truck-right.png</path>
     </Sprite>
 </Sprites>
