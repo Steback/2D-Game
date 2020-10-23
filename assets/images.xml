@@ -27,4 +27,16 @@
         <name>truck-right</name>
         <path>assets/images/truck-right.png</path>
     </Sprite>
+    <Sprite>
+        <name>army-group-1</name>
+        <path>assets/images/army-group-1.png</path>
+    </Sprite>
+    <Sprite>
+        <name>army-group-3</name>
+        <path>assets/images/army-group-3.png</path>
+    </Sprite>
+    <Sprite>
+        <name>truck-left</name>
+        <path>assets/images/truck-left.png</path>
+    </Sprite>
 </Sprites>
