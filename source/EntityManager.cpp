@@ -72,7 +72,12 @@ void EntityManager::render(const glm::mat4& proj, const glm::mat4& view) {
 
         registry.get<TransformComponent>(entity->entity).render();
         registry.get<SpriteComponent>(entity->entity).render();
-        registry.get<MeshComponent>(entity->entity).render();
+
+        if ( entity->type == PLAYER ) {
+            Game::mesh["player"]->renderMesh();
+        } else {
+            Game::mesh["enemy"]->renderMesh();
+        }
 
         if ( entity->type == PROJECTILE ) {
             registry.get<ParticleComponent>(entity->entity).render(proj, view);

@@ -48,8 +48,9 @@ class SpriteComponent {
                         glm::vec2(0.0f, 0.0f) + texCoords
                 };
 
-                auto& meshComponent = Game::entityManager->registry.get<MeshComponent>(Game::entityManager->getEntity(ownerID).entity);
-                meshComponent.mesh.setTextureCoords(textureCoords);
+                if ( Game::entityManager->getEntity(ownerID).type == PLAYER ) {
+                    Game::mesh["player"]->setTextureCoords(textureCoords);
+                }
 
                 if ( deltaTime > 1 ) {
                     animatedFrame = 0;

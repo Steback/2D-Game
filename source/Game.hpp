@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <map>
+#include <unordered_map>
 
 #include "box2d/b2_world.h"
 #include "glm/glm.hpp"
@@ -25,6 +26,7 @@ class Game {
         Game();
         ~Game();
         void init();
+        void loadLevel(const std::string& levelName);
         void update();
         void render();
         void clear();
@@ -36,6 +38,7 @@ class Game {
         static std::unique_ptr<AssetsManager> assetsManager;
         static std::unique_ptr<ContactListener> contactListener;
         static std::unique_ptr<Map> map;
+        static std::unordered_map<std::string, std::unique_ptr<Mesh> > mesh;
 
     private:
         Entity player{};

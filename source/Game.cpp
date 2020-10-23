@@ -10,6 +10,7 @@
 #include "ContactListener.hpp"
 #include "LuaManager.hpp"
 #include "Map.hpp"
+#include "Mesh.hpp"
 #include "components/TransformComponent.hpp"
 
 // static objects
@@ -20,6 +21,7 @@ std::unique_ptr<Camera> Game::camera;
 std::unique_ptr<AssetsManager> Game::assetsManager;
 std::unique_ptr<ContactListener> Game::contactListener;
 std::unique_ptr<Map> Game::map;
+std::unordered_map<std::string, std::unique_ptr<Mesh> > Game::mesh;
 
 // Global variables
 float lastFrame = 0;
@@ -50,11 +52,15 @@ void Game::init() {
     // Init contact listener
     contactListener = std::make_unique<ContactListener>();
 
+    loadLevel("Level1.lua");
+}
+
+void Game::loadLevel(const std::string &levelName) {
     // Init map
     map = std::make_unique<Map>();
 
     // Load player entity
-    LuaManager::loadFile("levels/Level1.lua", player);
+    LuaManager::loadFile("levels/" + levelName, player);
 
     particleEmitter = std::make_unique<ParticleSystem>();
 
@@ -67,6 +73,34 @@ void Game::init() {
     shaders["particle"]->useShader();
     glUniformMatrix4fv(shaders["particle"]->getUniformLocation("projection"), 1, GL_FALSE,
                        glm::value_ptr(m_proj));
+
+    mesh["player"] = std::make_unique<Mesh>(std::vector<Vertex>{
+            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                    glm::vec2(1.0f / 2, 0.0f) },
+            {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                    glm::vec2(0.0f, 1.0f / 4) },
+            {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                    glm::vec2(1.0f / 2, 1.0f / 4) },
+            {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                    glm::vec2(0.0f, 0.0f) },
+    }, std::vector<GLuint> {
+            1, 3, 2,
+            0, 3, 2
+    });
+
+    mesh["enemy"] = std::make_unique<Mesh>(std::vector<Vertex>{
+            {glm::vec2(-1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                    glm::vec2(1.0f, 0.0f) },
+            {glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                    glm::vec2(0.0f, 1.0f) },
+            {glm::vec2(-1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                    glm::vec2(1.0f, 1.0f) },
+            {glm::vec2(1.0f, -1.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+                    glm::vec2(0.0f, 0.0f) },
+    }, std::vector<GLuint> {
+            1, 3, 2,
+            0, 3, 2
+    });
 }
 
 void Game::update() {

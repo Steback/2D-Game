@@ -279,8 +279,29 @@ Level1 = {
             components = {
                 transform = {
                     position = {
-                        x = -400.0,
-                        y = 160.0
+                        x = -250.0,
+                        y = 140.0
+                    },
+                    size = {
+                        width = 16,
+                        height = 16
+                    },
+                    velocity = 10.0,
+                    angle = 0.0
+                },
+                sprite = {
+                    textureID = "truck-right"
+                }
+            }
+        },
+        [9] = {
+            entityType = 1,
+
+            components = {
+                transform = {
+                    position = {
+                        x = -250.0,
+                        y = 100.0
                     },
                     size = {
                         width = 16,
