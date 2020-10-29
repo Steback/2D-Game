@@ -51,6 +51,6 @@ include_directories(thirdparty/lua)
 include_directories(thirdparty/sol2)
 
 # spdlog
-include_directories(thirdparty/spdlog)
+add_subdirectory(thirdparty/spdlog)
 
 target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm spdlog box2d tinyxml2 lua)

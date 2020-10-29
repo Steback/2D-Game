@@ -56,7 +56,7 @@ void ParticleSystem::onRender(const glm::mat4& view, const glm::mat4& proj) {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quadIB);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-        m_particleShader = std::make_unique<Shader>("shaders/particle.vert", "shaders/particle.frag");
+        m_particleShader = std::make_unique<Shader>("assets/shaders/particle.vert", "assets/shaders/particle.frag");
         m_particleShaderView = m_particleShader->getUniformLocation("u_view");
         m_particleShaderProj = m_particleShader->getUniformLocation("u_projection");
         m_particleShaderModel = m_particleShader->getUniformLocation("u_model");

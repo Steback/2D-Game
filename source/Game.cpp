@@ -35,8 +35,8 @@ void Game::init() {
     window->init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // Init Shaders
-    shaders.emplace("model", std::make_unique<Shader>("shaders/model.vert", "shaders/model.frag"));
-    shaders.emplace("particle", std::make_unique<Shader>("shaders/particle.vert", "shaders/particle.frag"));
+    shaders.emplace("model", std::make_unique<Shader>("assets/shaders/model.vert", "assets/shaders/model.frag"));
+    shaders.emplace("particle", std::make_unique<Shader>("assets/shaders/particle.vert", "assets/shaders/particle.frag"));
 
     // Init EntityManager
     entityManager = std::make_unique<EntityManager>();
