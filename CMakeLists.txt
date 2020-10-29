@@ -19,38 +19,38 @@ set_target_properties(
 find_package(OpenGL REQUIRED)
 
 # glad
-add_library(glad dependences/glad/src/glad.c)
+add_library(glad thirdparty/glad/src/glad.c)
 
-target_include_directories(glad PRIVATE dependences/glad/include)
-target_include_directories(${PROJECT_NAME} PRIVATE dependences/glad/include)
+target_include_directories(glad PRIVATE thirdparty/glad/include)
+target_include_directories(${PROJECT_NAME} PRIVATE thirdparty/glad/include)
 
 # glfw
-add_subdirectory(dependences/glfw)
+add_subdirectory(thirdparty/glfw)
 
 # glm
-add_subdirectory(dependences/glm)
-
-# {fmt}
-add_subdirectory(dependences/fmt)
+add_subdirectory(thirdparty/glm)
 
 # stb_image
-include_directories(dependences/stb)
+include_directories(thirdparty/stb)
 
 # EnTT
-include_directories(dependences/entt)
+include_directories(thirdparty/entt)
 
 # Box2D
-add_subdirectory(dependences/box2d/src)
+add_subdirectory(thirdparty/box2d/src)
 
 # Tinyxml2
-add_subdirectory(dependences/tinyxml2)
-include_directories(dependences/tinyxml2)
+add_subdirectory(thirdparty/tinyxml2)
+include_directories(thirdparty/tinyxml2)
 
 # Lua
-add_subdirectory(dependences/lua)
-include_directories(dependences/lua)
+add_subdirectory(thirdparty/lua)
+include_directories(thirdparty/lua)
 
 # sol2
-include_directories(dependences/sol2)
+include_directories(thirdparty/sol2)
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm fmt box2d tinyxml2 lua)
+# spdlog
+include_directories(thirdparty/spdlog)
+
+target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm spdlog box2d tinyxml2 lua)
