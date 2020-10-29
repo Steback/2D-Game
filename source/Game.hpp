@@ -7,6 +7,13 @@
 
 #include "box2d/b2_world.h"
 #include "glm/glm.hpp"
+#include "NsGui/FontProperties.h"
+#include "NsGui/IntegrationAPI.h"
+#include "NsGui/IRenderer.h"
+#include "NsGui/IView.h"
+#include "NsGui/Grid.h"
+#include "NsApp/ThemeProviders.h"
+#include "NsRender/GLFactory.h"
 
 #include "EntityManager.hpp"
 #include "ParticleSystem.hpp"
@@ -26,6 +33,7 @@ class Game {
         Game();
         ~Game();
         void init();
+        void initNoesis();
         void loadLevel(const std::string& levelName);
         void update();
         void render();
@@ -39,6 +47,7 @@ class Game {
         static std::unique_ptr<ContactListener> contactListener;
         static std::unique_ptr<Map> map;
         static std::unordered_map<std::string, std::unique_ptr<Mesh> > mesh;
+        static Noesis::IView* view;
 
     private:
         Entity player{};

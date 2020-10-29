@@ -1,6 +1,25 @@
 #include "spdlog/spdlog.h"
 
 #include "Window.hpp"
+#include "Game.hpp"
+
+static void MouseFunc(GLFWwindow *window, int button, int state, int mode) {
+    double dx, dy;
+
+    glfwGetCursorPos(window, &dx, &dy);
+
+    int x = static_cast<int>(dx);
+    int y = static_cast<int>(dy);
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        if (state == GLFW_PRESS) {
+            Game::view->MouseButtonDown(x, y, Noesis::MouseButton_Left);
+        } else if (state == GLFW_RELEASE) {
+            Game::view->MouseButtonUp(x, y, Noesis::MouseButton_Left);
+        }
+    }
+}
+
 
 Window::Window() : window(nullptr), width(0), height(0) {  }
 
@@ -45,6 +64,7 @@ void Window::init(int width_, int height_) {
     }
 
     glfwSetWindowUserPointer(window, this);
+    glfwSetMouseButtonCallback(window, MouseFunc);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -72,6 +92,14 @@ void Window::swapBuffer() {
 
 glm::vec2 Window::windowSize() const {
     return glm::vec2(width, height);
+}
+
+glm::vec2 Window::cursorPos() const {
+    double dx, dy;
+
+    glfwGetCursorPos(window, &dx, &dy);
+
+    return glm::vec2(static_cast<float>(dx), static_cast<float>(dy));
 }
 
 bool* Window::getKeys() {

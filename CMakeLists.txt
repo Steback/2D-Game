@@ -53,4 +53,18 @@ include_directories(thirdparty/sol2)
 # spdlog
 add_subdirectory(thirdparty/spdlog)
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm spdlog box2d tinyxml2 lua)
+# NoesisGUI
+include_directories(thirdparty/NoesisGUI/Include)
+file(GLOB NOESIS_BIN thirdparty/NoesisGUI/Bin/linux_x86_64/libNoesis.so)
+file(GLOB NOESISAPP_BIN thirdparty/NoesisGUI/Bin/linux_x86_64/libNoesisApp.so)
+
+# NoesisGUI GLRenderDevice
+include_directories(thirdparty/NoesisGUI/Src/Packages/Render/GLRenderDevice/Include)
+
+# NoesisGUI Theme
+include_directories(thirdparty/NoesisGUI/Src/Packages/App/Providers/Include)
+
+# NoesisGUI Theme
+include_directories(thirdparty/NoesisGUI/Src/Packages/App/Theme/Include)
+
+target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm spdlog box2d tinyxml2 lua ${NOESIS_BIN} ${NOESISAPP_BIN})

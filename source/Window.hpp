@@ -14,7 +14,8 @@ class Window {
         void render();
         bool isRunning();
         void swapBuffer();
-        glm::vec2 windowSize() const;
+        [[nodiscard]] glm::vec2 windowSize() const;
+        [[nodiscard]] glm::vec2 cursorPos() const;
         bool* getKeys();
         void windowShouldClose(bool close_);
 

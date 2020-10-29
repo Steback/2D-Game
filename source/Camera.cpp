@@ -14,21 +14,21 @@ glm::mat4 Camera::viewMatrix(glm::vec2 position_) {
     view = glm::mat4(1.0f);
     position = position_;
 
-    if ( position.y >= Game::map->getTopBorder() - MAX_CAMERA_VIEW_Y ) {
-        position.y = Game::map->getTopBorder() - MAX_CAMERA_VIEW_Y;
-    }
-
-    if ( position.y <= Game::map->getBottomBorder() + MAX_CAMERA_VIEW_Y ) {
-        position.y = Game::map->getBottomBorder() + MAX_CAMERA_VIEW_Y;
-    }
-
-    if ( position.x <= Game::map->getLeftBorder() + MAX_CAMERA_VIEW_X ) {
-        position.x = Game::map->getLeftBorder() + MAX_CAMERA_VIEW_X;
-    }
-
-    if ( position.x >= Game::map->getRightBorder() - MAX_CAMERA_VIEW_X ) {
-        position.x = Game::map->getRightBorder() - MAX_CAMERA_VIEW_X;
-    }
+//    if ( position.y >= Game::map->getTopBorder() - MAX_CAMERA_VIEW_Y ) {
+//        position.y = Game::map->getTopBorder() - MAX_CAMERA_VIEW_Y;
+//    }
+//
+//    if ( position.y <= Game::map->getBottomBorder() + MAX_CAMERA_VIEW_Y ) {
+//        position.y = Game::map->getBottomBorder() + MAX_CAMERA_VIEW_Y;
+//    }
+//
+//    if ( position.x <= Game::map->getLeftBorder() + MAX_CAMERA_VIEW_X ) {
+//        position.x = Game::map->getLeftBorder() + MAX_CAMERA_VIEW_X;
+//    }
+//
+//    if ( position.x >= Game::map->getRightBorder() - MAX_CAMERA_VIEW_X ) {
+//        position.x = Game::map->getRightBorder() - MAX_CAMERA_VIEW_X;
+//    }
 
     return glm::translate(view, glm::vec3(-position, 0.0f));
 }
