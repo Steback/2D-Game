@@ -1,4 +1,4 @@
-#include "fmt/core.h"
+#include "spdlog/spdlog.h"
 
 #include "Window.hpp"
 
@@ -10,8 +10,10 @@ Window::~Window() {
 }
 
 void Window::init(int width_, int height_) {
+    spdlog::info("[GLFW] Init");
+
     if ( !glfwInit() ) {
-        fmt::print("Error Initialising GLFW\n");
+        spdlog::error("[GLFW] Error Initialising\n");
         glfwTerminate();
     }
 
@@ -23,7 +25,7 @@ void Window::init(int width_, int height_) {
     window = glfwCreateWindow(width_, height_, "2D Game", nullptr, nullptr);
 
     if ( !window ) {
-        fmt::print("Failed to create GLFW window\n");
+        spdlog::error("[GLFW] Failed to create window\n");
         glfwTerminate();
         return ;
     }
@@ -34,8 +36,10 @@ void Window::init(int width_, int height_) {
 
     glfwMakeContextCurrent(window);
 
+    spdlog::info("[Glad] Init");
+
     if ( !gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) ) {
-        fmt::print("Failed to initialize GLAD\n");
+        spdlog::error("[Glad] Failed to initialize\n");
         glfwDestroyWindow(window);
         glfwTerminate();
     }

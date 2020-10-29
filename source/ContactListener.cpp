@@ -1,5 +1,3 @@
-#include "fmt/core.h"
-
 #include "EntityManager.hpp"
 #include "ContactListener.hpp"
 

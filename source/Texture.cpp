@@ -1,4 +1,4 @@
-#include "fmt/core.h"
+#include "spdlog/spdlog.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
@@ -14,7 +14,7 @@ bool Texture::loadTexture() {
     unsigned char* imageData = stbi_load(filePath.c_str(), &width, &height, &comp, 4);
 
     if ( !imageData ) {
-        fmt::print("Fail load image: {}", filePath);
+        spdlog::error("[Texture] Fail load image: {}", filePath);
         return false;
     }
 

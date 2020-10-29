@@ -1,6 +1,6 @@
 #include <fstream>
 
-#include "fmt/core.h"
+#include "spdlog/spdlog.h"
 
 #include "Shader.hpp"
 
@@ -24,7 +24,7 @@ void Shader::compileShader(const std::string &vertexCode_, const std::string &fr
     shaderID = glCreateProgram();
 
     if ( !shaderID ) {
-        fmt::print("Error creating shader program\n");
+        spdlog::error("[Shader] Error creating shader program\n");
         return ;
     }
 
@@ -40,7 +40,7 @@ void Shader::compileShader(const std::string &vertexCode_, const std::string &fr
 
     if ( !result ) {
         glGetProgramInfoLog(shaderID, sizeof(eLog), nullptr, eLog);
-        fmt::print("Error linking program: {}\n", eLog);
+        spdlog::error("[Shader] Error linking program: {}\n", eLog);
         return ;
     }
 
@@ -49,7 +49,7 @@ void Shader::compileShader(const std::string &vertexCode_, const std::string &fr
 
     if ( !result ) {
         glGetProgramInfoLog(shaderID, sizeof(eLog), nullptr, eLog);
-        fmt::print("Error validating program: {}\n", eLog);
+        spdlog::error("[Shader] Error validating program: {}\n", eLog);
         return ;
     }
 }
@@ -70,7 +70,7 @@ void Shader::addShader(GLuint program_, const std::string &shaderCode_, GLenum s
 
     if ( !result ) {
         glGetShaderInfoLog(shader, sizeof(eLog), nullptr, eLog);
-        fmt::print("Error compiling {}  shader: {}\n", shader, eLog);
+        spdlog::error("[Shader] Error compiling {}  shader: {}\n", shader, eLog);
         return ;
     }
 
@@ -82,7 +82,7 @@ std::string Shader::readFile(const std::string &filePath_) {
     std::fstream fileStream(filePath_, std::ios::in);
 
     if ( !fileStream.is_open() ) {
-        fmt::print("Fail to read {} file\n", filePath_);
+        spdlog::error("[Shader] Fail to read {} file\n", filePath_);
         return "";
     }
 

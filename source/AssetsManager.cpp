@@ -1,5 +1,5 @@
 #include "tinyxml2.h"
-#include "fmt/core.h"
+#include "spdlog/spdlog.h"
 
 #include "AssetsManager.hpp"
 #include "Texture.hpp"
@@ -26,7 +26,7 @@ void AssetsManager::loadSprites(const std::string &filePath_) {
     tinyxml2::XMLDocument assets;
 
     if ( assets.LoadFile(filePath_.c_str()) != tinyxml2::XML_SUCCESS ) {
-        fmt::print(stderr, "Error loading XML file\n");
+        spdlog::error("[TinyXML2] Error loading XML file\n");
     }
 
     tinyxml2::XMLNode* sprite = assets.RootElement()->FirstChild();

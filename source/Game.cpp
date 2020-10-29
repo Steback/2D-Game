@@ -1,4 +1,5 @@
 #include "glm/gtc/type_ptr.hpp"
+#include "spdlog/spdlog.h"
 
 #include "Game.hpp"
 #include "Window.hpp"
@@ -31,6 +32,8 @@ Game::Game() = default;
 Game::~Game() = default;
 
 void Game::init() {
+    spdlog::info("[Game] Init");
+
     window = std::make_unique<Window>();
     window->init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -56,6 +59,8 @@ void Game::init() {
 }
 
 void Game::loadLevel(const std::string &levelName) {
+    spdlog::info("[Game] Load level: {}", levelName);
+
     // Init map
     map = std::make_unique<Map>();
 

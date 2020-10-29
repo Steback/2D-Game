@@ -1,5 +1,4 @@
 #include "sol.hpp"
-#include "fmt/core.h"
 
 #include "LuaManager.hpp"
 #include "Map.hpp"
@@ -10,7 +9,6 @@
 #include "components/TransformComponent.hpp"
 #include "components/SpriteComponent.hpp"
 #include "components/KeyboardControlComponent.hpp"
-#include "components/MeshComponent.hpp"
 #include "components/CollisionComponent.hpp"
 #include "components/ProjectileEmitterComponent.hpp"
 #include "components/ParticlesComponent.hpp"
