@@ -12,6 +12,7 @@
 #include "LuaManager.hpp"
 #include "Map.hpp"
 #include "Mesh.hpp"
+#include "XamlProvider.hpp"
 #include "components/TransformComponent.hpp"
 
 // static objects
@@ -87,33 +88,13 @@ void Game::initNoesis() {
 
     Noesis::GUI::Init(NS_LICENSE_NAME, NS_LICENSE_KEY);
 
-    NoesisApp::SetThemeProviders();
+//    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<XamlProvider>("."));
+    Noesis::Ptr<XamlProvider> myXamlProvider = Noesis::MakePtr<XamlProvider>(".");
+
+    NoesisApp::SetThemeProviders(myXamlProvider);
     Noesis::GUI::LoadApplicationResources("Theme/NoesisTheme.DarkBlue.xaml");
 
-    Noesis::Ptr<Noesis::Grid> xaml(Noesis::GUI::ParseXaml<Noesis::Grid>(R"(
-        <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                    <GradientStop Offset="0" Color="#FF123F61"/>
-                    <GradientStop Offset="0.6" Color="#FF0E4B79"/>
-                    <GradientStop Offset="0.7" Color="#FF106097"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-            <Viewbox>
-                <StackPanel Margin="50">
-                    <Button Content="Hello World!" Margin="0,30,0,0"/>
-                    <Rectangle Height="5" Margin="-10,20,-10,0">
-                        <Rectangle.Fill>
-                            <RadialGradientBrush>
-                                <GradientStop Offset="0" Color="#40000000"/>
-                                <GradientStop Offset="1" Color="#00000000"/>
-                            </RadialGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </StackPanel>
-            </Viewbox>
-        </Grid>
-    )"));
+    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("Data/basicView.xaml");
 
     view = Noesis::GUI::CreateView(xaml).GiveOwnership();
     view->SetFlags(Noesis::RenderFlags_PPAA | Noesis::RenderFlags_LCD);
@@ -230,5 +211,10 @@ void Game::render() {
 }
 
 void Game::clear() {
+    spdlog::info("[Game] Clear and shutdown");
+
+    view->GetRenderer()->Shutdown();
+    view->Release();
+    Noesis::GUI::Shutdown();
     entityManager->clearBodys();
 }
