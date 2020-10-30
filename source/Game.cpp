@@ -12,7 +12,7 @@
 #include "LuaManager.hpp"
 #include "Map.hpp"
 #include "Mesh.hpp"
-#include "XamlProvider.hpp"
+#include "gui/XamlProvider.hpp"
 #include "components/TransformComponent.hpp"
 
 // static objects
@@ -88,13 +88,13 @@ void Game::initNoesis() {
 
     Noesis::GUI::Init(NS_LICENSE_NAME, NS_LICENSE_KEY);
 
-//    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<XamlProvider>("."));
-    Noesis::Ptr<XamlProvider> myXamlProvider = Noesis::MakePtr<XamlProvider>(".");
+    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<XamlProvider>("."));
+//    Noesis::Ptr<XamlProvider> myXamlProvider = Noesis::MakePtr<XamlProvider>(".");
 
-    NoesisApp::SetThemeProviders(myXamlProvider);
+//    NoesisApp::SetThemeProviders();
     Noesis::GUI::LoadApplicationResources("Theme/NoesisTheme.DarkBlue.xaml");
 
-    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("Data/basicView.xaml");
+    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("data/basicView.xaml");
 
     view = Noesis::GUI::CreateView(xaml).GiveOwnership();
     view->SetFlags(Noesis::RenderFlags_PPAA | Noesis::RenderFlags_LCD);
