@@ -13,6 +13,7 @@
 #include "Map.hpp"
 #include "Mesh.hpp"
 #include "gui/XamlProvider.hpp"
+#include "gui/FontProvider.hpp"
 #include "components/TransformComponent.hpp"
 
 // static objects
@@ -88,13 +89,18 @@ void Game::initNoesis() {
 
     Noesis::GUI::Init(NS_LICENSE_NAME, NS_LICENSE_KEY);
 
-    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<XamlProvider>("."));
-//    Noesis::Ptr<XamlProvider> myXamlProvider = Noesis::MakePtr<XamlProvider>(".");
+    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<XamlProvider>("data"));
+    Noesis::GUI::SetFontProvider(Noesis::MakePtr<FontProvider>("data/theme"));
 
-//    NoesisApp::SetThemeProviders();
-    Noesis::GUI::LoadApplicationResources("Theme/NoesisTheme.DarkBlue.xaml");
+    const char* fonts[] = { "fonts/#PT Root UI", "Arial", "Segoe UI Emoji" };
+    Noesis::GUI::SetFontFallbacks(fonts, 3);
+    Noesis::GUI::SetFontDefaultProperties(15.0f, Noesis::FontWeight_Normal,
+                                  Noesis::FontStretch_Normal,
+                                  Noesis::FontStyle_Normal);
 
-    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("data/basicView.xaml");
+    Noesis::GUI::LoadApplicationResources("theme/NoesisTheme.DarkBlue.xaml");
+
+    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("basicView.xaml");
 
     view = Noesis::GUI::CreateView(xaml).GiveOwnership();
     view->SetFlags(Noesis::RenderFlags_PPAA | Noesis::RenderFlags_LCD);
