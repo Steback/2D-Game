@@ -2,6 +2,7 @@
 
 #include "Window.hpp"
 #include "Game.hpp"
+#include "gui/Gui.hpp"
 
 static void MouseFunc(GLFWwindow *window, int button, int state, int mode) {
     double dx, dy;
@@ -13,9 +14,9 @@ static void MouseFunc(GLFWwindow *window, int button, int state, int mode) {
 
     if (button == GLFW_MOUSE_BUTTON_LEFT) {
         if (state == GLFW_PRESS) {
-            Game::view->MouseButtonDown(x, y, Noesis::MouseButton_Left);
+            Game::gui->m_view->MouseButtonDown(x, y, Noesis::MouseButton_Left);
         } else if (state == GLFW_RELEASE) {
-            Game::view->MouseButtonUp(x, y, Noesis::MouseButton_Left);
+            Game::gui->m_view->MouseButtonUp(x, y, Noesis::MouseButton_Left);
         }
     }
 }

@@ -12,8 +12,7 @@
 #include "LuaManager.hpp"
 #include "Map.hpp"
 #include "Mesh.hpp"
-#include "gui/XamlProvider.hpp"
-#include "gui/FontProvider.hpp"
+#include "gui/Gui.hpp"
 #include "components/TransformComponent.hpp"
 
 // static objects
@@ -25,18 +24,10 @@ std::unique_ptr<AssetsManager> Game::assetsManager;
 std::unique_ptr<ContactListener> Game::contactListener;
 std::unique_ptr<Map> Game::map;
 std::unordered_map<std::string, std::unique_ptr<Mesh> > Game::mesh;
-Noesis::IView* Game::view;
+std::unique_ptr<Gui> Game::gui;
 
 // Global variables
 float lastFrame = 0;
-
-static void ReshapeFunc(int width, int height) {
-    Game::view->SetSize(width, height);
-}
-
-static void MouseMoveFunc(int x, int y) {
-    Game::view->MouseMove(x, y);
-}
 
 Game::Game() = default;
 
@@ -48,6 +39,9 @@ void Game::init() {
     window = std::make_unique<Window>();
     window->init(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+    gui = std::make_unique<Gui>();
+    gui->init();
+
     // Init Shaders
     shaders.emplace("model", std::make_unique<Shader>("assets/shaders/model.vert", "assets/shaders/model.frag"));
     shaders.emplace("particle", std::make_unique<Shader>("assets/shaders/particle.vert", "assets/shaders/particle.frag"));
@@ -58,54 +52,7 @@ void Game::init() {
     // Init Camera
     camera = std::make_unique<Camera>(0.25f, -1.0f, 1.0f);
 
-    initNoesis();
-
 //    loadLevel("Level1.lua");
-}
-
-void Game::initNoesis() {
-    Noesis::SetLogHandler([](const char*, uint32_t, uint32_t level, const char*, const char* msg)
-                          {
-                              // [TRACE] [DEBUG] [INFO] [WARNING] [ERROR]
-                              std::array<char, 5> prefixes = { 'T',
-                                                               'D',
-                                                               'I',
-                                                               'W',
-                                                               'E' };
-
-                              switch (prefixes[level]) {
-                                  case 'T':
-                                      spdlog::trace("[NOESIS] {}" , msg); break;
-                                  case 'D':
-                                      spdlog::debug("[NOESIS] {}" , msg); break;
-                                  case 'I':
-                                      spdlog::info("[NOESIS] {}" , msg); break;
-                                  case 'W':
-                                      spdlog::warn("[NOESIS] {}" , msg); break;
-                                  case 'E':
-                                      spdlog::error("[NOESIS] {}" , msg); break;
-                              }
-                          });
-
-    Noesis::GUI::Init(NS_LICENSE_NAME, NS_LICENSE_KEY);
-
-    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<XamlProvider>("data"));
-    Noesis::GUI::SetFontProvider(Noesis::MakePtr<FontProvider>("data/theme"));
-
-    const char* fonts[] = { "fonts/#PT Root UI", "Arial", "Segoe UI Emoji" };
-    Noesis::GUI::SetFontFallbacks(fonts, 3);
-    Noesis::GUI::SetFontDefaultProperties(15.0f, Noesis::FontWeight_Normal,
-                                  Noesis::FontStretch_Normal,
-                                  Noesis::FontStyle_Normal);
-
-    Noesis::GUI::LoadApplicationResources("theme/NoesisTheme.DarkBlue.xaml");
-
-    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("basicView.xaml");
-
-    view = Noesis::GUI::CreateView(xaml).GiveOwnership();
-    view->SetFlags(Noesis::RenderFlags_PPAA | Noesis::RenderFlags_LCD);
-
-    view->GetRenderer()->Init(NoesisApp::GLFactory::CreateDevice(false));
 }
 
 void Game::loadLevel(const std::string &levelName) {
@@ -169,16 +116,13 @@ void Game::loadLevel(const std::string &levelName) {
 void Game::update() {
     glfwPollEvents();
 
-    view->Update(glfwGetTime() / 1000.0);
-
-    view->GetRenderer()->UpdateRenderTree();
-    view->GetRenderer()->RenderOffscreen();
+    gui->update(glfwGetTime());
 
     auto windowSize = window->windowSize();
-    ReshapeFunc(static_cast<int>(windowSize.x), static_cast<int>(windowSize.y));
+    gui->reshapeFunc(static_cast<int>(windowSize.x), static_cast<int>(windowSize.y));
 
     auto cursorPos = window->cursorPos();
-    MouseMoveFunc(static_cast<int>(cursorPos.x), static_cast<int>(cursorPos.y));
+    gui->mouseMoveFunc(static_cast<int>(cursorPos.x), static_cast<int>(cursorPos.y));
 
     //    window->windowShouldClose(contactListener->GameOver());
 
@@ -209,7 +153,7 @@ void Game::render() {
 //    entityManager->renderMap();
 //    entityManager->render(m_proj, m_view);
 
-    view->GetRenderer()->Render();
+    gui->render();
 
     glUseProgram(0);
 
@@ -218,9 +162,5 @@ void Game::render() {
 
 void Game::clear() {
     spdlog::info("[Game] Clear and shutdown");
-
-    view->GetRenderer()->Shutdown();
-    view->Release();
-    Noesis::GUI::Shutdown();
     entityManager->clearBodys();
 }

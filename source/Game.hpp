@@ -7,13 +7,6 @@
 
 #include "box2d/b2_world.h"
 #include "glm/glm.hpp"
-#include "NsGui/FontProperties.h"
-#include "NsGui/IntegrationAPI.h"
-#include "NsGui/IRenderer.h"
-#include "NsGui/IView.h"
-#include "NsGui/Grid.h"
-#include "NsApp/ThemeProviders.h"
-#include "NsRender/GLFactory.h"
 
 #include "EntityManager.hpp"
 #include "ParticleSystem.hpp"
@@ -27,18 +20,19 @@ class Camera;
 class AssetsManager;
 class ContactListener;
 class Map;
+class Gui;
 
 class Game {
     public:
         Game();
         ~Game();
         void init();
-        void initNoesis();
         void loadLevel(const std::string& levelName);
         void update();
         void render();
         void clear();
 
+    public:
         static std::unique_ptr<Window> window;
         static std::map<std::string, std::unique_ptr<Shader> > shaders;
         static std::unique_ptr<EntityManager> entityManager;
@@ -47,7 +41,7 @@ class Game {
         static std::unique_ptr<ContactListener> contactListener;
         static std::unique_ptr<Map> map;
         static std::unordered_map<std::string, std::unique_ptr<Mesh> > mesh;
-        static Noesis::IView* view;
+        static std::unique_ptr<Gui> gui;
 
     private:
         Entity player{};
