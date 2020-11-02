@@ -8,11 +8,7 @@
 
 Gui::Gui() = default;
 
-Gui::~Gui() {
-    m_view->GetRenderer()->Shutdown();
-    m_view->Release();
-    Noesis::GUI::Shutdown();
-}
+Gui::~Gui() = default;
 
 void Gui::init() {
     Noesis::SetLogHandler([](const char*, uint32_t, uint32_t level, const char*, const char* msg)
@@ -40,22 +36,16 @@ void Gui::init() {
 
     Noesis::GUI::Init(NS_LICENSE_NAME, NS_LICENSE_KEY);
 
-    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<XamlProvider>("data"));
-    Noesis::GUI::SetFontProvider(Noesis::MakePtr<FontProvider>("data/theme"));
-
-    const char* fonts[] = { "fonts/#PT Root UI", "Arial", "Segoe UI Emoji" };
-    Noesis::GUI::SetFontFallbacks(fonts, 3);
-    Noesis::GUI::SetFontDefaultProperties(15.0f, Noesis::FontWeight_Normal,
-                                          Noesis::FontStretch_Normal,
-                                          Noesis::FontStyle_Normal);
+    Noesis::Ptr<XamlProvider> xamlProvider = Noesis::MakePtr<XamlProvider>("data");
+    Noesis::Ptr<FontProvider> fontProvider = Noesis::MakePtr<FontProvider>("data");
+    NoesisApp::SetThemeProviders(xamlProvider, fontProvider);
 
     Noesis::GUI::LoadApplicationResources("theme/NoesisTheme.DarkBlue.xaml");
 
-    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("basicView.xaml");
-
+    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("MainWindow.xaml");
     m_view = Noesis::GUI::CreateView(xaml).GiveOwnership();
-    m_view->SetFlags(Noesis::RenderFlags_PPAA | Noesis::RenderFlags_LCD);
 
+    m_view->SetFlags(Noesis::RenderFlags_PPAA | Noesis::RenderFlags_LCD);
     m_view->GetRenderer()->Init(NoesisApp::GLFactory::CreateDevice(false));
 }
 
@@ -68,6 +58,12 @@ void Gui::update(double time) const {
 
 void Gui::render() const {
     m_view->GetRenderer()->Render();
+}
+
+void Gui::clear() const {
+    m_view->GetRenderer()->Shutdown();
+    m_view->Release();
+    Noesis::GUI::Shutdown();
 }
 
 void Gui::reshapeFunc(int width, int height) const {

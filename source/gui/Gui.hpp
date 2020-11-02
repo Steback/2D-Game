@@ -17,6 +17,7 @@ class Gui {
         void init();
         void update(double time) const;
         void render() const;
+        void clear() const;
         void reshapeFunc(int width, int height) const;
         void mouseMoveFunc(int x, int y) const;
 

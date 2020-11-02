@@ -162,5 +162,7 @@ void Game::render() {
 
 void Game::clear() {
     spdlog::info("[Game] Clear and shutdown");
+    gui->clear();
+
     entityManager->clearBodys();
 }

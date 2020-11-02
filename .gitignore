@@ -33,10 +33,10 @@
 *.app
 
 # Project Executable
-2D-Game
+2D_Game
 
 ### CMake
-cmake-build-debug/
+build/
 
 ### Clion
 .idea/
