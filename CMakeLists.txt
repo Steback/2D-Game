@@ -58,6 +58,8 @@ include_directories(thirdparty/NoesisGUI/Src/Packages/Render/GLRenderDevice/Incl
 include_directories(thirdparty/NoesisGUI/Src/Packages/App/Providers/Include)
 include_directories(thirdparty/NoesisGUI/Src/Packages/App/Theme/Include)
 include_directories(thirdparty/NoesisGUI/Src/Packages/App/ApplicationLauncher/Include)
+include_directories(thirdparty/NoesisGUI/Src/Packages/App/Display/Include)
+include_directories(thirdparty/NoesisGUI/Src/Packages/App/Interactivity/Include)
 
 set(BIN2H ${PROJECT_SOURCE_DIR}/thirdparty/NoesisGUI/Src/Tools/Bin2h/bin2h.py)
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/data)
@@ -80,7 +82,16 @@ foreach(mp3File ${mp3Files})
     set(MP3_SRC ${MP3_SRC} data/${fileName}.bin.h)
 endforeach()
 
+file(GLOB_RECURSE ttfFiles ${PROJECT_SOURCE_DIR}/data/fonts/*.ttf)
+foreach(ttfFile ${ttfFiles})
+    get_filename_component(fileName ${ttfFile} NAME)
+    message("[NOESIS] ${fileName} > ${fileName}.bin.h")
+    execute_process(COMMAND python ${BIN2H} ${ttfFile}
+            OUTPUT_FILE ${PROJECT_BINARY_DIR}/data/${fileName}.bin.h)
+    set(TTF_SRC ${TTF_SRC} data/${fileName}.bin.h)
+endforeach()
+
 include_directories(${PROJECT_BINARY_DIR}/data)
 
 target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm spdlog box2d tinyxml2 lua ${NOESIS_BIN} ${NOESISAPP_BIN})
-target_sources(${PROJECT_NAME} PRIVATE ${XAML_SRC})
+target_sources(${PROJECT_NAME} PRIVATE ${XAML_SRC} ${MP3_SRC} ${TTF_SRC})

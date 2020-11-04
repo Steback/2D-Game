@@ -1,10 +1,10 @@
 #include <array>
 
 #include "spdlog/spdlog.h"
+#include "NsApp/LocalFontProvider.h"
+#include "NsApp/LocalXamlProvider.h"
 
 #include "Gui.hpp"
-#include "XamlProvider.hpp"
-#include "FontProvider.hpp"
 
 Gui::Gui() = default;
 
@@ -36,14 +36,14 @@ void Gui::init() {
 
     Noesis::GUI::Init(NS_LICENSE_NAME, NS_LICENSE_KEY);
 
-    Noesis::Ptr<XamlProvider> xamlProvider = Noesis::MakePtr<XamlProvider>("data");
-    Noesis::Ptr<FontProvider> fontProvider = Noesis::MakePtr<FontProvider>("data");
-    NoesisApp::SetThemeProviders(xamlProvider, fontProvider);
+    NoesisApp::SetThemeProviders(Noesis::MakePtr<NoesisApp::LocalXamlProvider>("data/"),
+            Noesis::MakePtr<NoesisApp::LocalFontProvider>("data/"));
 
     Noesis::GUI::LoadApplicationResources("theme/NoesisTheme.DarkBlue.xaml");
 
-    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("MainWindow.xaml");
+    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("MainMenu.xaml");
     m_view = Noesis::GUI::CreateView(xaml).GiveOwnership();
+
 
     m_view->SetFlags(Noesis::RenderFlags_PPAA | Noesis::RenderFlags_LCD);
     m_view->GetRenderer()->Init(NoesisApp::GLFactory::CreateDevice(false));
