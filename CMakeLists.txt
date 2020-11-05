@@ -73,25 +73,7 @@ foreach(xamlFile ${xamlFiles})
     set(XAML_SRC ${XAML_SRC} data/${fileName}.bin.h)
 endforeach()
 
-file(GLOB_RECURSE mp3Files ${PROJECT_SOURCE_DIR}/data/*.mp3)
-foreach(mp3File ${mp3Files})
-    get_filename_component(fileName ${mp3File} NAME)
-    message("[NOESIS] ${fileName} > ${fileName}.bin.h")
-    execute_process(COMMAND python ${BIN2H} ${mp3File}
-            OUTPUT_FILE ${PROJECT_BINARY_DIR}/data/${fileName}.bin.h)
-    set(MP3_SRC ${MP3_SRC} data/${fileName}.bin.h)
-endforeach()
-
-file(GLOB_RECURSE ttfFiles ${PROJECT_SOURCE_DIR}/data/fonts/*.ttf)
-foreach(ttfFile ${ttfFiles})
-    get_filename_component(fileName ${ttfFile} NAME)
-    message("[NOESIS] ${fileName} > ${fileName}.bin.h")
-    execute_process(COMMAND python ${BIN2H} ${ttfFile}
-            OUTPUT_FILE ${PROJECT_BINARY_DIR}/data/${fileName}.bin.h)
-    set(TTF_SRC ${TTF_SRC} data/${fileName}.bin.h)
-endforeach()
-
 include_directories(${PROJECT_BINARY_DIR}/data)
 
 target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm spdlog box2d tinyxml2 lua ${NOESIS_BIN} ${NOESISAPP_BIN})
-target_sources(${PROJECT_NAME} PRIVATE ${XAML_SRC} ${MP3_SRC} ${TTF_SRC})
+target_sources(${PROJECT_NAME} PRIVATE ${XAML_SRC})
