@@ -1,13 +1,12 @@
 #include <array>
 
 #include "spdlog/spdlog.h"
-#include "NsApp/EmbeddedXamlProvider.h"
+#include "NsCore/RegisterComponent.h"
 #include "NsApp/LocalXamlProvider.h"
 #include "NsApp/LocalFontProvider.h"
 
 #include "Gui.hpp"
-
-#include "MainMenu.xaml.bin.h"
+#include "MainWindow.hpp"
 
 
 Gui::Gui() = default;
@@ -40,16 +39,12 @@ void Gui::init() {
 
     Noesis::GUI::Init(NS_LICENSE_NAME, NS_LICENSE_KEY);
 
+    Noesis::RegisterComponent<GameGUI::MainWindow>();
+
     NoesisApp::SetThemeProviders();
     Noesis::GUI::LoadApplicationResources("Theme/NoesisTheme.DarkBlue.xaml");
 
-    NoesisApp::EmbeddedXaml xamls[] = {
-            "MainMenu.xaml", MainMenu_xaml
-    };
-
-//    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::EmbeddedXamlProvider>(xamls));
     Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::LocalXamlProvider>("data/"));
-
 
     Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("MainMenu.xaml");
     m_view = Noesis::GUI::CreateView(xaml).GiveOwnership();

@@ -59,21 +59,7 @@ include_directories(thirdparty/NoesisGUI/Src/Packages/App/Providers/Include)
 include_directories(thirdparty/NoesisGUI/Src/Packages/App/Theme/Include)
 include_directories(thirdparty/NoesisGUI/Src/Packages/App/ApplicationLauncher/Include)
 include_directories(thirdparty/NoesisGUI/Src/Packages/App/Display/Include)
+include_directories(thirdparty/NoesisGUI/Src/Packages/App/Launcher/Include)
 include_directories(thirdparty/NoesisGUI/Src/Packages/App/Interactivity/Include)
 
-set(BIN2H ${PROJECT_SOURCE_DIR}/thirdparty/NoesisGUI/Src/Tools/Bin2h/bin2h.py)
-file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/data)
-
-file(GLOB_RECURSE xamlFiles ${PROJECT_SOURCE_DIR}/data/*.xaml)
-foreach(xamlFile ${xamlFiles})
-    get_filename_component(fileName ${xamlFile} NAME)
-    message("[NOESIS] ${fileName} > ${fileName}.bin.h")
-    execute_process(COMMAND python ${BIN2H} ${xamlFile}
-            OUTPUT_FILE ${PROJECT_BINARY_DIR}/data/${fileName}.bin.h)
-    set(XAML_SRC ${XAML_SRC} data/${fileName}.bin.h)
-endforeach()
-
-include_directories(${PROJECT_BINARY_DIR}/data)
-
 target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm spdlog box2d tinyxml2 lua ${NOESIS_BIN} ${NOESISAPP_BIN})
-target_sources(${PROJECT_NAME} PRIVATE ${XAML_SRC})

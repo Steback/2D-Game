@@ -9,10 +9,11 @@
 #include "NsGui/Grid.h"
 #include "NsApp/ThemeProviders.h"
 #include "NsRender/GLFactory.h"
+#include "NsGui/Button.h"
 
 class Gui {
     public:
-        Gui();
+    Gui();
         ~Gui();
         void init();
         void update(double time) const;
@@ -23,6 +24,7 @@ class Gui {
 
     public:
         Noesis::IView* m_view{};
+        Noesis::Ptr<Noesis::FrameworkElement> m_xaml;
 };
 
 
