@@ -13,8 +13,8 @@ namespace GameGUI {
 
     enum class State {
         Main,
-        Start,
-        Settings
+        NewGame,
+        LoadGame,
     };
 
     class ViewModel final : public NoesisApp::NotifyPropertyChangedBase {
@@ -23,17 +23,25 @@ namespace GameGUI {
 
         private:
             const NoesisApp::DelegateCommand* GetNewGame() const;
+            const NoesisApp::DelegateCommand* GetLoadGame() const;
+            const NoesisApp::DelegateCommand* GetExit() const;
 
             void OnNewGame(BaseComponent* param);
+            void OnLoadGame(BaseComponent* param);
+            void Exit(BaseComponent* param);
 
-            State GetState() const;
+        State GetState() const;
             void SetState(State value);
 
         private:
             NoesisApp::DelegateCommand m_newGame;
+            NoesisApp::DelegateCommand m_loadGame;
+            NoesisApp::DelegateCommand m_exit;
+
+        private:
             State m_state;
 
-        NS_DECLARE_REFLECTION(ViewModel, NotifyPropertyChangedBase)
+            NS_DECLARE_REFLECTION(ViewModel, NotifyPropertyChangedBase)
     };
 
 }

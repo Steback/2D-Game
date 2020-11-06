@@ -11,6 +11,8 @@
 namespace GameGUI {
     ViewModel::ViewModel() {
         m_newGame.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnNewGame));
+        m_loadGame.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnLoadGame));
+        m_exit.SetExecuteFunc(MakeDelegate(this, &ViewModel::Exit));
 
         m_state = State::Main;
     }
@@ -19,9 +21,26 @@ namespace GameGUI {
         return &m_newGame;
     }
 
-    void ViewModel::OnNewGame(BaseComponent*) {
-        SetState(State::Start);
+    const NoesisApp::DelegateCommand *ViewModel::GetLoadGame() const {
+        return &m_loadGame;
+    }
+
+    const NoesisApp::DelegateCommand *ViewModel::GetExit() const {
+        return &m_exit;
+    }
+
+    void ViewModel::OnNewGame(BaseComponent* param) {
+        SetState(State::NewGame);
         spdlog::warn("New Game");
+    }
+
+    void ViewModel::OnLoadGame(BaseComponent* param) {
+        SetState(State::LoadGame);
+        spdlog::warn("Load Game");
+    }
+
+    void ViewModel::Exit(BaseComponent* param) {
+        spdlog::warn("Exit");
     }
 
     State ViewModel::GetState() const {
@@ -39,13 +58,14 @@ namespace GameGUI {
 
     NS_IMPLEMENT_REFLECTION(ViewModel) {
         NsProp("NewGame", &ViewModel::GetNewGame);
+        NsProp("LoadGame", &ViewModel::GetLoadGame);
+        NsProp("Exit", &ViewModel::GetExit);
         NsProp("State", &ViewModel::GetState, &ViewModel::SetState);
     }
-
 }
 
 NS_IMPLEMENT_REFLECTION_ENUM(GameGUI::State, "GameGUI.State"){
     NsVal("Main", GameGUI::State::Main);
-    NsVal("Start", GameGUI::State::Start);
-    NsVal("Settings", GameGUI::State::Settings);
+    NsVal("NewGame", GameGUI::State::NewGame);
+    NsVal("LoadGame", GameGUI::State::LoadGame);
 }
