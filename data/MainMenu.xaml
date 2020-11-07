@@ -22,5 +22,8 @@
                 <Button x:Name="Exit" Content="Exit" Command="{Binding Exit}" margin="0 10 0 0" FontSize="10" />
             </StackPanel>
         </Viewbox>
+        <local:Main x:Name="Main" Grid.Row="1" Grid.Column="1"/>
+        <local:NewGame x:Name="NewGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/>
+        <local:LoadGame x:Name="LoadGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/>
     </Grid>
 </Window>

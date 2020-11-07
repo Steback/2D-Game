@@ -10,7 +10,6 @@
 #include "NsApp/NotifyPropertyChangedBase.h"
 
 namespace GameGUI {
-
     enum class State {
         Main,
         NewGame,
@@ -30,7 +29,7 @@ namespace GameGUI {
             void OnLoadGame(BaseComponent* param);
             void Exit(BaseComponent* param);
 
-        State GetState() const;
+            State GetState() const;
             void SetState(State value);
 
         private:

@@ -6,6 +6,8 @@
 #include "spdlog/spdlog.h"
 
 #include "ViewModel.hpp"
+#include "../Game.hpp"
+#include "../Window.hpp"
 
 
 namespace GameGUI {
@@ -40,7 +42,7 @@ namespace GameGUI {
     }
 
     void ViewModel::Exit(BaseComponent* param) {
-        spdlog::warn("Exit");
+        Game::window->windowShouldClose(true);
     }
 
     State ViewModel::GetState() const {
