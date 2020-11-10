@@ -11,9 +11,10 @@
 
 namespace GameGUI {
     enum class State {
-        Main,
+        MainMenu,
         NewGame,
         LoadGame,
+        Exit,
     };
 
     class ViewModel final : public NoesisApp::NotifyPropertyChangedBase {

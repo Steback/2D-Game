@@ -16,7 +16,7 @@ namespace GameGUI {
         m_loadGame.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnLoadGame));
         m_exit.SetExecuteFunc(MakeDelegate(this, &ViewModel::Exit));
 
-        m_state = State::Main;
+        m_state = State::MainMenu;
     }
 
     const NoesisApp::DelegateCommand* ViewModel::GetNewGame() const {
@@ -33,12 +33,12 @@ namespace GameGUI {
 
     void ViewModel::OnNewGame(BaseComponent* param) {
         SetState(State::NewGame);
-        spdlog::warn("New Game");
+        spdlog::warn("New Game - {}", m_state);
     }
 
     void ViewModel::OnLoadGame(BaseComponent* param) {
         SetState(State::LoadGame);
-        spdlog::warn("Load Game");
+        spdlog::warn("Load Game - {}", m_state);
     }
 
     void ViewModel::Exit(BaseComponent* param) {
@@ -67,7 +67,8 @@ namespace GameGUI {
 }
 
 NS_IMPLEMENT_REFLECTION_ENUM(GameGUI::State, "GameGUI.State"){
-    NsVal("Main", GameGUI::State::Main);
+    NsVal("MainMenu", GameGUI::State::MainMenu);
     NsVal("NewGame", GameGUI::State::NewGame);
     NsVal("LoadGame", GameGUI::State::LoadGame);
+    NsVal("Exit", GameGUI::State::Exit);
 }

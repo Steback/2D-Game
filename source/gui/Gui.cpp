@@ -2,11 +2,19 @@
 
 #include "spdlog/spdlog.h"
 #include "NsCore/RegisterComponent.h"
-#include "NsApp/LocalXamlProvider.h"
-#include "NsApp/LocalFontProvider.h"
+#include "NsApp/EmbeddedXamlProvider.h"
+#include "NsCore/EnumConverter.h"
+#include "NsApp/Interaction.h"
+#include "NsApp/DataTrigger.h"
+#include "NsApp/TriggerCollection.h"
+#include "NsApp/KeyTrigger.h"
+#include "NsApp/InvokeCommandAction.h"
 
 #include "Gui.hpp"
 #include "MainWindow.hpp"
+#include "ViewModel.hpp"
+#include "MainMenu.hpp"
+#include "Resourses.hpp"
 
 
 Gui::Gui() = default;
@@ -39,14 +47,28 @@ void Gui::init() {
 
     Noesis::GUI::Init(NS_LICENSE_NAME, NS_LICENSE_KEY);
 
+    Noesis::TypeOf<NoesisApp::Interaction>();
+
+    Noesis::RegisterComponent<NoesisApp::DataTrigger>();
+    Noesis::RegisterComponent<NoesisApp::TriggerCollection>();
+    Noesis::RegisterComponent<NoesisApp::KeyTrigger>();
+    Noesis::RegisterComponent<NoesisApp::InvokeCommandAction>();
+
     Noesis::RegisterComponent<GameGUI::MainWindow>();
+    Noesis::RegisterComponent<GameGUI::MainMenu>();
+    Noesis::RegisterComponent<Noesis::EnumConverter<GameGUI::State>>();
 
     NoesisApp::SetThemeProviders();
     Noesis::GUI::LoadApplicationResources("Theme/NoesisTheme.DarkBlue.xaml");
 
-    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::LocalXamlProvider>("data/"));
+    NoesisApp::EmbeddedXaml xamls[] = {
+            "MainWindow.xaml", MainWindow_xaml,
+            "MainMenu.xaml", MainMenu_xaml
+    };
 
-    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("MainMenu.xaml");
+    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::EmbeddedXamlProvider>(xamls));
+
+    Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("MainWindow.xaml");
     m_view = Noesis::GUI::CreateView(xaml).GiveOwnership();
 
     m_view->SetFlags(Noesis::RenderFlags_PPAA | Noesis::RenderFlags_LCD);

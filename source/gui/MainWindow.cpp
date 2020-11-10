@@ -12,7 +12,7 @@ namespace GameGUI {
     }
 
     void MainWindow::InitializeComponent() {
-        Noesis::GUI::LoadComponent(this, "MainMenu.xaml");
+        Noesis::GUI::LoadComponent(this, "MainWindow.xaml");
     }
 
     void MainWindow::OnLoaded(Noesis::BaseComponent*, const Noesis::RoutedEventArgs&) {
