@@ -28,6 +28,7 @@ std::unique_ptr<Gui> Game::gui;
 
 // Global variables
 float lastFrame = 0;
+bool loadimage = true;
 
 Game::Game() = default;
 
@@ -50,9 +51,10 @@ void Game::init() {
     entityManager = std::make_unique<EntityManager>();
 
     // Init Camera
-    camera = std::make_unique<Camera>(0.25f, -1.0f, 1.0f);
+    camera = std::make_unique<Camera>(1.0f, -1.0f, 1.0f);
 
 //    loadLevel("Level1.lua");
+
 }
 
 void Game::loadLevel(const std::string &levelName) {
@@ -149,7 +151,7 @@ void Game::update() {
 void Game::render() {
     window->render();
 
-    shaders["model"]->useShader();
+//    shaders["model"]->useShader();
 //    entityManager->renderMap();
 //    entityManager->render(m_proj, m_view);
 

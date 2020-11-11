@@ -19,6 +19,7 @@ class Map {
         [[nodiscard]] float getLeftBorder() const;
         [[nodiscard]] float getRightBorder() const;
         [[nodiscard]] float getBottomBorder() const;
+        void saveMapImage(const std::string& filepath);
 
     private:
         float topBorder{}, leftBorder{}, rightBorder{}, bottomBorder{};

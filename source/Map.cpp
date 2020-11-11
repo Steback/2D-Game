@@ -1,10 +1,13 @@
 #include <fstream>
 
 #include "fmt/core.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 
 #include "Map.hpp"
 #include "Game.hpp"
 #include "ContactListener.hpp"
+#include "Window.hpp"
 #include "components/TileComponent.hpp"
 #include "components/MeshComponent.hpp"
 
@@ -97,4 +100,23 @@ float Map::getRightBorder() const {
 
 float Map::getBottomBorder() const {
     return bottomBorder;
+}
+
+void Map::saveMapImage(const std::string &filepath) {
+    auto windowSize = Game::window->windowSize();
+    int width = static_cast<int>(windowSize.x);
+    int height = static_cast<int>(windowSize.y);
+    GLsizei nrChannels = 3;
+    GLsizei stride = nrChannels * width;
+
+    stride += (stride % 4) ? (4 - stride % 4) : 0;
+
+    GLsizei bufferSize = stride * height;
+    std::vector<char> buffer(bufferSize);
+
+    glPixelStorei(GL_PACK_ALIGNMENT, 4);
+    glReadBuffer(GL_FRONT);
+    glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer.data());
+    stbi_flip_vertically_on_write(true);
+    stbi_write_png(filepath.c_str(), width, height, nrChannels, buffer.data(), stride);
 }
