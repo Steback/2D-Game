@@ -3,6 +3,7 @@
 #include "spdlog/spdlog.h"
 #include "NsCore/RegisterComponent.h"
 #include "NsApp/EmbeddedXamlProvider.h"
+#include "NsApp/LocalTextureProvider.h"
 #include "NsCore/EnumConverter.h"
 #include "NsApp/Interaction.h"
 #include "NsApp/DataTrigger.h"
@@ -11,6 +12,7 @@
 #include "NsApp/InvokeCommandAction.h"
 #include "NsApp/ControlStoryboardAction.h"
 #include "NsApp/ChangePropertyAction.h"
+#include "NsApp/EventTrigger.h"
 
 #include "Gui.hpp"
 #include "MainWindow.hpp"
@@ -48,7 +50,7 @@ void Gui::init() {
                               }
                           });
 
-    Noesis::GUI::Init(NS_LICENSE_NAME, NS_LICENSE_KEY);
+    Noesis::GUI::Init("Steback", "HLwRF7P0EReiR6OQGGCrekCPPyct2yzQmIsRKrTRHSnlGE7C");
 
     Noesis::TypeOf<NoesisApp::Interaction>();
 
@@ -58,6 +60,9 @@ void Gui::init() {
     Noesis::RegisterComponent<NoesisApp::InvokeCommandAction>();
     Noesis::RegisterComponent<NoesisApp::ControlStoryboardAction>();
     Noesis::RegisterComponent<NoesisApp::ChangePropertyAction>();
+    Noesis::RegisterComponent<NoesisApp::EventTrigger>();
+    Noesis::RegisterComponent<NoesisApp::PropertyChangedTrigger>();
+    Noesis::RegisterComponent<Noesis::EnumConverter<NoesisApp::ComparisonConditionType>>();
 
     Noesis::RegisterComponent<GameGUI::MainWindow>();
     Noesis::RegisterComponent<GameGUI::MainMenu>();
@@ -74,6 +79,7 @@ void Gui::init() {
     };
 
     Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::EmbeddedXamlProvider>(xamls));
+    Noesis::GUI::SetTextureProvider(Noesis::MakePtr<NoesisApp::LocalTextureProvider>("data/"));
 
     Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("MainWindow.xaml");
     m_view = Noesis::GUI::CreateView(xaml).GiveOwnership();

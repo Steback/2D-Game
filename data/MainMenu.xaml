@@ -4,14 +4,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
-    xmlns:local="clr-namespace:GameGUI"
+    xmlns:Local="clr-namespace:GameGUI"
     x:Class="GameGUI.MainMenu"
     x:Name="MainMenuControl">
     <i:Interaction.Triggers>
-        <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static local:State.MainMenu}">
+        <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static Local:State.MainMenu}">
             <ei:ChangePropertyAction PropertyName="Visibility" Value="Hidden" />
         </ei:DataTrigger>
-        <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static local:State.MainMenu}">
+        <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static Local:State.MainMenu}">
             <ei:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
         </ei:DataTrigger>
     </i:Interaction.Triggers>

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-        xmlns:local="clr-namespace:GameGUI"
+        xmlns:Local="clr-namespace:GameGUI"
         xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions">
     <Grid>
         <Grid.Background>
@@ -13,8 +13,8 @@
                 <GradientStop Offset="0.7" Color="#FF106097"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <local:MainMenu x:Name="MainMenu" Grid.Row="1" Grid.Column="1"/>
-        <local:NewGame x:Name="NewGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/>
+        <Local:MainMenu x:Name="MainMenu" Grid.Row="1" Grid.Column="1" />
+        <Local:NewGame x:Name="NewGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
 <!--         <local:LoadGame x:Name="LoadGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/> -->
     </Grid>
 </Window>

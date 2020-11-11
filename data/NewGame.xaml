@@ -22,11 +22,11 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <i:Interaction.Triggers>
-        <ei:DataTrigger Binding="{Binding State}" Value="{x:Static local:State.MainMenu}">
-            <ei:ControlStoryboardAction Storyboard="{StaticResource FadeIn}"/>
+        <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static local:State.NewGame}">
+            <ei:ChangePropertyAction PropertyName="Visibility" Value="Hidden" />
         </ei:DataTrigger>
-        <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static local:State.MainMenu}">
-            <ei:ControlStoryboardAction Storyboard="{StaticResource FadeOut}"/>
+        <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static local:State.NewGame}">
+            <ei:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
         </ei:DataTrigger>
         <ei:KeyTrigger Key="Esc" ActiveOnFocus="True">
             <i:InvokeCommandAction Command="{Binding Exit}"/>
@@ -36,6 +36,7 @@
         <Viewbox>
             <StackPanel Margin="30">
                 <TextBlock Text="New Game" Foreground="White" TextAlignment="Center" FontWeight="Black" FontSize="20" />
+                <Image Source="images/Level1.png"/>
             </StackPanel>
         </Viewbox>
     </Grid>
