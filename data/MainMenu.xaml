@@ -8,15 +8,12 @@
     x:Class="GameGUI.MainMenu"
     x:Name="MainMenuControl">
     <i:Interaction.Triggers>
-        <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static local:State.MainMenu}">
-
-        </ei:DataTrigger>
         <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static local:State.MainMenu}">
-
+            <ei:ChangePropertyAction PropertyName="Visibility" Value="Hidden" />
         </ei:DataTrigger>
-        <ei:KeyTrigger Key="Esc" ActiveOnFocus="True">
-            <i:InvokeCommandAction Command="{Binding Exit}"/>
-        </ei:KeyTrigger>
+        <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static local:State.MainMenu}">
+            <ei:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+        </ei:DataTrigger>
     </i:Interaction.Triggers>
     <Grid x:Name="LayoutRoot">
         <Viewbox>

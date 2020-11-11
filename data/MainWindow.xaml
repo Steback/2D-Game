@@ -14,7 +14,7 @@
             </LinearGradientBrush>
         </Grid.Background>
         <local:MainMenu x:Name="MainMenu" Grid.Row="1" Grid.Column="1"/>
-<!--         <local:NewGame x:Name="NewGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/> -->
+        <local:NewGame x:Name="NewGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/>
 <!--         <local:LoadGame x:Name="LoadGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/> -->
     </Grid>
 </Window>

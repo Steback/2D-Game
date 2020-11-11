@@ -9,11 +9,14 @@
 #include "NsApp/TriggerCollection.h"
 #include "NsApp/KeyTrigger.h"
 #include "NsApp/InvokeCommandAction.h"
+#include "NsApp/ControlStoryboardAction.h"
+#include "NsApp/ChangePropertyAction.h"
 
 #include "Gui.hpp"
 #include "MainWindow.hpp"
 #include "ViewModel.hpp"
 #include "MainMenu.hpp"
+#include "NewGame.hpp"
 #include "Resourses.hpp"
 
 
@@ -53,9 +56,12 @@ void Gui::init() {
     Noesis::RegisterComponent<NoesisApp::TriggerCollection>();
     Noesis::RegisterComponent<NoesisApp::KeyTrigger>();
     Noesis::RegisterComponent<NoesisApp::InvokeCommandAction>();
+    Noesis::RegisterComponent<NoesisApp::ControlStoryboardAction>();
+    Noesis::RegisterComponent<NoesisApp::ChangePropertyAction>();
 
     Noesis::RegisterComponent<GameGUI::MainWindow>();
     Noesis::RegisterComponent<GameGUI::MainMenu>();
+    Noesis::RegisterComponent<GameGUI::NewGame>();
     Noesis::RegisterComponent<Noesis::EnumConverter<GameGUI::State>>();
 
     NoesisApp::SetThemeProviders();
@@ -63,7 +69,8 @@ void Gui::init() {
 
     NoesisApp::EmbeddedXaml xamls[] = {
             "MainWindow.xaml", MainWindow_xaml,
-            "MainMenu.xaml", MainMenu_xaml
+            "MainMenu.xaml", MainMenu_xaml,
+            "NewGame.xaml", NewGame_xaml
     };
 
     Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::EmbeddedXamlProvider>(xamls));

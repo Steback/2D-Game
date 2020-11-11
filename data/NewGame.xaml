@@ -1,0 +1,42 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+    xmlns:local="clr-namespace:GameGUI"
+    x:Class="GameGUI.NewGame"
+    x:Name="NewGameControl">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Storyboard x:Key="FadeIn">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ToolTips">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Visible}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="FadeOut">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ToolTips">
+                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <ei:DataTrigger Binding="{Binding State}" Value="{x:Static local:State.MainMenu}">
+            <ei:ControlStoryboardAction Storyboard="{StaticResource FadeIn}"/>
+        </ei:DataTrigger>
+        <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static local:State.MainMenu}">
+            <ei:ControlStoryboardAction Storyboard="{StaticResource FadeOut}"/>
+        </ei:DataTrigger>
+        <ei:KeyTrigger Key="Esc" ActiveOnFocus="True">
+            <i:InvokeCommandAction Command="{Binding Exit}"/>
+        </ei:KeyTrigger>
+    </i:Interaction.Triggers>
+    <Grid x:Name="LayoutRoot">
+        <Viewbox>
+            <StackPanel Margin="30">
+                <TextBlock Text="New Game" Foreground="White" TextAlignment="Center" FontWeight="Black" FontSize="20" />
+            </StackPanel>
+        </Viewbox>
+    </Grid>
+</UserControl>
