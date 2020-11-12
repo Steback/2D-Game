@@ -2,6 +2,7 @@
 
 #include "spdlog/spdlog.h"
 #include "NsCore/RegisterComponent.h"
+#include "NsApp/LocalXamlProvider.h"
 #include "NsApp/EmbeddedXamlProvider.h"
 #include "NsApp/LocalTextureProvider.h"
 #include "NsCore/EnumConverter.h"
@@ -63,6 +64,7 @@ void Gui::init() {
     Noesis::RegisterComponent<NoesisApp::EventTrigger>();
     Noesis::RegisterComponent<NoesisApp::PropertyChangedTrigger>();
     Noesis::RegisterComponent<Noesis::EnumConverter<NoesisApp::ComparisonConditionType>>();
+    Noesis::RegisterComponent<Noesis::EnumConverter<NoesisApp::KeyTriggerFiredOn>>();
 
     Noesis::RegisterComponent<GameGUI::MainWindow>();
     Noesis::RegisterComponent<GameGUI::MainMenu>();
@@ -72,13 +74,7 @@ void Gui::init() {
     NoesisApp::SetThemeProviders();
     Noesis::GUI::LoadApplicationResources("Theme/NoesisTheme.DarkBlue.xaml");
 
-    NoesisApp::EmbeddedXaml xamls[] = {
-            "MainWindow.xaml", MainWindow_xaml,
-            "MainMenu.xaml", MainMenu_xaml,
-            "NewGame.xaml", NewGame_xaml
-    };
-
-    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::EmbeddedXamlProvider>(xamls));
+    Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::LocalXamlProvider>("data/"));
     Noesis::GUI::SetTextureProvider(Noesis::MakePtr<NoesisApp::LocalTextureProvider>("data/"));
 
     Noesis::Ptr<Noesis::FrameworkElement> xaml = Noesis::GUI::LoadXaml<Noesis::FrameworkElement>("MainWindow.xaml");

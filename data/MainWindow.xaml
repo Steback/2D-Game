@@ -13,6 +13,11 @@
                 <GradientStop Offset="0.7" Color="#FF106097"/>
             </LinearGradientBrush>
         </Grid.Background>
+<!--         <i:Interaction.Triggers> -->
+<!--             <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static Local:State.NewGame}"> -->
+<!--                 <ei:ChangePropertyAction PropertyName="Background" Value="Transparent" /> -->
+<!--             </ei:DataTrigger> -->
+<!--         </i:Interaction.Triggers> -->
         <Local:MainMenu x:Name="MainMenu" Grid.Row="1" Grid.Column="1" />
         <Local:NewGame x:Name="NewGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
 <!--         <local:LoadGame x:Name="LoadGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/> -->

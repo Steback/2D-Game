@@ -1,4 +1,6 @@
 Level1 = {
+    name = "Level 1",
+    mapImage = "images/Level1.png",
     map = {
         textureID = "jungle",
         file = "levels/Level1.map",

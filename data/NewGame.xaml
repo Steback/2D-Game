@@ -7,20 +7,6 @@
     xmlns:local="clr-namespace:GameGUI"
     x:Class="GameGUI.NewGame"
     x:Name="NewGameControl">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Storyboard x:Key="FadeIn">
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ToolTips">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Visible}"/>
-                </ObjectAnimationUsingKeyFrames>
-            </Storyboard>
-            <Storyboard x:Key="FadeOut">
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ToolTips">
-                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}"/>
-                </ObjectAnimationUsingKeyFrames>
-            </Storyboard>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <i:Interaction.Triggers>
         <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static local:State.NewGame}">
             <ei:ChangePropertyAction PropertyName="Visibility" Value="Hidden" />
@@ -34,9 +20,27 @@
     </i:Interaction.Triggers>
     <Grid x:Name="LayoutRoot">
         <Viewbox>
-            <StackPanel Margin="30">
-                <TextBlock Text="New Game" Foreground="White" TextAlignment="Center" FontWeight="Black" FontSize="20" />
-                <Image Source="images/Level1.png"/>
+            <StackPanel Margin="30" Background="#FF0E4B79">
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="10">
+                            <ListBox FontSize="20" SelectionMode="Extended">
+                                <Label>Level 1</Label>
+                            </ListBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <Border BorderBrush="Black" BorderThickness="1" Margin="20">
+                            <Image Source="images/Level1.jpg"/>
+                            </Border>
+                            <Button x:Name="Play" Background="#FF123F61" Content="Play" Command="{Binding Play}" margin="50 10 50 20" FontSize="30" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <StackPanel>
+                        <Button x:Name="Back" Margin="10 10 700 10" Command="{Binding Back}" Background="#FF123F61" Content="Back" FontSize="20" />
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </Viewbox>
     </Grid>
