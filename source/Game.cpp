@@ -25,6 +25,7 @@ std::unique_ptr<ContactListener> Game::contactListener;
 std::unique_ptr<Map> Game::map;
 std::unordered_map<std::string, std::unique_ptr<Mesh> > Game::mesh;
 std::unique_ptr<Gui> Game::gui;
+GameGUI::State Game::state_;
 
 // Global variables
 float lastFrame = 0;
@@ -53,8 +54,7 @@ void Game::init() {
     // Init Camera
     camera = std::make_unique<Camera>(1.0f, -1.0f, 1.0f);
 
-//    loadLevel("Level1.lua");
-
+    gameLoaded = false;
 }
 
 void Game::loadLevel(const std::string &levelName) {
@@ -118,6 +118,15 @@ void Game::loadLevel(const std::string &levelName) {
 void Game::update() {
     glfwPollEvents();
 
+    if ( state_ == GameGUI::State::Exit ) {
+        window->windowShouldClose(true);
+    }
+
+    if ( state_ == GameGUI::State::Loading && !gameLoaded ) {
+        loadLevel("Level1.lua");
+        gameLoaded = true;
+    }
+
     gui->update(glfwGetTime());
 
     auto windowSize = window->windowSize();
@@ -126,15 +135,16 @@ void Game::update() {
     auto cursorPos = window->cursorPos();
     gui->mouseMoveFunc(static_cast<int>(cursorPos.x), static_cast<int>(cursorPos.y));
 
-    //    window->windowShouldClose(contactListener->GameOver());
-
     auto currentFrame = static_cast<float>(glfwGetTime());
     float deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
 
-//    contactListener->Step(deltaTime, 0, 0);
+    if ( state_ == GameGUI::State::Game && gameLoaded ) {
+        contactListener->Step(deltaTime, 0, 0);
+        window->windowShouldClose(contactListener->GameOver());
 
-//    auto& playerTC = entityManager->registry.get<TransformComponent>(player.entity);
+        auto& playerTC = entityManager->registry.get<TransformComponent>(player.entity);
+    }
 
     m_view = camera->viewMatrix(glm::vec2(0.0f, 0.0f));
 
@@ -144,16 +154,20 @@ void Game::update() {
     shaders["model"]->useShader();
     glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(m_view));
 
-//    entityManager->updateMap();
-//    entityManager->update(deltaTime);
+    if ( state_ == GameGUI::State::Game && gameLoaded ) {
+        entityManager->updateMap();
+        entityManager->update(deltaTime);
+    }
 }
 
 void Game::render() {
     window->render();
 
-//    shaders["model"]->useShader();
-//    entityManager->renderMap();
-//    entityManager->render(m_proj, m_view);
+    if ( state_ == GameGUI::State::Game && gameLoaded ) {
+        shaders["model"]->useShader();
+        entityManager->renderMap();
+        entityManager->render(m_proj, m_view);
+    }
 
     gui->render();
 

@@ -10,6 +10,7 @@
 
 #include "EntityManager.hpp"
 #include "ParticleSystem.hpp"
+#include "gui/ViewModel.hpp"
 
 class Window;
 class Shader;
@@ -42,12 +43,14 @@ class Game {
         static std::unique_ptr<Map> map;
         static std::unordered_map<std::string, std::unique_ptr<Mesh> > mesh;
         static std::unique_ptr<Gui> gui;
+        static GameGUI::State state_;
 
     private:
         Entity player{};
         glm::mat4 m_view;
         glm::mat4 m_proj;
         ParticleProps m_Particle;
+        bool gameLoaded;
 
         std::unique_ptr<ParticleSystem> particleEmitter;
 };

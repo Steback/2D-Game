@@ -1,13 +1,11 @@
 #include "NsCore/ReflectionImplement.h"
 #include "NsCore/ReflectionImplementEnum.h"
 #include "NsCore/Log.h"
-#include "NsGui/UIElement.h"
 #include "NsApp/Application.h"
 #include "spdlog/spdlog.h"
 
 #include "ViewModel.hpp"
 #include "../Game.hpp"
-#include "../Window.hpp"
 
 
 namespace GameGUI {
@@ -16,6 +14,7 @@ namespace GameGUI {
         m_loadGame.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnLoadGame));
         m_play.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnPlay));
         m_back.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnBack));
+        m_game.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnGame));
         m_exit.SetExecuteFunc(MakeDelegate(this, &ViewModel::Exit));
 
         m_state = State::MainMenu;
@@ -41,6 +40,10 @@ namespace GameGUI {
         return &m_exit;
     }
 
+    const NoesisApp::DelegateCommand *ViewModel::GetGame() const {
+        return &m_game;
+    }
+
     void ViewModel::OnNewGame(BaseComponent* param) {
         SetState(State::NewGame);
         spdlog::warn("New Game - {}", m_state);
@@ -53,6 +56,11 @@ namespace GameGUI {
 
     void ViewModel::OnPlay(BaseComponent* param) {
         SetState(State::Loading);
+        spdlog::warn("Loading - {}", m_state);
+    }
+
+    void ViewModel::OnGame(BaseComponent* param) {
+        SetState(State::Game);
         spdlog::warn("Play Game - {}", m_state);
     }
 
@@ -63,7 +71,6 @@ namespace GameGUI {
 
     void ViewModel::Exit(BaseComponent* param) {
         SetState(State::Exit);
-        Game::window->windowShouldClose(true);
     }
 
     State ViewModel::GetState() const {
@@ -73,6 +80,7 @@ namespace GameGUI {
     void ViewModel::SetState(State value) {
         if (m_state != value) {
             m_state = value;
+            Game::state_ = m_state;
             OnPropertyChanged("State");
         }
     }
@@ -84,6 +92,7 @@ namespace GameGUI {
         NsProp("LoadGame", &ViewModel::GetLoadGame);
         NsProp("Play", &ViewModel::GetPlay);
         NsProp("Back", &ViewModel::GetBack);
+        NsProp("Game", &ViewModel::GetGame);
         NsProp("Exit", &ViewModel::GetExit);
         NsProp("State", &ViewModel::GetState, &ViewModel::SetState);
     }

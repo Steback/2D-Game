@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:Local="clr-namespace:GameGUI"
         xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions">
-    <Grid>
+    <Grid x:Name="LayoutRoot">
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                 <GradientStop Offset="0" Color="#FF123F61"/>
@@ -13,13 +13,14 @@
                 <GradientStop Offset="0.7" Color="#FF106097"/>
             </LinearGradientBrush>
         </Grid.Background>
-<!--         <i:Interaction.Triggers> -->
-<!--             <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static Local:State.NewGame}"> -->
-<!--                 <ei:ChangePropertyAction PropertyName="Background" Value="Transparent" /> -->
-<!--             </ei:DataTrigger> -->
-<!--         </i:Interaction.Triggers> -->
+        <i:Interaction.Triggers>
+            <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static Local:State.Loading}">
+                <ei:ChangePropertyAction PropertyName="Background" Value="Transparent" />
+            </ei:DataTrigger>
+        </i:Interaction.Triggers>
         <Local:MainMenu x:Name="MainMenu" Grid.Row="1" Grid.Column="1" />
         <Local:NewGame x:Name="NewGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
+        <Local:Loading x:Name="Loading" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
 <!--         <local:LoadGame x:Name="LoadGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/> -->
     </Grid>
 </Window>

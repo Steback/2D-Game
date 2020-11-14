@@ -1,0 +1,29 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+    xmlns:local="clr-namespace:GameGUI"
+    x:Class="GameGUI.Loading"
+    x:Name="LoadingControl" Focusable="True" IsTabStop="False">
+    <i:Interaction.Triggers>
+        <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static local:State.Loading}">
+            <ei:ChangePropertyAction PropertyName="Visibility" Value="Hidden" />
+        </ei:DataTrigger>
+        <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static local:State.Loading}">
+            <ei:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+        </ei:DataTrigger>
+        <ei:KeyTrigger Key="Esc" ActiveOnFocus="False">
+            <i:InvokeCommandAction Command="{Binding Game}"/>
+        </ei:KeyTrigger>
+    </i:Interaction.Triggers>
+    <Grid x:Name="LayoutRoot">
+        <Viewbox>
+            <StackPanel Margin="30">
+                <TextBlock Foreground="White" Text="Loading..."/>
+                <TextBlock Foreground="White" Text="Press Esc key to start"/>
+            </StackPanel>
+        </Viewbox>
+    </Grid>
+</UserControl>

@@ -66,15 +66,24 @@ set(BIN2H ${PROJECT_SOURCE_DIR}/thirdparty/NoesisGUI/Src/Tools/Bin2h/bin2h.py)
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/data)
 
 file(GLOB_RECURSE xamlFiles ${PROJECT_SOURCE_DIR}/data/*.xaml)
-foreach(xamlFile ${xamlFiles})
-    get_filename_component(fileName ${xamlFile} NAME)
+foreach(xaml ${xamlFiles})
+    get_filename_component(fileName ${xaml} NAME)
     message("[NOESIS] ${fileName} > ${fileName}.bin.h")
-    execute_process(COMMAND python ${BIN2H} ${xamlFile}
+    execute_process(COMMAND python ${BIN2H} ${xaml}
             OUTPUT_FILE ${PROJECT_BINARY_DIR}/data/${fileName}.bin.h)
     set(XAML_SRC ${XAML_SRC} data/${fileName}.bin.h)
+endforeach()
+
+file(GLOB_RECURSE texturesFiles ${PROJECT_SOURCE_DIR}/data/*.jpg ${PROJECT_SOURCE_DIR}/data/*.png)
+foreach(texture ${texturesFiles})
+    get_filename_component(fileName ${texture} NAME)
+    message("[NOESIS] ${fileName} > ${fileName}.bin.h")
+    execute_process(COMMAND python ${BIN2H} ${texture}
+            OUTPUT_FILE ${PROJECT_BINARY_DIR}/data/${fileName}.bin.h)
+    set(TEXTURES_SRC ${TEXTURES_SRC} data/${fileName}.bin.h)
 endforeach()
 
 include_directories(${PROJECT_BINARY_DIR}/data)
 
 target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm spdlog box2d tinyxml2 lua ${NOESIS_BIN} ${NOESISAPP_BIN})
-target_sources(${PROJECT_NAME} PRIVATE ${XAML_SRC})
+target_sources(${PROJECT_NAME} PRIVATE ${XAML_SRC} ${TEXTURES_SRC})

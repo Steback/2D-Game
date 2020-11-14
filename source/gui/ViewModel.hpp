@@ -9,6 +9,7 @@
 #include "NsApp/DelegateCommand.h"
 #include "NsApp/NotifyPropertyChangedBase.h"
 
+
 namespace GameGUI {
     enum class State {
         MainMenu,
@@ -28,12 +29,14 @@ namespace GameGUI {
             const NoesisApp::DelegateCommand* GetLoadGame() const;
             const NoesisApp::DelegateCommand* GetBack() const;
             const NoesisApp::DelegateCommand* GetPlay() const;
+            const NoesisApp::DelegateCommand* GetGame() const;
             const NoesisApp::DelegateCommand* GetExit() const;
 
             void OnNewGame(BaseComponent* param);
             void OnLoadGame(BaseComponent* param);
             void OnBack(BaseComponent* param);
             void OnPlay(BaseComponent* param);
+            void OnGame(BaseComponent* param);
             void Exit(BaseComponent* param);
 
             State GetState() const;
@@ -44,6 +47,7 @@ namespace GameGUI {
             NoesisApp::DelegateCommand m_loadGame;
             NoesisApp::DelegateCommand m_play;
             NoesisApp::DelegateCommand m_back;
+            NoesisApp::DelegateCommand m_game;
             NoesisApp::DelegateCommand m_exit;
 
         private:
