@@ -24,13 +24,13 @@
                 <Border BorderBrush="Black" BorderThickness="1">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="10">
-                            <ListBox FontSize="20" SelectionMode="Extended" Width="100" Height="600">
+                            <ListBox FontSize="20" SelectionMode="Single" Width="100" Height="700">
                                 <Label>Level 1</Label>
                             </ListBox>
                         </StackPanel>
                         <StackPanel>
                             <Border BorderBrush="Black" BorderThickness="1" Margin="20">
-                            <Image Source="Level1.jpg"/>
+                                <Image Source="Level1.jpg"/>
                             </Border>
                             <Button x:Name="Play" Background="#FF123F61" Content="Play" Command="{Binding Play}" margin="50 10 50 20" FontSize="30" />
                         </StackPanel>

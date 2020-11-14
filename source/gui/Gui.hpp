@@ -21,6 +21,7 @@ class Gui {
         void clear() const;
         void reshapeFunc(int width, int height) const;
         void mouseMoveFunc(int x, int y) const;
+        static Noesis::Key getKeyCode(int code);
 
     public:
         Noesis::IView* m_view{};

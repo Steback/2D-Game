@@ -52,7 +52,7 @@ void Game::init() {
     entityManager = std::make_unique<EntityManager>();
 
     // Init Camera
-    camera = std::make_unique<Camera>(1.0f, -1.0f, 1.0f);
+    camera = std::make_unique<Camera>(0.25f, -1.0f, 1.0f);
 
     gameLoaded = false;
 }
@@ -144,9 +144,11 @@ void Game::update() {
         window->windowShouldClose(contactListener->GameOver());
 
         auto& playerTC = entityManager->registry.get<TransformComponent>(player.entity);
-    }
 
-    m_view = camera->viewMatrix(glm::vec2(0.0f, 0.0f));
+        m_view = camera->viewMatrix(playerTC.position);
+    } else {
+        m_view = camera->viewMatrix(glm::vec2(0.0f, 0.0f));
+    }
 
     shaders["particle"]->useShader();
     glUniformMatrix4fv(shaders["particle"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(m_view));

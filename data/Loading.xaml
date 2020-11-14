@@ -14,7 +14,7 @@
         <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static local:State.Loading}">
             <ei:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
         </ei:DataTrigger>
-        <ei:KeyTrigger Key="Esc" ActiveOnFocus="False">
+        <ei:KeyTrigger Key="Space" ActiveOnFocus="False">
             <i:InvokeCommandAction Command="{Binding Game}"/>
         </ei:KeyTrigger>
     </i:Interaction.Triggers>
@@ -22,7 +22,7 @@
         <Viewbox>
             <StackPanel Margin="30">
                 <TextBlock Foreground="White" Text="Loading..."/>
-                <TextBlock Foreground="White" Text="Press Esc key to start"/>
+                <TextBlock Foreground="White" Text="Press Space key to start"/>
             </StackPanel>
         </Viewbox>
     </Grid>

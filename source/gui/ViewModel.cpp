@@ -60,8 +60,10 @@ namespace GameGUI {
     }
 
     void ViewModel::OnGame(BaseComponent* param) {
-        SetState(State::Game);
-        spdlog::warn("Play Game - {}", m_state);
+        if ( m_state != State::Game ) {
+            SetState(State::Game);
+            spdlog::warn("Play Game - {}", m_state);
+        }
     }
 
     void ViewModel::OnBack(BaseComponent* param) {

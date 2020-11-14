@@ -1,5 +1,6 @@
 #include <array>
 
+#include "GLFW/glfw3.h"
 #include "spdlog/spdlog.h"
 #include "NsCore/RegisterComponent.h"
 #include "NsApp/EmbeddedXamlProvider.h"
@@ -122,4 +123,15 @@ void Gui::reshapeFunc(int width, int height) const {
 
 void Gui::mouseMoveFunc(int x, int y) const {
     m_view->MouseMove(x, y);
+}
+
+Noesis::Key Gui::getKeyCode(int code) {
+    switch (code) {
+        case GLFW_KEY_ESCAPE:
+            return Noesis::Key_Escape; break;
+        case GLFW_KEY_SPACE:
+            return Noesis::Key_Space; break;
+        default:
+            return Noesis::Key_NumPad0; break;
+    }
 }
