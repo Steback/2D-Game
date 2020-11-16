@@ -11,6 +11,13 @@ ParticleSystem::ParticleSystem() {
     m_particlePool.resize(1000);
 }
 
+ParticleSystem::~ParticleSystem() {
+    if ( m_quadVA != 0 ) {
+        glDeleteBuffers(1, &m_quadVA);
+        m_quadVA = 0;
+    }
+}
+
 void ParticleSystem::onUpdate(float dt) {
     for (auto& particle : m_particlePool) {
         if (!particle.active) {

@@ -26,6 +26,7 @@ std::unique_ptr<Map> Game::map;
 std::unordered_map<std::string, std::unique_ptr<Mesh> > Game::mesh;
 std::unique_ptr<Gui> Game::gui;
 GameGUI::State Game::state_;
+bool Game::gamePaused;
 
 // Global variables
 float lastFrame = 0;
@@ -55,6 +56,7 @@ void Game::init() {
     camera = std::make_unique<Camera>(0.25f, -1.0f, 1.0f);
 
     gameLoaded = false;
+    gamePaused = false;
 }
 
 void Game::loadLevel(const std::string &levelName) {
@@ -118,6 +120,8 @@ void Game::loadLevel(const std::string &levelName) {
 void Game::update() {
     glfwPollEvents();
 
+    keyBoardController();
+
     if ( state_ == GameGUI::State::Exit ) {
         window->windowShouldClose(true);
     }
@@ -156,7 +160,7 @@ void Game::update() {
     shaders["model"]->useShader();
     glUniformMatrix4fv(shaders["model"]->getUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(m_view));
 
-    if ( state_ == GameGUI::State::Game && gameLoaded ) {
+    if ( state_ == GameGUI::State::Game && gameLoaded && !gamePaused ) {
         entityManager->updateMap();
         entityManager->update(deltaTime);
     }
@@ -172,7 +176,6 @@ void Game::render() {
     }
 
     gui->render();
-
     glUseProgram(0);
 
     window->swapBuffer();
@@ -183,4 +186,12 @@ void Game::clear() {
     gui->clear();
 
     entityManager->clearBodys();
+}
+
+void Game::keyBoardController() {
+    auto keys = window->getKeys();
+
+    if (keys[GLFW_KEY_ESCAPE] && state_ == GameGUI::State::Game) {
+        gamePaused = !gamePaused;
+    }
 }

@@ -6,7 +6,7 @@
     xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
     xmlns:local="clr-namespace:GameGUI"
     x:Class="GameGUI.Loading"
-    x:Name="LoadingControl" Focusable="True" IsTabStop="False">
+    x:Name="LoadingControl">
     <i:Interaction.Triggers>
         <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static local:State.Loading}">
             <ei:ChangePropertyAction PropertyName="Visibility" Value="Hidden" />
@@ -21,8 +21,8 @@
     <Grid x:Name="LayoutRoot">
         <Viewbox>
             <StackPanel Margin="30">
-                <TextBlock Foreground="White" Text="Loading..."/>
-                <TextBlock Foreground="White" Text="Press Space key to start"/>
+                <TextBlock FontSize="8" Foreground="White" Text="Loading..." HorizontalAlignment="Center" />
+                <TextBlock FontSize="5" Foreground="White" Text="Press Space key to start" HorizontalAlignment="Center" />
             </StackPanel>
         </Viewbox>
     </Grid>

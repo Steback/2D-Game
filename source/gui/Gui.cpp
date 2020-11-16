@@ -23,6 +23,7 @@
 #include "MainMenu.hpp"
 #include "NewGame.hpp"
 #include "Loading.hpp"
+#include "GameView.hpp"
 #include "Resourses.hpp"
 
 
@@ -67,6 +68,7 @@ void Gui::init() {
     Noesis::RegisterComponent<NoesisApp::PropertyChangedTrigger>();
     Noesis::RegisterComponent<NoesisApp::TriggerActionCollection>();
     Noesis::RegisterComponent<NoesisApp::SetFocusAction>();
+    Noesis::RegisterComponent<NoesisApp::ControlStoryboardAction>();
     Noesis::RegisterComponent<Noesis::EnumConverter<NoesisApp::ComparisonConditionType>>();
     Noesis::RegisterComponent<Noesis::EnumConverter<NoesisApp::KeyTriggerFiredOn>>();
 
@@ -74,6 +76,7 @@ void Gui::init() {
     Noesis::RegisterComponent<GameGUI::MainMenu>();
     Noesis::RegisterComponent<GameGUI::NewGame>();
     Noesis::RegisterComponent<GameGUI::Loading>();
+    Noesis::RegisterComponent<GameGUI::GameView>();
     Noesis::RegisterComponent<Noesis::EnumConverter<GameGUI::State>>();
 
     NoesisApp::SetThemeProviders();
@@ -83,11 +86,14 @@ void Gui::init() {
             "MainWindow.xaml", MainWindow_xaml,
             "MainMenu.xaml", MainMenu_xaml,
             "NewGame.xaml", NewGame_xaml,
-            "Loading.xaml", Loading_xaml
+            "Loading.xaml", Loading_xaml,
+            "GameView.xaml", GameView_xaml,
+            "radar.xaml", radar_xaml
     };
 
     NoesisApp::EmbeddedTexture textures[] = {
             "Level1.jpg", Level1_jpg,
+            "radar.png", radar_png,
     };
 
     Noesis::GUI::SetXamlProvider(Noesis::MakePtr<NoesisApp::EmbeddedXamlProvider>(xamls));
@@ -132,6 +138,6 @@ Noesis::Key Gui::getKeyCode(int code) {
         case GLFW_KEY_SPACE:
             return Noesis::Key_Space; break;
         default:
-            return Noesis::Key_NumPad0; break;
+            return Noesis::Key_None; break;
     }
 }

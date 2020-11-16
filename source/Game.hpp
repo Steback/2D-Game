@@ -32,6 +32,7 @@ class Game {
         void update();
         void render();
         void clear();
+        static void keyBoardController();
 
     public:
         static std::unique_ptr<Window> window;
@@ -44,6 +45,7 @@ class Game {
         static std::unordered_map<std::string, std::unique_ptr<Mesh> > mesh;
         static std::unique_ptr<Gui> gui;
         static GameGUI::State state_;
+        static bool gamePaused;
 
     private:
         Entity player{};

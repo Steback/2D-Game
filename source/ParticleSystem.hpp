@@ -23,6 +23,7 @@ struct ParticleProps {
 class ParticleSystem {
     public:
         ParticleSystem();
+        ~ParticleSystem();
 
         void onUpdate(float dt);
         void onRender(const glm::mat4& view, const glm::mat4& proj);

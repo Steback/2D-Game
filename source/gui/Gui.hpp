@@ -11,9 +11,10 @@
 #include "NsRender/GLFactory.h"
 #include "NsGui/Button.h"
 
+
 class Gui {
     public:
-    Gui();
+        Gui();
         ~Gui();
         void init();
         void update(double time) const;

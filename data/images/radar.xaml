@@ -1,0 +1,13 @@
+<!-- Created using Noesis XAML exporter for TexturePacker (http://www.texturepacker.com) -->
+<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ImageBrush x:Key="radar-0" ImageSource="radar.png" Viewbox="1,1,64,64" ViewboxUnits="Absolute" Stretch="Fill"/>
+    <ImageBrush x:Key="radar-1" ImageSource="radar.png" Viewbox="67,1,64,64" ViewboxUnits="Absolute" Stretch="Fill"/>
+    <ImageBrush x:Key="radar-2" ImageSource="radar.png" Viewbox="133,1,64,64" ViewboxUnits="Absolute" Stretch="Fill"/>
+    <ImageBrush x:Key="radar-3" ImageSource="radar.png" Viewbox="199,1,64,64" ViewboxUnits="Absolute" Stretch="Fill"/>
+    <ImageBrush x:Key="radar-4" ImageSource="radar.png" Viewbox="265,1,64,64" ViewboxUnits="Absolute" Stretch="Fill"/>
+    <ImageBrush x:Key="radar-5" ImageSource="radar.png" Viewbox="331,1,64,64" ViewboxUnits="Absolute" Stretch="Fill"/>
+    <ImageBrush x:Key="radar-6" ImageSource="radar.png" Viewbox="397,1,64,64" ViewboxUnits="Absolute" Stretch="Fill"/>
+    <ImageBrush x:Key="radar-7" ImageSource="radar.png" Viewbox="463,1,64,64" ViewboxUnits="Absolute" Stretch="Fill"/>
+</ResourceDictionary>

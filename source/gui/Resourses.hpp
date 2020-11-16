@@ -6,5 +6,8 @@
 #include "NewGame.xaml.bin.h"
 #include "Loading.xaml.bin.h"
 #include "Level1.jpg.bin.h"
+#include "GameView.xaml.bin.h"
+#include "radar.png.bin.h"
+#include "radar.xaml.bin.h"
 
 #endif

@@ -1,0 +1,77 @@
+{
+	"frames": [
+		{
+			"filename": "radar-0.png",
+			"frame": {"x":0,"y":0,"w":64,"h":64},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+			"sourceSize": {"w":64,"h":64}
+		},
+		{
+			"filename": "radar-1.png",
+			"frame": {"x":64,"y":0,"w":64,"h":64},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+			"sourceSize": {"w":64,"h":64}
+		},
+		{
+			"filename": "radar-2.png",
+			"frame": {"x":128,"y":0,"w":64,"h":64},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+			"sourceSize": {"w":64,"h":64}
+		},
+		{
+			"filename": "radar-3.png",
+			"frame": {"x":192,"y":0,"w":64,"h":64},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+			"sourceSize": {"w":64,"h":64}
+		},
+		{
+			"filename": "radar-4.png",
+			"frame": {"x":256,"y":0,"w":64,"h":64},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+			"sourceSize": {"w":64,"h":64}
+		},
+		{
+			"filename": "radar-5.png",
+			"frame": {"x":320,"y":0,"w":64,"h":64},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+			"sourceSize": {"w":64,"h":64}
+		},
+		{
+			"filename": "radar-6.png",
+			"frame": {"x":384,"y":0,"w":64,"h":64},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+			"sourceSize": {"w":64,"h":64}
+		},
+		{
+			"filename": "radar-7.png",
+			"frame": {"x":448,"y":0,"w":64,"h":64},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+			"sourceSize": {"w":64,"h":64}
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "radar.png",
+		"format": "RGBA8888",
+		"size": {"w":512,"h":64},
+		"scale": "1",
+		"smartupdate": "$TexturePacker:SmartUpdate:e11933849c0fc2de4de5225c1a9fe827:a1250f05e2104ed09b4b794b39002a5e:17fa16cc74dd71643cf641f885406068$"
+	}
+}
