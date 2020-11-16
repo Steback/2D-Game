@@ -19,6 +19,13 @@
         </ei:KeyTrigger>
     </i:Interaction.Triggers>
     <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#FF123F61"/>
+                <GradientStop Offset="0.6" Color="#FF0E4B79"/>
+                <GradientStop Offset="0.7" Color="#FF106097"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Viewbox>
             <StackPanel Margin="30" Background="#FF0E4B79">
                 <Border BorderBrush="Black" BorderThickness="1">

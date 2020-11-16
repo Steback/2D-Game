@@ -15,6 +15,9 @@ namespace GameGUI {
         m_play.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnPlay));
         m_back.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnBack));
         m_game.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnGame));
+        m_pause.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnPause));
+        m_resumeGame.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnResumeGame));
+        m_saveGame.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnSaveGame));
         m_exit.SetExecuteFunc(MakeDelegate(this, &ViewModel::Exit));
 
         m_state = State::MainMenu;
@@ -40,6 +43,18 @@ namespace GameGUI {
         return &m_exit;
     }
 
+    const NoesisApp::DelegateCommand *ViewModel::GetPause() const {
+        return &m_pause;
+    }
+
+    const NoesisApp::DelegateCommand *ViewModel::GetResumeGame() const {
+        return &m_resumeGame;
+    }
+
+    const NoesisApp::DelegateCommand *ViewModel::GetSaveGame() const {
+        return &m_saveGame;
+    }
+
     const NoesisApp::DelegateCommand *ViewModel::GetGame() const {
         return &m_game;
     }
@@ -60,13 +75,33 @@ namespace GameGUI {
     }
 
     void ViewModel::OnGame(BaseComponent* param) {
-        if ( m_state != State::Game ) {
+        if ( m_state != State::Game && !Game::gamePaused ) {
             SetState(State::Game);
             spdlog::warn("Play Game - {}", m_state);
         }
     }
 
+    void ViewModel::OnPause(Noesis::BaseComponent *param) {
+        SetState(State::Pause);
+        spdlog::warn("Pause Game - {}", m_state);
+        spdlog::warn("Game Paused: {}", Game::gamePaused);
+    }
+
+    void ViewModel::OnResumeGame(Noesis::BaseComponent *param) {
+        SetState(State::Game);
+        spdlog::warn("Play Game - {}", m_state);
+        Game::gamePaused = false;
+    }
+
+    void ViewModel::OnSaveGame(Noesis::BaseComponent *param) {
+        spdlog::warn("Save Game!");
+    }
+
     void ViewModel::OnBack(BaseComponent* param) {
+        if ( Game::gameLoaded ) {
+            Game::backMainMenu = true;
+        }
+
         SetState(State::MainMenu);
         spdlog::warn("Back Game - {}", m_state);
     }
@@ -95,6 +130,9 @@ namespace GameGUI {
         NsProp("Play", &ViewModel::GetPlay);
         NsProp("Back", &ViewModel::GetBack);
         NsProp("Game", &ViewModel::GetGame);
+        NsProp("Pause", &ViewModel::GetPause);
+        NsProp("ResumeGame", &ViewModel::GetResumeGame);
+        NsProp("SaveGame", &ViewModel::GetSaveGame);
         NsProp("Exit", &ViewModel::GetExit);
         NsProp("State", &ViewModel::GetState, &ViewModel::SetState);
     }
@@ -106,5 +144,6 @@ NS_IMPLEMENT_REFLECTION_ENUM(GameGUI::State, "GameGUI.State"){
     NsVal("LoadGame", GameGUI::State::LoadGame);
     NsVal("Loading", GameGUI::State::Loading);
     NsVal("Game", GameGUI::State::Game);
+    NsVal("Pause", GameGUI::State::Pause);
     NsVal("Exit", GameGUI::State::Exit);
 }

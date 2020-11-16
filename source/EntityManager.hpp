@@ -33,6 +33,7 @@ class EntityManager {
         void clearBodys();
         Entity& getEntity(unsigned int id_);
         Entity& getTile(unsigned int id_);
+        void clear();
 
         entt::registry registry;
 

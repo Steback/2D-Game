@@ -46,13 +46,14 @@ class Game {
         static std::unique_ptr<Gui> gui;
         static GameGUI::State state_;
         static bool gamePaused;
+        static bool gameLoaded;
+        static bool backMainMenu;
 
     private:
         Entity player{};
         glm::mat4 m_view;
         glm::mat4 m_proj;
         ParticleProps m_Particle;
-        bool gameLoaded;
 
         std::unique_ptr<ParticleSystem> particleEmitter;
 };

@@ -24,6 +24,7 @@
 #include "NewGame.hpp"
 #include "Loading.hpp"
 #include "GameView.hpp"
+#include "PauseMenu.hpp"
 #include "Resourses.hpp"
 
 
@@ -77,6 +78,7 @@ void Gui::init() {
     Noesis::RegisterComponent<GameGUI::NewGame>();
     Noesis::RegisterComponent<GameGUI::Loading>();
     Noesis::RegisterComponent<GameGUI::GameView>();
+    Noesis::RegisterComponent<GameGUI::PauseMenu>();
     Noesis::RegisterComponent<Noesis::EnumConverter<GameGUI::State>>();
 
     NoesisApp::SetThemeProviders();
@@ -88,7 +90,8 @@ void Gui::init() {
             "NewGame.xaml", NewGame_xaml,
             "Loading.xaml", Loading_xaml,
             "GameView.xaml", GameView_xaml,
-            "radar.xaml", radar_xaml
+            "radar.xaml", radar_xaml,
+            "PauseMenu.xaml", PauseMenu_xaml
     };
 
     NoesisApp::EmbeddedTexture textures[] = {

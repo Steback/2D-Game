@@ -15,6 +15,7 @@ class AssetsManager {
         void loadTextures();
         std::shared_ptr<Texture> getTexture(const std::string& textureID_);
         void loadSprites(const std::string& filePath_);
+        void clear();
 
     private:
         std::map<std::string, std::shared_ptr<Texture> > textures;

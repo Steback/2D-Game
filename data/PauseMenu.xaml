@@ -1,0 +1,36 @@
+<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:noesis="clr-namespace:NoesisGUIExtensions;assembly=Noesis.GUI.Extensions"
+    xmlns:local="clr-namespace:GameGUI"
+    x:Class="GameGUI.PauseMenu"
+    x:Name="PauseMenuControl">
+    <i:Interaction.Triggers>
+        <ei:DataTrigger Binding="{Binding State}" Comparison="NotEqual" Value="{x:Static local:State.Pause}">
+            <ei:ChangePropertyAction PropertyName="Visibility" Value="Hidden" />
+        </ei:DataTrigger>
+        <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static local:State.Pause}">
+            <ei:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
+        </ei:DataTrigger>
+        <ei:KeyTrigger Key="Esc" ActiveOnFocus="False">
+            <i:InvokeCommandAction Command="{Binding Game}"/>
+        </ei:KeyTrigger>
+    </i:Interaction.Triggers>
+    <Grid x:Name="LayoutRoot">
+        <Viewbox>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="30">
+                <StackPanel Background="#FF0E4B79">
+                    <TextBlock FontSize="20" Margin="10" Foreground="White" Text="Game Paused" HorizontalAlignment="Center" />
+                    <Button x:Name="ResumeGame" Background="#FF123F61" Content="Resume Game"
+                        Command="{Binding ResumeGame}" margin="10 10 10 0" FontSize="10" />
+                    <Button x:Name="SaveGame" Background="#FF123F61" Content="Save Game" Command="{Binding SaveGame}"
+                        margin="10 10 10 0" FontSize="10" />
+                    <Button x:Name="MainMenu" Background="#FF123F61" Content="Main Menu" Command="{Binding Back}"
+                        margin="10 10 10 10" FontSize="10" />
+                </StackPanel>
+            </Border>
+        </Viewbox>
+    </Grid>
+</UserControl>

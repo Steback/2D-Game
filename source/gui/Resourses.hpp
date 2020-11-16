@@ -9,5 +9,6 @@
 #include "GameView.xaml.bin.h"
 #include "radar.png.bin.h"
 #include "radar.xaml.bin.h"
+#include "PauseMenu.xaml.bin.h"
 
 #endif

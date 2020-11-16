@@ -26,7 +26,9 @@ std::unique_ptr<Map> Game::map;
 std::unordered_map<std::string, std::unique_ptr<Mesh> > Game::mesh;
 std::unique_ptr<Gui> Game::gui;
 GameGUI::State Game::state_;
+bool Game::gameLoaded;
 bool Game::gamePaused;
+bool Game::backMainMenu;
 
 // Global variables
 float lastFrame = 0;
@@ -55,13 +57,15 @@ void Game::init() {
     // Init Camera
     camera = std::make_unique<Camera>(0.25f, -1.0f, 1.0f);
 
+    assetsManager = std::make_unique<AssetsManager>();
+
     gameLoaded = false;
     gamePaused = false;
+    backMainMenu = false;
 }
 
 void Game::loadLevel(const std::string &levelName) {
     // Load textures
-    assetsManager = std::make_unique<AssetsManager>();
     assetsManager->loadSprites("assets/images.xml");
     assetsManager->loadTextures();
 
@@ -131,6 +135,18 @@ void Game::update() {
         gameLoaded = true;
     }
 
+    if ( backMainMenu ) {
+        spdlog::info("[Game] Clear level");
+        mesh.erase("enemy");
+        mesh.erase("player");
+        particleEmitter.reset();
+        map.reset();
+        entityManager->clear();
+        assetsManager->clear();
+        gameLoaded = false;
+        backMainMenu = false;
+    }
+
     gui->update(glfwGetTime());
 
     auto windowSize = window->windowSize();
@@ -169,7 +185,7 @@ void Game::update() {
 void Game::render() {
     window->render();
 
-    if ( state_ == GameGUI::State::Game && gameLoaded ) {
+    if ( (state_ == GameGUI::State::Game || state_ == GameGUI::State::Pause) && gameLoaded ) {
         shaders["model"]->useShader();
         entityManager->renderMap();
         entityManager->render(m_proj, m_view);
@@ -191,7 +207,13 @@ void Game::clear() {
 void Game::keyBoardController() {
     auto keys = window->getKeys();
 
-    if (keys[GLFW_KEY_ESCAPE] && state_ == GameGUI::State::Game) {
+    if (keys[GLFW_KEY_ESCAPE] && (state_ == GameGUI::State::Game || state_ == GameGUI::State::Pause)) {
+        spdlog::warn("Game Paused: {}", gamePaused);
         gamePaused = !gamePaused;
+        Game::gui->m_view->KeyDown(Noesis::Key_Escape);
+    }
+
+    if (keys[GLFW_KEY_SPACE] && state_ == GameGUI::State::Loading) {
+        Game::gui->m_view->KeyDown(Noesis::Key_Space);
     }
 }

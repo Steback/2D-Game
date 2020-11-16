@@ -38,3 +38,7 @@ void AssetsManager::loadSprites(const std::string &filePath_) {
         sprite = sprite->NextSibling();
     }
 }
+
+void AssetsManager::clear() {
+    textures.clear();
+}

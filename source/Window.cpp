@@ -113,10 +113,10 @@ void Window::keyboardCallback(GLFWwindow *window_, int key_, int scanCode_, int 
     if ( key_ >= 0 && key_ < 1024 ) {
         if ( action_ == GLFW_PRESS ) {
             w->keys[key_] = true;
-            Game::gui->m_view->KeyDown(Gui::getKeyCode(key_));
+//            Game::gui->m_view->KeyDown(Gui::getKeyCode(key_));
         } else if ( action_ == GLFW_RELEASE ) {
             w->keys[key_] = false;
-            Game::gui->m_view->KeyUp(Gui::getKeyCode(key_));
+//            Game::gui->m_view->KeyUp(Gui::getKeyCode(key_));
         }
     }
 }

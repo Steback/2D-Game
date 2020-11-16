@@ -15,8 +15,11 @@
         <ei:DataTrigger Binding="{Binding State}" Comparison="Equal" Value="{x:Static local:State.Game}">
             <ei:ChangePropertyAction PropertyName="Visibility" Value="Visible" />
         </ei:DataTrigger>
+        <ei:KeyTrigger Key="Esc" ActiveOnFocus="False">
+            <i:InvokeCommandAction Command="{Binding Pause}"/>
+        </ei:KeyTrigger>
     </i:Interaction.Triggers>
-    <Grid x:Name="LayoutRoot">
+        <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>

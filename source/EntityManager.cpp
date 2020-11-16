@@ -1,4 +1,4 @@
-#include "fmt/core.h"
+#include "spdlog/spdlog.h"
 
 #include "EntityManager.hpp"
 #include "Mesh.hpp"
@@ -107,4 +107,19 @@ void EntityManager::clearBodys() {
         auto& collisionC = registry.get<CollisionComponent>(entity);
         Game::contactListener->DestroyBody(collisionC.body);
     }
+}
+
+void EntityManager::clear() {
+    spdlog::info("[Game] Clear entities");
+    for ( auto& entity : entities ) {
+        registry.destroy(entity->entity);
+    }
+
+    for ( auto& tile : tiles ) {
+        registry.destroy(tile->entity);
+    }
+
+    registry.clear();
+    entities.clear();
+    tiles.clear();
 }
