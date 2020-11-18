@@ -74,16 +74,31 @@ foreach(xaml ${xamlFiles})
     set(XAML_SRC ${XAML_SRC} data/${fileName}.bin.h)
 endforeach()
 
-file(GLOB_RECURSE texturesFiles ${PROJECT_SOURCE_DIR}/data/*.jpg ${PROJECT_SOURCE_DIR}/data/*.png)
-foreach(texture ${texturesFiles})
-    get_filename_component(fileName ${texture} NAME)
+file(GLOB_RECURSE resources ${PROJECT_SOURCE_DIR}/data/images/*.jpg
+        ${PROJECT_SOURCE_DIR}/data/images/*.png)
+foreach(resource ${resources})
+    get_filename_component(fileName ${resource} NAME)
     message("[NOESIS] ${fileName} > ${fileName}.bin.h")
-    execute_process(COMMAND python ${BIN2H} ${texture}
+    execute_process(COMMAND python ${BIN2H} ${resource}
             OUTPUT_FILE ${PROJECT_BINARY_DIR}/data/${fileName}.bin.h)
     set(TEXTURES_SRC ${TEXTURES_SRC} data/${fileName}.bin.h)
 endforeach()
 
 include_directories(${PROJECT_BINARY_DIR}/data)
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL glad glfw glm spdlog box2d tinyxml2 lua ${NOESIS_BIN} ${NOESISAPP_BIN})
+# irrKlang
+include_directories(thirdparty/irrKlang/include)
+file(GLOB IRRKLANG_BIN thirdparty/irrKlang/bin/linux-gcc-64/libIrrKlang.so)
+
+target_link_libraries(${PROJECT_NAME}
+        OpenGL::GL
+        glad
+        glfw
+        glm
+        spdlog
+        box2d
+        tinyxml2
+        lua
+        ${NOESIS_BIN} ${NOESISAPP_BIN}
+        ${IRRKLANG_BIN})
 target_sources(${PROJECT_NAME} PRIVATE ${XAML_SRC} ${TEXTURES_SRC})

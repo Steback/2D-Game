@@ -6,6 +6,7 @@
 
 #include "ViewModel.hpp"
 #include "../Game.hpp"
+#include "../Audio.hpp"
 
 
 namespace GameGUI {
@@ -60,16 +61,19 @@ namespace GameGUI {
     }
 
     void ViewModel::OnNewGame(BaseComponent* param) {
+        Game::audio->playOne("data/sounds/AudioClick.wav");
         SetState(State::NewGame);
         spdlog::warn("New Game - {}", m_state);
     }
 
     void ViewModel::OnLoadGame(BaseComponent* param) {
-        SetState(State::LoadGame);
+//        SetState(State::LoadGame);
+        Game::audio->playOne("data/sounds/AudioClick.wav");
         spdlog::warn("Load Game - {}", m_state);
     }
 
     void ViewModel::OnPlay(BaseComponent* param) {
+        Game::audio->playOne("data/sounds/AudioClick.wav");
         SetState(State::Loading);
         spdlog::warn("Loading - {}", m_state);
     }
@@ -88,16 +92,19 @@ namespace GameGUI {
     }
 
     void ViewModel::OnResumeGame(Noesis::BaseComponent *param) {
+        Game::audio->playOne("data/sounds/AudioClick.wav");
         SetState(State::Game);
         spdlog::warn("Play Game - {}", m_state);
         Game::gamePaused = false;
     }
 
     void ViewModel::OnSaveGame(Noesis::BaseComponent *param) {
+        Game::audio->playOne("data/sounds/AudioClick.wav");
         spdlog::warn("Save Game!");
     }
 
     void ViewModel::OnBack(BaseComponent* param) {
+        Game::audio->playOne("data/sounds/AudioClick.wav");
         if ( Game::gameLoaded ) {
             Game::backMainMenu = true;
         }

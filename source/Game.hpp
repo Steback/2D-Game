@@ -22,6 +22,7 @@ class AssetsManager;
 class ContactListener;
 class Map;
 class Gui;
+class Audio;
 
 class Game {
     public:
@@ -48,14 +49,15 @@ class Game {
         static bool gamePaused;
         static bool gameLoaded;
         static bool backMainMenu;
+        static std::unique_ptr<Audio> audio;
 
     private:
         Entity player{};
         glm::mat4 m_view;
         glm::mat4 m_proj;
         ParticleProps m_Particle;
-
         std::unique_ptr<ParticleSystem> particleEmitter;
+        bool playSound;
 };
 
 #endif

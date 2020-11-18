@@ -16,6 +16,7 @@
 #include "NsApp/EventTrigger.h"
 #include "NsApp/TriggerActionCollection.h"
 #include "NsApp/SetFocusAction.h"
+#include "NsApp/PlaySoundAction.h"
 
 #include "Gui.hpp"
 #include "MainWindow.hpp"
@@ -70,6 +71,7 @@ void Gui::init() {
     Noesis::RegisterComponent<NoesisApp::TriggerActionCollection>();
     Noesis::RegisterComponent<NoesisApp::SetFocusAction>();
     Noesis::RegisterComponent<NoesisApp::ControlStoryboardAction>();
+    Noesis::RegisterComponent<NoesisApp::PlaySoundAction>();
     Noesis::RegisterComponent<Noesis::EnumConverter<NoesisApp::ComparisonConditionType>>();
     Noesis::RegisterComponent<Noesis::EnumConverter<NoesisApp::KeyTriggerFiredOn>>();
 
@@ -85,13 +87,13 @@ void Gui::init() {
     Noesis::GUI::LoadApplicationResources("Theme/NoesisTheme.DarkBlue.xaml");
 
     NoesisApp::EmbeddedXaml xamls[] = {
-            "MainWindow.xaml", MainWindow_xaml,
-            "MainMenu.xaml", MainMenu_xaml,
-            "NewGame.xaml", NewGame_xaml,
-            "Loading.xaml", Loading_xaml,
-            "GameView.xaml", GameView_xaml,
-            "radar.xaml", radar_xaml,
-            "PauseMenu.xaml", PauseMenu_xaml
+            {"MainWindow.xaml", MainWindow_xaml},
+            {"MainMenu.xaml", MainMenu_xaml},
+            {"NewGame.xaml", NewGame_xaml},
+            {"Loading.xaml", Loading_xaml},
+            {"GameView.xaml", GameView_xaml},
+            {"radar.xaml", radar_xaml},
+            {"PauseMenu.xaml", PauseMenu_xaml}
     };
 
     NoesisApp::EmbeddedTexture textures[] = {

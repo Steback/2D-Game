@@ -27,11 +27,11 @@
             <StackPanel Margin="30">
                 <TextBlock Text="2D Game" Foreground="White" TextAlignment="Center" FontWeight="Black" FontSize="20" />
                 <Button x:Name="NewGame" Background="#FF123F61" Content="New Game" Command="{Binding NewGame}"
-                    margin="0 10 0 0" FontSize="10" />
+                        margin="0 10 0 0" FontSize="10" />
                 <Button x:Name="LoadGame" Background="#FF123F61" Content="Load game" Command="{Binding LoadGame}"
-                    margin="0 10 0 0" FontSize="10" />
+                        margin="0 10 0 0" FontSize="10" />
                 <Button x:Name="Exit" Background="#FF123F61" Content="Exit" Command="{Binding Exit}"
-                    margin="0 10 0 0" FontSize="10" />
+                        margin="0 10 0 0" FontSize="10" />
             </StackPanel>
         </Viewbox>
     </Grid>

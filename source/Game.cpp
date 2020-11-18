@@ -12,6 +12,7 @@
 #include "LuaManager.hpp"
 #include "Map.hpp"
 #include "Mesh.hpp"
+#include "Audio.hpp"
 #include "gui/Gui.hpp"
 #include "components/TransformComponent.hpp"
 
@@ -25,6 +26,7 @@ std::unique_ptr<ContactListener> Game::contactListener;
 std::unique_ptr<Map> Game::map;
 std::unordered_map<std::string, std::unique_ptr<Mesh> > Game::mesh;
 std::unique_ptr<Gui> Game::gui;
+std::unique_ptr<Audio> Game::audio;
 GameGUI::State Game::state_;
 bool Game::gameLoaded;
 bool Game::gamePaused;
@@ -59,9 +61,14 @@ void Game::init() {
 
     assetsManager = std::make_unique<AssetsManager>();
 
+    audio = std::make_unique<Audio>();
+
     gameLoaded = false;
     gamePaused = false;
     backMainMenu = false;
+    playSound = false;
+
+    audio->init("assets/sounds/helicopter.wav");
 }
 
 void Game::loadLevel(const std::string &levelName) {
@@ -147,6 +154,11 @@ void Game::update() {
         backMainMenu = false;
     }
 
+    if ( gamePaused ) {
+        playSound = false;
+        audio->play(playSound);
+    }
+
     gui->update(glfwGetTime());
 
     auto windowSize = window->windowSize();
@@ -179,6 +191,11 @@ void Game::update() {
     if ( state_ == GameGUI::State::Game && gameLoaded && !gamePaused ) {
         entityManager->updateMap();
         entityManager->update(deltaTime);
+    }
+
+    if ( state_ == GameGUI::State::Game && gameLoaded && !playSound && !gamePaused ) {
+        playSound = true;
+        audio->play(playSound);
     }
 }
 
