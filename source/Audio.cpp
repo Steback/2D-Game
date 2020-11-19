@@ -6,6 +6,7 @@ Audio::Audio() = default;
 
 Audio::~Audio() {
     engine->drop();
+    snd->drop();
 }
 
 void Audio::init(const std::string& fileName) {
@@ -25,5 +26,9 @@ void Audio::play(bool paused) {
 
 void Audio::playOne(const std::string& fileName) {
     engine->play2D(fileName.c_str());
+}
+
+void Audio::clear() {
+
 }
 

@@ -26,6 +26,7 @@
 #include "Loading.hpp"
 #include "GameView.hpp"
 #include "PauseMenu.hpp"
+#include "EndGame.hpp"
 #include "Resourses.hpp"
 
 
@@ -81,10 +82,11 @@ void Gui::init() {
     Noesis::RegisterComponent<GameGUI::Loading>();
     Noesis::RegisterComponent<GameGUI::GameView>();
     Noesis::RegisterComponent<GameGUI::PauseMenu>();
+    Noesis::RegisterComponent<GameGUI::EndGame>();
     Noesis::RegisterComponent<Noesis::EnumConverter<GameGUI::State>>();
 
     NoesisApp::SetThemeProviders();
-    Noesis::GUI::LoadApplicationResources("Theme/NoesisTheme.DarkBlue.xaml");
+    Noesis::GUI::LoadApplicationResources("Theme/NoesisTheme.DarkAqua.xaml");
 
     NoesisApp::EmbeddedXaml xamls[] = {
             {"MainWindow.xaml", MainWindow_xaml},
@@ -93,7 +95,8 @@ void Gui::init() {
             {"Loading.xaml", Loading_xaml},
             {"GameView.xaml", GameView_xaml},
             {"radar.xaml", radar_xaml},
-            {"PauseMenu.xaml", PauseMenu_xaml}
+            {"PauseMenu.xaml", PauseMenu_xaml},
+            {"EndGame.xaml", EndGame_xaml}
     };
 
     NoesisApp::EmbeddedTexture textures[] = {
@@ -123,6 +126,7 @@ void Gui::render() const {
 }
 
 void Gui::clear() const {
+    GameGUI::MainWindow::view->Release();
     m_view->GetRenderer()->Shutdown();
     m_view->Release();
     Noesis::GUI::Shutdown();

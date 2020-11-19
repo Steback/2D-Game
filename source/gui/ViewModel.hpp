@@ -2,6 +2,7 @@
 #define VIEWMODEL_HPP
 
 
+#include "NsGui/DependencyProperty.h"
 #include "NsCore/Noesis.h"
 #include "NsCore/Ptr.h"
 #include "NsCore/ReflectionDeclare.h"
@@ -18,12 +19,15 @@ namespace GameGUI {
         Loading,
         Game,
         Pause,
+        EndGame,
         Exit,
     };
 
     class ViewModel final : public NoesisApp::NotifyPropertyChangedBase {
         public:
             ViewModel();
+            void SetState(State value);
+            void SetEndGameText(const char* text);
 
         private:
             const NoesisApp::DelegateCommand* GetNewGame() const;
@@ -46,8 +50,8 @@ namespace GameGUI {
             void OnSaveGame(BaseComponent* param);
             void Exit(BaseComponent* param);
 
+            const char* GetEndGameText() const;
             State GetState() const;
-            void SetState(State value);
 
         private:
             NoesisApp::DelegateCommand m_newGame;
@@ -62,6 +66,7 @@ namespace GameGUI {
 
         private:
             State m_state;
+            Noesis::String endGameText;
 
             NS_DECLARE_REFLECTION(ViewModel, NotifyPropertyChangedBase)
     };

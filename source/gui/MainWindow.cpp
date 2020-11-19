@@ -2,7 +2,6 @@
 #include "NsCore/ReflectionImplementEmpty.h"
 
 #include "MainWindow.hpp"
-#include "ViewModel.hpp"
 
 
 namespace GameGUI {
@@ -16,8 +15,11 @@ namespace GameGUI {
     }
 
     void MainWindow::OnLoaded(Noesis::BaseComponent*, const Noesis::RoutedEventArgs&) {
-        SetDataContext(Noesis::MakePtr<ViewModel>());
+        view = Noesis::MakePtr<ViewModel>();
+        SetDataContext(view);
     }
+
+    Noesis::Ptr<ViewModel> MainWindow::view;
 
     NS_BEGIN_COLD_REGION
 

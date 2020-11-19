@@ -25,8 +25,7 @@ static void MouseFunc(GLFWwindow *window, int button, int state, int mode) {
 Window::Window() : window(nullptr), width(0), height(0) {  }
 
 Window::~Window() {
-    glfwDestroyWindow(window);
-    glfwTerminate();
+
 }
 
 void Window::init(int width_, int height_) {
@@ -125,4 +124,9 @@ void Window::windowShouldClose(bool close_) {
     if ( close_ ) {
         glfwSetWindowShouldClose(window, GLFW_TRUE);
     }
+}
+
+void Window::clear() {
+    glfwDestroyWindow(window);
+    glfwTerminate();
 }

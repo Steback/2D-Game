@@ -61,19 +61,19 @@ namespace GameGUI {
     }
 
     void ViewModel::OnNewGame(BaseComponent* param) {
-        Game::audio->playOne("data/sounds/AudioClick.wav");
+        Game::audio->playOne("assets/sounds/AudioClick.wav");
         SetState(State::NewGame);
         spdlog::warn("New Game - {}", m_state);
     }
 
     void ViewModel::OnLoadGame(BaseComponent* param) {
 //        SetState(State::LoadGame);
-        Game::audio->playOne("data/sounds/AudioClick.wav");
+        Game::audio->playOne("assets/sounds/AudioClick.wav");
         spdlog::warn("Load Game - {}", m_state);
     }
 
     void ViewModel::OnPlay(BaseComponent* param) {
-        Game::audio->playOne("data/sounds/AudioClick.wav");
+        Game::audio->playOne("assets/sounds/AudioClick.wav");
         SetState(State::Loading);
         spdlog::warn("Loading - {}", m_state);
     }
@@ -92,19 +92,19 @@ namespace GameGUI {
     }
 
     void ViewModel::OnResumeGame(Noesis::BaseComponent *param) {
-        Game::audio->playOne("data/sounds/AudioClick.wav");
+        Game::audio->playOne("assets/sounds/AudioClick.wav");
         SetState(State::Game);
         spdlog::warn("Play Game - {}", m_state);
         Game::gamePaused = false;
     }
 
     void ViewModel::OnSaveGame(Noesis::BaseComponent *param) {
-        Game::audio->playOne("data/sounds/AudioClick.wav");
+        Game::audio->playOne("assets/sounds/AudioClick.wav");
         spdlog::warn("Save Game!");
     }
 
     void ViewModel::OnBack(BaseComponent* param) {
-        Game::audio->playOne("data/sounds/AudioClick.wav");
+        Game::audio->playOne("assets/sounds/AudioClick.wav");
         if ( Game::gameLoaded ) {
             Game::backMainMenu = true;
         }
@@ -129,6 +129,17 @@ namespace GameGUI {
         }
     }
 
+    const char *ViewModel::GetEndGameText() const {
+        return endGameText.Str();
+    }
+
+    void ViewModel::SetEndGameText(const char* text) {
+        if (text != endGameText) {
+            endGameText = text;
+            OnPropertyChanged("EndGameText");
+        }
+    }
+
     NS_BEGIN_COLD_REGION
 
     NS_IMPLEMENT_REFLECTION(ViewModel) {
@@ -142,6 +153,7 @@ namespace GameGUI {
         NsProp("SaveGame", &ViewModel::GetSaveGame);
         NsProp("Exit", &ViewModel::GetExit);
         NsProp("State", &ViewModel::GetState, &ViewModel::SetState);
+        NsProp("EndGameText", &ViewModel::GetEndGameText, &ViewModel::SetEndGameText);
     }
 }
 
@@ -152,5 +164,6 @@ NS_IMPLEMENT_REFLECTION_ENUM(GameGUI::State, "GameGUI.State"){
     NsVal("Loading", GameGUI::State::Loading);
     NsVal("Game", GameGUI::State::Game);
     NsVal("Pause", GameGUI::State::Pause);
+    NsVal("EndGame", GameGUI::State::EndGame);
     NsVal("Exit", GameGUI::State::Exit);
 }

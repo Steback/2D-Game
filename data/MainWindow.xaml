@@ -11,6 +11,7 @@
         <Local:Loading x:Name="Loading" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
         <Local:GameView x:Name="GameView" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
         <Local:PauseMenu x:Name="PauseMenu" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
+        <Local:EndGame x:Name="EndGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
 <!--         <local:LoadGame x:Name="LoadGame" Grid.Row="1" Grid.Column="1" Visibility="Hidden"/> -->
     </Grid>
 </Window>

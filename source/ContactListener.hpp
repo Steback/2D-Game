@@ -9,6 +9,12 @@
 
 #include "Constants.hpp"
 
+
+enum class ContactsType {
+    PLAYER_ENEMY,
+    PLAYER_HELIPORT
+};
+
 class ContactListener : public b2ContactListener {
     public:
         ContactListener();
@@ -19,11 +25,13 @@ class ContactListener : public b2ContactListener {
         b2Body* CreateBody(const b2BodyDef *def);
         void DestroyBody(b2Body* body);
         void Step(float timeStep, int32 velocityIterations, int32 positionIterations);
-        [[nodiscard]] bool GameOver() const;
+        [[nodiscard]] bool Contact() const;
+        [[nodiscard]] ContactsType ContactType() const;
 
     private:
         std::unique_ptr<b2World> world;
-        bool gameOver{};
+        ContactsType contactType{};
+        bool thereIsContact{};
 };
 
 #endif

@@ -14,6 +14,8 @@
 #include "Mesh.hpp"
 #include "Audio.hpp"
 #include "gui/Gui.hpp"
+#include "gui/ViewModel.hpp"
+#include "gui/MainWindow.hpp"
 #include "components/TransformComponent.hpp"
 
 // static objects
@@ -173,7 +175,22 @@ void Game::update() {
 
     if ( state_ == GameGUI::State::Game && gameLoaded ) {
         contactListener->Step(deltaTime, 0, 0);
-        window->windowShouldClose(contactListener->GameOver());
+
+        if ( contactListener->Contact() ) {
+            auto contact =  contactListener->ContactType();
+
+            playSound = false;
+            audio->play(playSound);
+
+            if ( contact == ContactsType::PLAYER_ENEMY ) {
+                GameGUI::MainWindow::view->SetEndGameText("Level failed!");
+                GameGUI::MainWindow::view->SetState(GameGUI::State::EndGame);
+
+            } else if ( contact == ContactsType::PLAYER_HELIPORT ) {
+                GameGUI::MainWindow::view->SetEndGameText("Level Complete!");
+                GameGUI::MainWindow::view->SetState(GameGUI::State::EndGame);
+            }
+        }
 
         auto& playerTC = entityManager->registry.get<TransformComponent>(player.entity);
 
@@ -202,7 +219,8 @@ void Game::update() {
 void Game::render() {
     window->render();
 
-    if ( (state_ == GameGUI::State::Game || state_ == GameGUI::State::Pause) && gameLoaded ) {
+    if ( (state_ == GameGUI::State::Game || state_ == GameGUI::State::Pause || state_ == GameGUI::State::EndGame)
+            && gameLoaded ) {
         shaders["model"]->useShader();
         entityManager->renderMap();
         entityManager->render(m_proj, m_view);
@@ -217,8 +235,9 @@ void Game::render() {
 void Game::clear() {
     spdlog::info("[Game] Clear and shutdown");
     gui->clear();
-
+    audio->clear();
     entityManager->clearBodys();
+    window->clear();
 }
 
 void Game::keyBoardController() {

@@ -18,6 +18,7 @@ class Window {
         [[nodiscard]] glm::vec2 cursorPos() const;
         bool* getKeys();
         void windowShouldClose(bool close_);
+        void clear();
 
     private:
         GLFWwindow* window;

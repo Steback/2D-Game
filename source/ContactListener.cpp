@@ -22,15 +22,18 @@ void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold
     auto entityB = *static_cast<Entity*>(bodyB->GetUserData());
 
     if ( entityA.type == PLAYER && entityB.type == ENEMY ) {
-        gameOver = true;
+        thereIsContact = true;
+        contactType = ContactsType::PLAYER_ENEMY;
     }
 
     if ( entityA.type == PLAYER && entityB.type == PROJECTILE ) {
-        gameOver = true;
+        thereIsContact = true;
+        contactType = ContactsType::PLAYER_ENEMY;
     }
 
     if ( entityA.type == HELIPORT && entityB.type == PLAYER ) {
-        gameOver = true;
+        thereIsContact = true;
+        contactType = ContactsType::PLAYER_HELIPORT;
     }
 }
 
@@ -50,6 +53,10 @@ void ContactListener::Step(float timeStep_, int32 velocityIterations_, int32 pos
     world->Step(timeStep_, velocityIterations_, positionIterations_);
 }
 
-bool ContactListener::GameOver() const {
-    return gameOver;
+bool ContactListener::Contact() const {
+    return thereIsContact;
+}
+
+ContactsType ContactListener::ContactType() const {
+    return contactType;
 }
