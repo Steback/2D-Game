@@ -218,7 +218,7 @@
             </Grid>
         </StackPanel>
         <StackPanel HorizontalAlignment="Left" Margin="50" Height="300" Opacity="1.0">
-            <TextBlock FontSize="20" Margin="10" Foreground="White" Text="Controllers" FontWeight="Bold"
+            <TextBlock FontSize="20" Margin="10" Foreground="White" Text="Movement" FontWeight="Bold"
                 HorizontalAlignment="Center" />
             <StackPanel Orientation="Horizontal">
                 <Border BorderBrush="White" Margin="20 10 20 10" Background="Gray" BorderThickness="3">
