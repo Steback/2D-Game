@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(2D_Game)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB_RECURSE HEADER_FILES source/*.hpp)
 file(GLOB_RECURSE SOURCE_FILES source/*.cpp)
@@ -90,6 +90,9 @@ include_directories(${PROJECT_BINARY_DIR}/data)
 include_directories(thirdparty/irrKlang/include)
 file(GLOB IRRKLANG_BIN thirdparty/irrKlang/bin/linux-gcc-64/libIrrKlang.so)
 
+# Cereal
+add_subdirectory(thirdparty/cereal)
+
 target_link_libraries(${PROJECT_NAME}
         OpenGL::GL
         glad
@@ -100,5 +103,6 @@ target_link_libraries(${PROJECT_NAME}
         tinyxml2
         lua
         ${NOESIS_BIN} ${NOESISAPP_BIN}
-        ${IRRKLANG_BIN})
+        ${IRRKLANG_BIN}
+        cereal)
 target_sources(${PROJECT_NAME} PRIVATE ${XAML_SRC} ${TEXTURES_SRC})

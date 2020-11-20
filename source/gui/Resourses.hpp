@@ -11,5 +11,6 @@
 #include "radar.xaml.bin.h"
 #include "PauseMenu.xaml.bin.h"
 #include "EndGame.xaml.bin.h"
+#include "LoadGame.xaml.bin.h"
 
 #endif

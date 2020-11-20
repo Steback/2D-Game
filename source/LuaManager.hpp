@@ -9,7 +9,7 @@ class LuaManager {
     public:
         LuaManager();
         ~LuaManager();
-        static void loadFile(const std::string& filePath_, Entity& player);
+        static std::string loadFile(const std::string& filePath_, Entity& player);
 };
 
 #endif

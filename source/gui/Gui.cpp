@@ -27,6 +27,7 @@
 #include "GameView.hpp"
 #include "PauseMenu.hpp"
 #include "EndGame.hpp"
+#include "LoadGame.hpp"
 #include "Resourses.hpp"
 
 
@@ -83,6 +84,7 @@ void Gui::init() {
     Noesis::RegisterComponent<GameGUI::GameView>();
     Noesis::RegisterComponent<GameGUI::PauseMenu>();
     Noesis::RegisterComponent<GameGUI::EndGame>();
+    Noesis::RegisterComponent<GameGUI::LoadGame>();
     Noesis::RegisterComponent<Noesis::EnumConverter<GameGUI::State>>();
 
     NoesisApp::SetThemeProviders();
@@ -96,7 +98,8 @@ void Gui::init() {
             {"GameView.xaml", GameView_xaml},
             {"radar.xaml", radar_xaml},
             {"PauseMenu.xaml", PauseMenu_xaml},
-            {"EndGame.xaml", EndGame_xaml}
+            {"EndGame.xaml", EndGame_xaml},
+            {"LoadGame.xaml", LoadGame_xaml}
     };
 
     NoesisApp::EmbeddedTexture textures[] = {

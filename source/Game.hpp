@@ -50,6 +50,8 @@ class Game {
         static bool gameLoaded;
         static bool backMainMenu;
         static std::unique_ptr<Audio> audio;
+        static std::string levelName;
+        static bool loadSaveGame;
 
     private:
         Entity player{};
@@ -57,7 +59,7 @@ class Game {
         glm::mat4 m_proj;
         ParticleProps m_Particle;
         std::unique_ptr<ParticleSystem> particleEmitter;
-        bool playSound;
+        bool playSound{};
 };
 
 #endif

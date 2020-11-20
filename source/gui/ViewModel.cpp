@@ -7,6 +7,7 @@
 #include "ViewModel.hpp"
 #include "../Game.hpp"
 #include "../Audio.hpp"
+#include "../SaveFiles.hpp"
 
 
 namespace GameGUI {
@@ -14,6 +15,7 @@ namespace GameGUI {
         m_newGame.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnNewGame));
         m_loadGame.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnLoadGame));
         m_play.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnPlay));
+        m_load.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnLoad));
         m_back.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnBack));
         m_game.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnGame));
         m_pause.SetExecuteFunc(MakeDelegate(this, &ViewModel::OnPause));
@@ -34,6 +36,10 @@ namespace GameGUI {
 
     const NoesisApp::DelegateCommand *ViewModel::GetPlay() const {
         return &m_play;
+    }
+
+    const NoesisApp::DelegateCommand *ViewModel::GetLoad() const {
+        return &m_load;
     }
 
     const NoesisApp::DelegateCommand *ViewModel::GetBack() const {
@@ -67,13 +73,20 @@ namespace GameGUI {
     }
 
     void ViewModel::OnLoadGame(BaseComponent* param) {
-//        SetState(State::LoadGame);
+        SetState(State::LoadGame);
         Game::audio->playOne("assets/sounds/AudioClick.wav");
         spdlog::warn("Load Game - {}", m_state);
     }
 
     void ViewModel::OnPlay(BaseComponent* param) {
         Game::audio->playOne("assets/sounds/AudioClick.wav");
+        SetState(State::Loading);
+        spdlog::warn("Loading - {}", m_state);
+    }
+
+    void ViewModel::OnLoad(Noesis::BaseComponent *param) {
+        Game::audio->playOne("assets/sounds/AudioClick.wav");
+        Game::loadSaveGame = true;
         SetState(State::Loading);
         spdlog::warn("Loading - {}", m_state);
     }
@@ -100,6 +113,7 @@ namespace GameGUI {
 
     void ViewModel::OnSaveGame(Noesis::BaseComponent *param) {
         Game::audio->playOne("assets/sounds/AudioClick.wav");
+        SaveFile::save(Game::levelName, Game::entityManager->getEntity(3));
         spdlog::warn("Save Game!");
     }
 
@@ -146,6 +160,7 @@ namespace GameGUI {
         NsProp("NewGame", &ViewModel::GetNewGame);
         NsProp("LoadGame", &ViewModel::GetLoadGame);
         NsProp("Play", &ViewModel::GetPlay);
+        NsProp("Load", &ViewModel::GetLoad);
         NsProp("Back", &ViewModel::GetBack);
         NsProp("Game", &ViewModel::GetGame);
         NsProp("Pause", &ViewModel::GetPause);

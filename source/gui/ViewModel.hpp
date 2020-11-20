@@ -34,6 +34,7 @@ namespace GameGUI {
             const NoesisApp::DelegateCommand* GetLoadGame() const;
             const NoesisApp::DelegateCommand* GetBack() const;
             const NoesisApp::DelegateCommand* GetPlay() const;
+            const NoesisApp::DelegateCommand* GetLoad() const;
             const NoesisApp::DelegateCommand* GetGame() const;
             const NoesisApp::DelegateCommand* GetPause() const;
             const NoesisApp::DelegateCommand* GetResumeGame() const;
@@ -44,6 +45,7 @@ namespace GameGUI {
             void OnLoadGame(BaseComponent* param);
             void OnBack(BaseComponent* param);
             void OnPlay(BaseComponent* param);
+            void OnLoad(BaseComponent* param);
             void OnGame(BaseComponent* param);
             void OnPause(BaseComponent* param);
             void OnResumeGame(BaseComponent* param);
@@ -57,6 +59,7 @@ namespace GameGUI {
             NoesisApp::DelegateCommand m_newGame;
             NoesisApp::DelegateCommand m_loadGame;
             NoesisApp::DelegateCommand m_play;
+            NoesisApp::DelegateCommand m_load;
             NoesisApp::DelegateCommand m_back;
             NoesisApp::DelegateCommand m_game;
             NoesisApp::DelegateCommand m_pause;

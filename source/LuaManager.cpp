@@ -17,7 +17,7 @@ LuaManager::LuaManager() = default;
 
 LuaManager::~LuaManager() = default;
 
-void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
+std::string LuaManager::loadFile(const std::string &filePath_, Entity& player) {
     sol::state lua;
     lua.open_libraries(sol::lib::base, sol::lib::os, sol::lib::math);
 
@@ -179,4 +179,6 @@ void LuaManager::loadFile(const std::string &filePath_, Entity& player) {
             entityIndex++;
         }
     }
+
+    return levelName;
 }

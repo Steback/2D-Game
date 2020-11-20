@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include "glm/gtc/type_ptr.hpp"
 #include "spdlog/spdlog.h"
 
@@ -16,7 +18,9 @@
 #include "gui/Gui.hpp"
 #include "gui/ViewModel.hpp"
 #include "gui/MainWindow.hpp"
+#include "SaveFiles.hpp"
 #include "components/TransformComponent.hpp"
+
 
 // static objects
 std::unique_ptr<Window> Game::window;
@@ -33,6 +37,8 @@ GameGUI::State Game::state_;
 bool Game::gameLoaded;
 bool Game::gamePaused;
 bool Game::backMainMenu;
+bool Game::loadSaveGame;
+std::string Game::levelName;
 
 // Global variables
 float lastFrame = 0;
@@ -71,9 +77,16 @@ void Game::init() {
     playSound = false;
 
     audio->init("assets/sounds/helicopter.wav");
+
+    if (!std::filesystem::exists("saves")) {
+        spdlog::info("Create saves directory");
+        std::filesystem::create_directories("saves");
+    } else {
+        spdlog::info("Saves directory already exists");
+    }
 }
 
-void Game::loadLevel(const std::string &levelName) {
+void Game::loadLevel(const std::string &levelName_) {
     // Load textures
     assetsManager->loadSprites("assets/images.xml");
     assetsManager->loadTextures();
@@ -87,7 +100,7 @@ void Game::loadLevel(const std::string &levelName) {
     map = std::make_unique<Map>();
 
     // Load player entity
-    LuaManager::loadFile("levels/" + levelName, player);
+    levelName = LuaManager::loadFile("levels/" + levelName_, player);
 
     particleEmitter = std::make_unique<ParticleSystem>();
 
@@ -141,6 +154,12 @@ void Game::update() {
 
     if ( state_ == GameGUI::State::Loading && !gameLoaded ) {
         loadLevel("Level1.lua");
+
+        if ( loadSaveGame ) {
+            SaveFile::load(levelName, player);
+            loadSaveGame = false;
+        }
+
         gameLoaded = true;
     }
 
@@ -177,7 +196,7 @@ void Game::update() {
         contactListener->Step(deltaTime, 0, 0);
 
         if ( contactListener->Contact() ) {
-            auto contact =  contactListener->ContactType();
+            auto contact = contactListener->ContactType();
 
             playSound = false;
             audio->play(playSound);
